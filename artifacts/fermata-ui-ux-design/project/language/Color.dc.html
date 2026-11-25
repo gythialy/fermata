@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+<meta charset="utf-8">
+<title>颜色角色与色板</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Spectral:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  body{margin:0;background:#F4F2EA;color:#171A17;-webkit-font-smoothing:antialiased;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI Variable Text","Segoe UI",Inter,"Noto Sans SC","PingFang SC",sans-serif}
+  h1,h2,h3,p{margin:0}
+  .serif{font-family:"Spectral","Iowan Old Style","Noto Serif SC","Songti SC",serif}
+  .mono{font-family:"SF Mono","Cascadia Mono","JetBrains Mono",monospace;font-variant-numeric:tabular-nums}
+  .sw{display:flex;flex-direction:column;gap:4px;width:64px}
+  .chip{height:44px;border-radius:6px;display:flex;align-items:flex-end;justify-content:flex-end;padding:4px 5px;box-sizing:border-box;font-size:8px;letter-spacing:.02em}
+  .lab{font-size:8px;color:#8A8F86;text-align:center}
+  .role{display:grid;grid-template-columns:150px 1fr 1fr;gap:12px;align-items:center;height:25px;border-bottom:1px solid #E4E2D9}
+  .dot{width:18px;height:18px;border-radius:4px;display:inline-block;vertical-align:middle;margin-right:7px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)}
+  .field{width:140px;height:86px;border-radius:8px;padding:10px;box-sizing:border-box;display:flex;flex-direction:column;justify-content:space-between}
+  a{color:#B8432F}a:hover{color:#8F3223}
+</style>
+</helmet>
+<div style="width:1200px;height:1120px;background:#F4F2EA;padding:46px 48px;box-sizing:border-box;display:flex;flex-direction:column">
+  <div style="display:flex;justify-content:space-between;align-items:flex-end">
+    <div>
+      <div style="font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#B8432F">Color / 04</div>
+      <h2 class="serif" style="margin-top:8px;font-size:40px;line-height:46px;font-weight:300;letter-spacing:-.012em">Color is a role, not a hex.</h2>
+      <div style="margin-top:8px;font-size:12px;line-height:18px;color:#6B7069">一个朱红信号、纸墨中性色、六个休息场。深浅色各自成立，不靠半透明补丁。</div>
+    </div>
+    <div class="mono" style="font-size:9px;line-height:15px;letter-spacing:.1em;color:#8A8F86;text-align:right">M3 TONAL ROLES<br>FIXED BRAND · NO WALLPAPER COLOR</div>
+  </div>
+
+  <div style="margin-top:30px">
+    <div style="display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid #D6D4CA;padding-bottom:8px">
+      <div style="font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#5D635B">Tonal palettes</div>
+      <div style="font-size:10px;color:#8A8F86">tone 0 → 100 · primary 取 50 作为品牌色</div>
+    </div>
+
+    <div style="display:flex;align-items:flex-start;gap:18px;margin-top:14px">
+      <div style="width:96px;padding-top:4px">
+        <div style="font-size:11px;font-weight:600">Primary</div>
+        <div style="font-size:9px;line-height:13px;color:#8A8F86;margin-top:2px">朱红 / action</div>
+      </div>
+      <div style="display:flex;gap:6px">
+        <div class="sw"><div class="chip" style="background:#000000;color:#F3F2EA">0</div><div class="lab">0</div></div>
+        <div class="sw"><div class="chip" style="background:#390A03;color:#F3F2EA">10</div><div class="lab">10</div></div>
+        <div class="sw"><div class="chip" style="background:#57160C;color:#F3F2EA">20</div><div class="lab">20</div></div>
+        <div class="sw"><div class="chip" style="background:#762417;color:#F3F2EA">30</div><div class="lab">30</div></div>
+        <div class="sw"><div class="chip" style="background:#952F1F;color:#F3F2EA">40</div><div class="lab">40</div></div>
+        <div class="sw"><div class="chip" style="background:#B8432F;color:#FFFFFF">50</div><div class="lab">50</div></div>
+        <div class="sw"><div class="chip" style="background:#D05A45;color:#171A17">60</div><div class="lab">60</div></div>
+        <div class="sw"><div class="chip" style="background:#E87660;color:#171A17">70</div><div class="lab">70</div></div>
+        <div class="sw"><div class="chip" style="background:#F39A87;color:#171A17">80</div><div class="lab">80</div></div>
+        <div class="sw"><div class="chip" style="background:#FBC4B7;color:#171A17">90</div><div class="lab">90</div></div>
+        <div class="sw"><div class="chip" style="background:#FDDDD4;color:#171A17">95</div><div class="lab">95</div></div>
+        <div class="sw"><div class="chip" style="background:#FFF8F5;color:#171A17">99</div><div class="lab">99</div></div>
+        <div class="sw"><div class="chip" style="background:#FFFFFF;color:#171A17">100</div><div class="lab">100</div></div>
+      </div>
+    </div>
+
+    <div style="display:flex;align-items:flex-start;gap:18px;margin-top:14px">
+      <div style="width:96px;padding-top:4px">
+        <div style="font-size:11px;font-weight:600">Secondary</div>
+        <div style="font-size:9px;line-height:13px;color:#8A8F86;margin-top:2px">松墨 / quiet</div>
+      </div>
+      <div style="display:flex;gap:6px">
+        <div class="sw"><div class="chip" style="background:#000000;color:#F3F2EA">0</div><div class="lab">0</div></div>
+        <div class="sw"><div class="chip" style="background:#0C1F15;color:#F3F2EA">10</div><div class="lab">10</div></div>
+        <div class="sw"><div class="chip" style="background:#1A3326;color:#F3F2EA">20</div><div class="lab">20</div></div>
+        <div class="sw"><div class="chip" style="background:#294936;color:#F3F2EA">30</div><div class="lab">30</div></div>
+        <div class="sw"><div class="chip" style="background:#3E5F4E;color:#F3F2EA">40</div><div class="lab">40</div></div>
+        <div class="sw"><div class="chip" style="background:#52705F;color:#FFFFFF">50</div><div class="lab">50</div></div>
+        <div class="sw"><div class="chip" style="background:#688575;color:#171A17">60</div><div class="lab">60</div></div>
+        <div class="sw"><div class="chip" style="background:#829C8D;color:#171A17">70</div><div class="lab">70</div></div>
+        <div class="sw"><div class="chip" style="background:#9DB6A7;color:#171A17">80</div><div class="lab">80</div></div>
+        <div class="sw"><div class="chip" style="background:#BACFC1;color:#171A17">90</div><div class="lab">90</div></div>
+        <div class="sw"><div class="chip" style="background:#D0E3D6;color:#171A17">95</div><div class="lab">95</div></div>
+        <div class="sw"><div class="chip" style="background:#F4FBF6;color:#171A17">99</div><div class="lab">99</div></div>
+        <div class="sw"><div class="chip" style="background:#FFFFFF;color:#171A17">100</div><div class="lab">100</div></div>
+      </div>
+    </div>
+
+    <div style="display:flex;align-items:flex-start;gap:18px;margin-top:14px">
+      <div style="width:96px;padding-top:4px">
+        <div style="font-size:11px;font-weight:600">Neutral</div>
+        <div style="font-size:9px;line-height:13px;color:#8A8F86;margin-top:2px">纸 / surfaces</div>
+      </div>
+      <div style="display:flex;gap:6px">
+        <div class="sw"><div class="chip" style="background:#000000;color:#F3F2EA">0</div><div class="lab">0</div></div>
+        <div class="sw"><div class="chip" style="background:#1A1B17;color:#F3F2EA">10</div><div class="lab">10</div></div>
+        <div class="sw"><div class="chip" style="background:#2F302B;color:#F3F2EA">20</div><div class="lab">20</div></div>
+        <div class="sw"><div class="chip" style="background:#454640;color:#F3F2EA">30</div><div class="lab">30</div></div>
+        <div class="sw"><div class="chip" style="background:#5C5E57;color:#F3F2EA">40</div><div class="lab">40</div></div>
+        <div class="sw"><div class="chip" style="background:#75776F;color:#FFFFFF">50</div><div class="lab">50</div></div>
+        <div class="sw"><div class="chip" style="background:#8E9088;color:#171A17">60</div><div class="lab">60</div></div>
+        <div class="sw"><div class="chip" style="background:#A9ABA2;color:#171A17">70</div><div class="lab">70</div></div>
+        <div class="sw"><div class="chip" style="background:#C4C6BD;color:#171A17">80</div><div class="lab">80</div></div>
+        <div class="sw"><div class="chip" style="background:#E0E1D8;color:#171A17">90</div><div class="lab">90</div></div>
+        <div class="sw"><div class="chip" style="background:#EEEDE5;color:#171A17">95</div><div class="lab">95</div></div>
+        <div class="sw"><div class="chip" style="background:#FCFBF5;color:#171A17">99</div><div class="lab">99</div></div>
+        <div class="sw"><div class="chip" style="background:#FFFFFF;color:#171A17">100</div><div class="lab">100</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex;gap:48px;margin-top:38px">
+    <div style="width:640px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid #D6D4CA;padding-bottom:8px">
+        <div style="font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#5D635B">Role tokens</div>
+        <div class="mono" style="font-size:9px;color:#8A8F86">LIGHT / DARK</div>
+      </div>
+      <div style="margin-top:6px">
+        <div class="role"><div style="font-size:10px;color:#5D635B">primary</div><div><span class="dot" style="background:#B8432F"></span><span class="mono" style="font-size:9px">#B8432F</span></div><div><span class="dot" style="background:#F0836C"></span><span class="mono" style="font-size:9px">#F0836C</span></div></div>
+        <div class="role"><div style="font-size:10px;color:#5D635B">on-primary</div><div><span class="dot" style="background:#FFFFFF"></span><span class="mono" style="font-size:9px">#FFFFFF</span></div><div><span class="dot" style="background:#451009"></span><span class="mono" style="font-size:9px">#451009</span></div></div>
+        <div class="role"><div style="font-size:10px;color:#5D635B">primary-container</div><div><span class="dot" style="background:#F6D9D2"></span><span class="mono" style="font-size:9px">#F6D9D2</span></div><div><span class="dot" style="background:#5C2418"></span><span class="mono" style="font-size:9px">#5C2418</span></div></div>
+        <div class="role"><div style="font-size:10px;color:#5D635B">secondary</div><div><span class="dot" style="background:#3E5F4E"></span><span class="mono" style="font-size:9px">#3E5F4E</span></div><div><span class="dot" style="background:#A9C8B4"></span><span class="mono" style="font-size:9px">#A9C8B4</span></div></div>
+        <div class="role"><div style="font-size:10px;color:#5D635B">secondary-container</div><div><span class="dot" style="background:#D7E3D9"></span><span class="mono" style="font-size:9px">#D7E3D9</span></div><div><span class="dot" style="background:#2A3E32"></span><span class="mono" style="font-size:9px">#2A3E32</span></div></div>
+        <div class="role"><div style="font-size:10px;color:#5D635B">surface</div><div><span class="dot" style="background:#F6F4ED"></span><span class="mono" style="font-size:9px">#F6F4ED</span></div><div><span class="dot" style="background:#121513"></span><span class="mono" style="font-size:9px">#121513</span></div></div>
+        <div class="role"><div style="font-size:10px;color:#5D635B">surface-container</div><div><span class="dot" style="background:#EAE8DF"></span><span class="mono" style="font-size:9px">#EAE8DF</span></div><div><span class="dot" style="background:#1B211D"></span><span class="mono" style="font-size:9px">#1B211D</span></div></div>
+        <div class="role"><div style="font-size:10px;color:#5D635B">surface-high</div><div><span class="dot" style="background:#E2E0D7"></span><span class="mono" style="font-size:9px">#E2E0D7</span></div><div><span class="dot" style="background:#232A25"></span><span class="mono" style="font-size:9px">#232A25</span></div></div>
+        <div class="role"><div style="font-size:10px;color:#5D635B">on-surface</div><div><span class="dot" style="background:#171A17"></span><span class="mono" style="font-size:9px">#171A17</span></div><div><span class="dot" style="background:#ECEDE5"></span><span class="mono" style="font-size:9px">#ECEDE5</span></div></div>
+        <div class="role"><div style="font-size:10px;color:#5D635B">on-surface-variant</div><div><span class="dot" style="background:#5D635B"></span><span class="mono" style="font-size:9px">#5D635B</span></div><div><span class="dot" style="background:#A8AEA4"></span><span class="mono" style="font-size:9px">#A8AEA4</span></div></div>
+        <div class="role"><div style="font-size:10px;color:#5D635B">outline</div><div><span class="dot" style="background:#7C8178"></span><span class="mono" style="font-size:9px">#7C8178</span></div><div><span class="dot" style="background:#8E938B"></span><span class="mono" style="font-size:9px">#8E938B</span></div></div>
+        <div class="role"><div style="font-size:10px;color:#5D635B">error</div><div><span class="dot" style="background:#B3261E"></span><span class="mono" style="font-size:9px">#B3261E</span></div><div><span class="dot" style="background:#F2B8B5"></span><span class="mono" style="font-size:9px">#F2B8B5</span></div></div>
+        <div class="role"><div style="font-size:10px;color:#5D635B">warning</div><div><span class="dot" style="background:#8A5A00"></span><span class="mono" style="font-size:9px">#8A5A00</span></div><div><span class="dot" style="background:#F0C36A"></span><span class="mono" style="font-size:9px">#F0C36A</span></div></div>
+        <div class="role" style="border-bottom:none"><div style="font-size:10px;color:#5D635B">focus ring</div><div><span class="dot" style="background:rgba(184,67,47,.55)"></span><span class="mono" style="font-size:9px">55%</span></div><div><span class="dot" style="background:rgba(226,103,78,.60)"></span><span class="mono" style="font-size:9px">60%</span></div></div>
+      </div>
+    </div>
+
+    <div style="width:416px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid #D6D4CA;padding-bottom:8px">
+        <div style="font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#5D635B">Break fields</div>
+        <div class="mono" style="font-size:9px;color:#8A8F86">6 + CUSTOM</div>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:14px">
+        <div class="field" style="background:#2B4A41;color:#F3F2EA;box-shadow:0 0 0 2px #B8432F,0 0 0 4px #F4F2EA,0 0 0 5px #B8432F">
+          <div style="display:flex;justify-content:space-between;font-size:9px;letter-spacing:.12em;text-transform:uppercase;opacity:.62"><span>Pine</span><span>●</span></div>
+          <div class="serif" style="font-size:24px;line-height:28px">Aa</div>
+          <div class="mono" style="font-size:8px;opacity:.62">#2B4A41</div>
+        </div>
+        <div class="field" style="background:#141A18;color:#F3F2EA">
+          <div style="display:flex;justify-content:space-between;font-size:9px;letter-spacing:.12em;text-transform:uppercase;opacity:.62"><span>Ink</span><span>●</span></div>
+          <div class="serif" style="font-size:24px;line-height:28px">Aa</div>
+          <div class="mono" style="font-size:8px;opacity:.62">#141A18</div>
+        </div>
+        <div class="field" style="background:#4A2A2E;color:#F3F2EA">
+          <div style="display:flex;justify-content:space-between;font-size:9px;letter-spacing:.12em;text-transform:uppercase;opacity:.62"><span>Oxblood</span><span>●</span></div>
+          <div class="serif" style="font-size:24px;line-height:28px">Aa</div>
+          <div class="mono" style="font-size:8px;opacity:.62">#4A2A2E</div>
+        </div>
+        <div class="field" style="background:#2E383F;color:#F3F2EA">
+          <div style="display:flex;justify-content:space-between;font-size:9px;letter-spacing:.12em;text-transform:uppercase;opacity:.62"><span>Slate</span><span>●</span></div>
+          <div class="serif" style="font-size:24px;line-height:28px">Aa</div>
+          <div class="mono" style="font-size:8px;opacity:.62">#2E383F</div>
+        </div>
+        <div class="field" style="background:#CFC5B2;color:#171A17">
+          <div style="display:flex;justify-content:space-between;font-size:9px;letter-spacing:.12em;text-transform:uppercase;opacity:.62"><span>Sand</span><span>●</span></div>
+          <div class="serif" style="font-size:24px;line-height:28px">Aa</div>
+          <div class="mono" style="font-size:8px;opacity:.62">#CFC5B2</div>
+        </div>
+        <div class="field" style="background:#EFEEE6;color:#171A17;border:1px solid #D8D5CB">
+          <div style="display:flex;justify-content:space-between;font-size:9px;letter-spacing:.12em;text-transform:uppercase;opacity:.62"><span>Paper</span><span>●</span></div>
+          <div class="serif" style="font-size:24px;line-height:28px">Aa</div>
+          <div class="mono" style="font-size:8px;opacity:.62">#EFEEE6</div>
+        </div>
+      </div>
+      <div style="margin-top:14px;font-size:10px;line-height:15px;color:#6B7069">深色场默认；浅色场在强光环境使用。前景按亮度自动取纸色或墨色，自定义色也一样。</div>
+    </div>
+  </div>
+
+  <div style="margin-top:auto;border-top:1px solid #D6D4CA;padding-top:14px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:32px">
+    <div>
+      <div style="font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#5D635B">Contrast</div>
+      <div style="margin-top:5px;font-size:10px;line-height:16px;color:#6B7069">正文与说明 ≥ 4.5:1；大字与图形 ≥ 3:1；焦点环对相邻色 ≥ 3:1。</div>
+    </div>
+    <div>
+      <div style="font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#5D635B">No dynamic color</div>
+      <div style="margin-top:5px;font-size:10px;line-height:16px;color:#6B7069">不读取系统壁纸取色；系统强调色只影响原生控件，不进入品牌面。</div>
+    </div>
+    <div>
+      <div style="font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#5D635B">Never the only signal</div>
+      <div style="margin-top:5px;font-size:10px;line-height:16px;color:#6B7069">严格、暂停、错误都有文字；颜色只帮助识别，不承担语义。</div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1200,"height":1120}}'>
+class Component extends DCLogic {}
+</script>
+</body>
+</html>

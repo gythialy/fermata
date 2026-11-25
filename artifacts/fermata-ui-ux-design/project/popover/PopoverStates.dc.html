@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+<meta charset="utf-8">
+<title>状态弹窗 · 四种时刻</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Spectral:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  body{margin:0;background:#F4F2EA;color:#171A17;-webkit-font-smoothing:antialiased;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI Variable Text","Segoe UI",Inter,"Noto Sans SC","PingFang SC",sans-serif}
+  h1,h2,h3,p{margin:0}
+  .serif{font-family:"Spectral","Iowan Old Style","Noto Serif SC","Songti SC",serif}
+  .mono{font-family:"SF Mono","Cascadia Mono","JetBrains Mono",monospace;font-variant-numeric:tabular-nums}
+  .pop{padding:16px;box-sizing:border-box;border-radius:14px;display:flex;flex-direction:column;width:320px}
+  .paper{background:#F6F4ED;box-shadow:0 18px 40px rgba(23,26,23,.14),0 2px 6px rgba(23,26,23,.05)}
+  .darkpaper{background:#121513;box-shadow:0 24px 48px rgba(0,0,0,.4)}
+  .eyebrow{font-size:10px;line-height:14px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:#5D635B}
+  .cap{font-size:11px;line-height:15px;color:#5D635B}
+  .num{font-family:"SF Mono","Cascadia Mono","JetBrains Mono",monospace;font-variant-numeric:tabular-nums;font-size:34px;line-height:40px;font-weight:600;letter-spacing:-.005em}
+  .ghost{width:22px;height:22px;padding:0;border:0;border-radius:6px;background:transparent;color:#5D635B;display:inline-flex;align-items:center;justify-content:center;cursor:pointer}
+  .ghost:hover{background:rgba(23,26,23,.07)}
+  .track{height:6px;border-radius:3px;background:#D6D4CA;overflow:hidden}
+  .fill{height:6px;border-radius:3px;background:#B8432F}
+  .pri{height:32px;width:100%;border:1px solid #B8432F;border-radius:8px;background:#B8432F;color:#FFFFFF;font-family:inherit;font-size:13px;line-height:18px;font-weight:600;cursor:pointer}
+  .pri:hover{background:#A63A28;border-color:#A63A28}
+  .sec{height:32px;width:100%;border:1px solid #D6D4CA;border-radius:8px;background:#EAE8DF;color:#171A17;font-family:inherit;font-size:13px;line-height:18px;font-weight:500;cursor:pointer}
+  .sec:hover{background:#E2E0D7}
+  .div{height:1px;background:#E2E0D7}
+  .link{padding:0;border:0;background:none;color:#5D635B;font-family:inherit;font-size:11px;line-height:16px;font-weight:500;cursor:pointer}
+  .link:hover{color:#171A17}
+  .d .eyebrow,.d .cap{color:#A8AEA4}
+  .d .ghost{color:#A8AEA4}
+  .d .ghost:hover{background:rgba(236,237,229,.08)}
+  .d .num{color:#ECEDE5}
+  .d .track{background:#2E342F}
+  .d .fill{background:#F0836C}
+  .d .pri{background:#F0836C;border-color:#F0836C;color:#451009}
+  .d .sec{background:#1B211D;border-color:#2E342F;color:#ECEDE5}
+  .d .div{background:#2E342F}
+  .d .link{color:#A8AEA4}
+  .lab{font-family:"SF Mono","Cascadia Mono","JetBrains Mono",monospace;font-size:9px;line-height:14px;letter-spacing:.1em;color:#8A8F86;margin-bottom:10px;height:14px}
+  .card{border:1px solid #D6D4CA;border-radius:8px;background:#FBFAF5;padding:14px;box-sizing:border-box}
+  .card .k{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:#8A8F86}
+  .tr{display:grid;gap:12px;align-items:baseline;padding:7px 0;border-bottom:1px solid #E4E2D9;font-size:11px;line-height:16px}
+  .hdr{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:#8A8F86}
+  a{color:#B8432F}a:hover{color:#8F3223}
+</style>
+</helmet>
+<div style="width:1440px;height:900px;background:#F4F2EA;padding:32px;box-sizing:border-box;display:flex;flex-direction:column">
+  <div style="display:flex;justify-content:space-between;align-items:flex-end;border-bottom:1px solid #D6D4CA;padding-bottom:14px">
+    <div>
+      <div style="font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#B8432F">System surfaces / 16 · states</div>
+      <h2 class="serif" style="margin-top:7px;font-size:36px;line-height:42px;font-weight:300;letter-spacing:-.012em">One frame, four moments.</h2>
+      <div style="margin-top:6px;font-size:11px;line-height:17px;color:#6B7069">同一副骨架：记号、状态词、数字、Progress、说明行、动作。动作行随状态有或无，高度由 FitContent 跟着内容走——没有五个写死的高度。</div>
+    </div>
+    <div class="mono" style="font-size:9px;line-height:14px;letter-spacing:.1em;color:#8A8F86;text-align:right">336 / 207 / 236 / 147<br>CONTENT-SIZED</div>
+  </div>
+
+  <div style="display:flex;gap:24px;margin-top:20px">
+    <div style="width:320px;flex:none">
+      <div class="lab">NOTICE · 预告 · 约 336</div>
+      <div class="pop paper" style="height:336px">
+        <div style="display:flex;align-items:center;gap:8px;height:22px">
+          <svg width="20" height="20" viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M6 18C8 8.5 24 8.5 26 18" stroke="#171A17" stroke-width="2.6" stroke-linecap="round"/><circle cx="16" cy="25" r="2.9" fill="#B8432F"/></svg>
+          <h3 class="eyebrow">Mini break · starting</h3>
+          <div style="margin-left:auto;display:flex;gap:2px">
+            <button type="button" class="ghost" aria-label="Show the menu"><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true" fill="currentColor"><circle cx="2.2" cy="6" r="1.1"/><circle cx="6" cy="6" r="1.1"/><circle cx="9.8" cy="6" r="1.1"/></svg></button>
+            <button type="button" class="ghost" aria-label="Close"><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.7 2.7l6.6 6.6M9.3 2.7l-6.6 6.6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></button>
+          </div>
+        </div>
+        <div class="num" style="margin-top:12px">8s</div>
+        <div class="track" style="margin-top:10px"><div class="fill" style="width:86%"></div></div>
+        <p class="cap" style="margin-top:10px">Long break after 4 more mini breaks</p>
+        <button type="button" class="pri" style="margin-top:12px">Start now</button>
+        <button type="button" class="sec" style="margin-top:8px">Push 5 minutes</button>
+        <button type="button" class="sec" style="margin-top:8px">Pause 30 minutes</button>
+        <div class="div" style="margin-top:12px"></div>
+        <button type="button" class="link" style="margin-top:8px;align-self:flex-start">Settings…</button>
+      </div>
+      <p class="cap" style="margin-top:14px">预告多一个动作行，高度也许多 40：FitContent 在两帧内接住，代码不写 <span class="mono" style="font-size:10px">Height(336)</span>。</p>
+    </div>
+
+    <div style="width:320px;flex:none">
+      <div class="lab">MINI · 休息中 · 约 207</div>
+      <div class="pop paper" style="height:207px">
+        <div style="display:flex;align-items:center;gap:8px;height:22px">
+          <svg width="20" height="20" viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M6 18C8 8.5 24 8.5 26 18" stroke="#171A17" stroke-width="2.6" stroke-linecap="round"/><circle cx="16" cy="25" r="2.9" fill="#B8432F"/></svg>
+          <h3 class="eyebrow">Mini break · in progress</h3>
+          <div style="margin-left:auto;display:flex;gap:2px">
+            <button type="button" class="ghost" aria-label="Show the menu"><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true" fill="currentColor"><circle cx="2.2" cy="6" r="1.1"/><circle cx="6" cy="6" r="1.1"/><circle cx="9.8" cy="6" r="1.1"/></svg></button>
+            <button type="button" class="ghost" aria-label="Close"><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.7 2.7l6.6 6.6M9.3 2.7l-6.6 6.6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></button>
+          </div>
+        </div>
+        <div class="num" style="margin-top:12px">12:04</div>
+        <div class="track" style="margin-top:10px"><div class="fill" style="width:19%"></div></div>
+        <p class="cap" style="margin-top:10px">Rest your eyes on something far away.</p>
+        <div class="div" style="margin-top:12px"></div>
+        <button type="button" class="link" style="margin-top:8px;align-self:flex-start">Settings…</button>
+      </div>
+      <p class="cap" style="margin-top:14px">休息中只报告：剩余时间、轨道和这一轮的建议。出口在休息窗，弹窗里不重复第二份。</p>
+    </div>
+
+    <div style="width:320px;flex:none">
+      <div class="lab">PAUSED · 暂停 · 深色 · 约 236</div>
+      <div class="pop d darkpaper" style="height:236px">
+        <div style="display:flex;align-items:center;gap:8px;height:22px">
+          <svg width="20" height="20" viewBox="0 0 32 32" fill="none" aria-hidden="true"><rect x="10" y="9" width="3.6" height="14" rx="1.4" fill="#ECEDE5"/><rect x="18.4" y="9" width="3.6" height="14" rx="1.4" fill="#ECEDE5"/></svg>
+          <h3 class="eyebrow">Paused</h3>
+          <div style="margin-left:auto;display:flex;gap:2px">
+            <button type="button" class="ghost" aria-label="Show the menu"><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true" fill="currentColor"><circle cx="2.2" cy="6" r="1.1"/><circle cx="6" cy="6" r="1.1"/><circle cx="9.8" cy="6" r="1.1"/></svg></button>
+            <button type="button" class="ghost" aria-label="Close"><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.7 2.7l6.6 6.6M9.3 2.7l-6.6 6.6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></button>
+          </div>
+        </div>
+        <div class="num" style="margin-top:12px">28:12</div>
+        <div class="track" style="margin-top:10px"><div class="fill" style="width:6%"></div></div>
+        <p class="cap" style="margin-top:10px">Focus is on</p>
+        <button type="button" class="pri" style="margin-top:12px">Resume breaks</button>
+        <div class="div" style="margin-top:12px"></div>
+        <button type="button" class="link" style="margin-top:8px;align-self:flex-start">Settings…</button>
+      </div>
+      <p class="cap" style="margin-top:14px">暂停把剩余时间放在数字上、原因放进说明行；记号换成两条竖线，与菜单栏图标同源。</p>
+    </div>
+
+    <div style="width:320px;flex:none">
+      <div class="lab">STRICT · 严格 · 约 147</div>
+      <div class="pop paper" style="height:147px">
+        <div style="display:flex;align-items:center;gap:8px;height:22px">
+          <svg width="20" height="20" viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M6 18C8 8.5 24 8.5 26 18" stroke="#171A17" stroke-width="2.6" stroke-linecap="round"/><circle cx="16" cy="25" r="2.9" fill="#B8432F"/></svg>
+          <h3 class="eyebrow">Strict mini break</h3>
+          <div style="margin-left:auto;display:flex;gap:2px">
+            <button type="button" class="ghost" aria-label="Show the menu"><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true" fill="currentColor"><circle cx="2.2" cy="6" r="1.1"/><circle cx="6" cy="6" r="1.1"/><circle cx="9.8" cy="6" r="1.1"/></svg></button>
+            <button type="button" class="ghost" aria-label="Close"><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.7 2.7l6.6 6.6M9.3 2.7l-6.6 6.6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></button>
+          </div>
+        </div>
+        <div class="num" style="margin-top:12px">0:12</div>
+        <div class="track" style="margin-top:10px"><div class="fill" style="width:94%"></div></div>
+        <p class="cap" style="margin-top:10px">No exit until it ends.</p>
+      </div>
+      <p class="cap" style="margin-top:14px">没有动作也没有页脚；空着就是「没有出口」，不用红色警报去说这句话。</p>
+    </div>
+  </div>
+
+  <div style="margin-top:26px;border-top:1px solid #D6D4CA;padding-top:14px">
+    <div style="display:flex;gap:24px">
+      <div style="width:520px;flex:none">
+        <div class="mono" style="font-size:9px;letter-spacing:.1em;color:#8A8F86;margin-bottom:6px">MOTION · 全部由 MyGo 给，不自己排帧</div>
+        <div class="tr" style="grid-template-columns:130px 1fr 120px;border-bottom:1px solid #CFCDC3"><div class="hdr">变化</div><div class="hdr">机制</div><div class="hdr">时间</div></div>
+        <div class="tr" style="grid-template-columns:130px 1fr 120px"><div class="v">21m → 20m</div><div class="mono" style="font-size:10px">ContentTransition{Numeric, Down}</div><div class="v">350 ms spring</div></div>
+        <div class="tr" style="grid-template-columns:130px 1fr 120px"><div class="v">21m → 12:04</div><div class="mono" style="font-size:10px">Element.Transition{Enter, Exit}</div><div class="v">200 ms · ease-out</div></div>
+        <div class="tr" style="grid-template-columns:130px 1fr 120px"><div class="v">动作行增减</div><div class="mono" style="font-size:10px">Motion{Collapse} + FitContent</div><div class="v">两帧到位</div></div>
+        <div class="tr" style="grid-template-columns:130px 1fr 120px"><div class="v">刻度尺</div><div class="mono" style="font-size:10px">Draw 61 个图元</div><div class="v">不补间</div></div>
+        <div class="tr" style="grid-template-columns:130px 1fr 120px;border-bottom:0"><div class="v">减少动态</div><div class="v">ReduceMotion：内容改淡入，值直接到位</div><div class="v">自动</div></div>
+      </div>
+      <div class="card" style="width:380px;flex:none">
+        <div class="k">Keyboard</div>
+        <div style="margin-top:6px;font-size:11px;line-height:17px;color:#3C423B">Flyout 非焦点：弹窗里没有 Tab 循环，也不显示焦点环。键盘路径是菜单（设置、跳过、暂停）与休息窗的 <span class="mono" style="font-size:10px">⌘X</span>；macOS 的 NSPopover 例外，它会拿键盘，Tab 与 Return 走系统。</div>
+      </div>
+      <div class="card" style="flex:1">
+        <div class="k">Accessibility</div>
+        <div style="margin-top:6px;font-size:11px;line-height:17px;color:#3C423B">数字不设 live region（每秒跳会吵）；图标按钮各带 <span class="mono" style="font-size:10px">Label()</span> 与 <span class="mono" style="font-size:10px">Tooltip()</span>；刻度尺是 <span class="mono" style="font-size:10px">Role(RoleProgress)</span> + <span class="mono" style="font-size:10px">Label("34%")</span>，屏幕阅读器读得到。</div>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {}
+</script>
+</body>
+</html>

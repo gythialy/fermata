@@ -1,0 +1,73 @@
+name: Bug report
+description: Something in Fermata does not behave as documented.
+title: "[Bug] "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a bug. Please check the
+        [functional spec](https://github.com/gythialy/fermata/blob/main/docs/functional-spec.md) first: some behaviour is
+        deliberate, and the spec is the reference.
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: The behaviour you saw, and what you expected instead.
+      placeholder: |
+        After a long break, the menu bar countdown …
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: The shortest sequence that shows the problem.
+      placeholder: |
+        1. Set a 2-minute mini break
+        2. Pause for 30 minutes
+        3. Wait for the pause to end
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Fermata version
+      description: Settings → About shows the version and build.
+      placeholder: "0.1.0 (build 1)"
+    validations:
+      required: true
+  - type: input
+    id: macos
+    attributes:
+      label: macOS version
+      placeholder: "macOS 15.1 (24B83)"
+    validations:
+      required: true
+  - type: dropdown
+    id: install
+    attributes:
+      label: How do you run Fermata?
+      options:
+        - Built from source with make
+        - Built from source with go tool mygo
+        - A released build
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Log
+      description: Attach the tail of `~/Library/Logs/Fermata/fermata.log` if the app logged something.
+      render: text
+    validations:
+      required: false
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checks
+      options:
+        - label: I searched the existing issues.
+          required: true
+        - label: I removed personal information from the log excerpt.
+          required: true

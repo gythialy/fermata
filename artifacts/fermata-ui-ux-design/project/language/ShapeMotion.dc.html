@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+<meta charset="utf-8">
+<title>形状、层级与动效</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Spectral:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  body{margin:0;background:#F4F2EA;color:#171A17;-webkit-font-smoothing:antialiased;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI Variable Text","Segoe UI",Inter,"Noto Sans SC","PingFang SC",sans-serif}
+  h1,h2,h3,p{margin:0}
+  .serif{font-family:"Spectral","Iowan Old Style","Noto Serif SC","Songti SC",serif}
+  .mono{font-family:"SF Mono","Cascadia Mono","JetBrains Mono",monospace;font-variant-numeric:tabular-nums}
+  .tile{width:76px;height:76px;background:#FBFAF5;border:1px solid #D6D4CA;display:flex;align-items:center;justify-content:center;font-family:"SF Mono",monospace;font-size:10px;color:#6B7069}
+  .layer{display:grid;grid-template-columns:120px 74px 1fr;gap:14px;align-items:center;height:38px;border-bottom:1px solid #E4E2D9}
+  a{color:#B8432F}a:hover{color:#8F3223}
+</style>
+</helmet>
+<div style="width:1200px;height:860px;background:#F4F2EA;padding:44px 48px;box-sizing:border-box;display:flex;flex-direction:column">
+  <div style="display:flex;justify-content:space-between;align-items:flex-end">
+    <div>
+      <div style="font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#B8432F">Shape / Motion / 06</div>
+      <h2 class="serif" style="margin-top:8px;font-size:40px;line-height:46px;font-weight:300;letter-spacing:-.012em">Quiet geometry, one movement.</h2>
+      <div style="margin-top:8px;font-size:12px;line-height:18px;color:#6B7069">小圆角、发丝线、极轻阴影；动效只服务休息窗的出现与释放。</div>
+    </div>
+    <div class="mono" style="font-size:9px;line-height:15px;letter-spacing:.1em;color:#8A8F86;text-align:right">4 PX BASE GRID<br>120–300 MS</div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:660px 420px;gap:24px;margin-top:24px">
+    <div>
+      <div style="border-bottom:1px solid #D6D4CA;padding-bottom:7px;display:flex;justify-content:space-between;align-items:baseline">
+        <div style="font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#5D635B">Shape scale</div>
+        <div class="mono" style="font-size:9px;color:#8A8F86">RADIUS · PX</div>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:14px">
+        <div><div class="tile" style="border-radius:0"></div><div class="mono" style="margin-top:5px;font-size:9px;color:#6B7069;text-align:center">0</div></div>
+        <div><div class="tile" style="border-radius:4px"></div><div class="mono" style="margin-top:5px;font-size:9px;color:#6B7069;text-align:center">4</div></div>
+        <div><div class="tile" style="border-radius:8px;box-shadow:0 0 0 2px #B8432F"></div><div class="mono" style="margin-top:5px;font-size:9px;color:#B8432F;text-align:center">8</div></div>
+        <div><div class="tile" style="border-radius:12px"></div><div class="mono" style="margin-top:5px;font-size:9px;color:#6B7069;text-align:center">12</div></div>
+        <div><div class="tile" style="border-radius:16px"></div><div class="mono" style="margin-top:5px;font-size:9px;color:#6B7069;text-align:center">16</div></div>
+        <div><div class="tile" style="border-radius:20px;background:#2B4A41;border-color:#2B4A41"></div><div class="mono" style="margin-top:5px;font-size:9px;color:#B8432F;text-align:center">20</div></div>
+        <div><div class="tile" style="border-radius:999px"></div><div class="mono" style="margin-top:5px;font-size:9px;color:#6B7069;text-align:center">full</div></div>
+      </div>
+      <div style="margin-top:14px;display:flex;gap:28px;font-size:10px;line-height:15px;color:#6B7069">
+        <div><span style="color:#171A17;font-weight:600">8</span> 控件 / 输入 / 按钮</div>
+        <div><span style="color:#171A17;font-weight:600">12</span> 窗口 / 浮层 / 菜单</div>
+        <div><span style="color:#171A17;font-weight:600">20</span> 休息盘 / 自定义色</div>
+        <div><span style="color:#171A17;font-weight:600">6</span> 色块 / 小标签</div>
+      </div>
+    </div>
+
+    <div>
+      <div style="border-bottom:1px solid #D6D4CA;padding-bottom:7px;display:flex;justify-content:space-between;align-items:baseline">
+        <div style="font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#5D635B">Elevation</div>
+        <div class="mono" style="font-size:9px;color:#8A8F86">0–3</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:9px;margin-top:12px">
+        <div style="display:flex;align-items:center;gap:12px;height:46px;border:1px solid #D6D4CA;background:#FBFAF5;border-radius:6px;padding:0 12px;box-sizing:border-box">
+          <div style="width:52px;height:26px;background:#F4F2EA;border:1px solid #DCDAD1;border-radius:4px;flex:none"></div>
+          <div><div style="font-size:11px;font-weight:600">Level 0</div><div style="font-size:9px;color:#8A8F86;line-height:13px">flat · lists, settings rows</div></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;height:46px;background:#FBFAF5;border-radius:6px;padding:0 12px;box-sizing:border-box;box-shadow:0 1px 2px rgba(0,0,0,.06)">
+          <div style="width:52px;height:26px;background:#F4F2EA;border:1px solid #DCDAD1;border-radius:4px;flex:none;box-shadow:0 1px 2px rgba(0,0,0,.08)"></div>
+          <div><div style="font-size:11px;font-weight:600">Level 1</div><div style="font-size:9px;color:#8A8F86;line-height:13px">raised · preview, swatch</div></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;height:46px;background:#FBFAF5;border-radius:6px;padding:0 12px;box-sizing:border-box;box-shadow:0 8px 24px rgba(0,0,0,.12)">
+          <div style="width:52px;height:26px;background:#F4F2EA;border:1px solid #DCDAD1;border-radius:4px;flex:none;box-shadow:0 8px 24px rgba(0,0,0,.12)"></div>
+          <div><div style="font-size:11px;font-weight:600">Level 2</div><div style="font-size:9px;color:#8A8F86;line-height:13px">floating · menu, dialog</div></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;height:46px;background:#2B4A41;border-radius:6px;padding:0 12px;box-sizing:border-box;box-shadow:0 24px 80px rgba(0,0,0,.38)">
+          <div style="width:52px;height:26px;background:#24413A;border-radius:4px;flex:none"></div>
+          <div><div style="font-size:11px;font-weight:600;color:#F3F2EA">Level 3</div><div style="font-size:9px;color:rgba(243,242,234,.6);line-height:13px">immersive · break panel</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:660px 420px;gap:24px;margin-top:24px">
+    <div>
+      <div style="border-bottom:1px solid #D6D4CA;padding-bottom:7px;display:flex;justify-content:space-between;align-items:baseline">
+        <div style="font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#5D635B">State layers</div>
+        <div class="mono" style="font-size:9px;color:#8A8F86">ON SURFACE</div>
+      </div>
+      <div style="margin-top:4px">
+        <div class="layer">
+          <div style="font-size:11px;font-weight:600">Hover</div>
+          <div style="width:64px;height:24px;border-radius:4px;background:#FBFAF5;position:relative;border:1px solid #E4E2D9;overflow:hidden"><div style="position:absolute;inset:0;background:rgba(184,67,47,.08)"></div></div>
+          <div style="font-size:10px;color:#6B7069">8% primary · 120 ms · 只对指针设备</div>
+        </div>
+        <div class="layer">
+          <div style="font-size:11px;font-weight:600">Focus</div>
+          <div style="width:64px;height:24px;border-radius:4px;background:#FBFAF5;border:1px solid #B8432F;box-shadow:0 0 0 2px rgba(184,67,47,.35)"></div>
+          <div style="font-size:10px;color:#6B7069">2 px ring + 2 px offset · 只走键盘焦点</div>
+        </div>
+        <div class="layer">
+          <div style="font-size:11px;font-weight:600">Pressed</div>
+          <div style="width:64px;height:24px;border-radius:4px;background:#FBFAF5;position:relative;border:1px solid #E4E2D9;overflow:hidden"><div style="position:absolute;inset:0;background:rgba(184,67,47,.12)"></div></div>
+          <div style="font-size:10px;color:#6B7069">12% · 80 ms · 不位移、不缩放</div>
+        </div>
+        <div class="layer">
+          <div style="font-size:11px;font-weight:600">Drag</div>
+          <div style="width:64px;height:24px;border-radius:4px;background:#FBFAF5;position:relative;border:1px solid #E4E2D9;overflow:hidden"><div style="position:absolute;inset:0;background:rgba(184,67,47,.16)"></div></div>
+          <div style="font-size:10px;color:#6B7069">16% · 仅滑块 / 拖动控件</div>
+        </div>
+        <div class="layer" style="border-bottom:none">
+          <div style="font-size:11px;font-weight:600;color:#8A8F86">Disabled</div>
+          <div style="width:64px;height:24px;border-radius:4px;background:#EAE8DF;border:1px solid #E4E2D9"></div>
+          <div style="font-size:10px;color:#6B7069">文本 38% · 容器 12% · 不响应事件</div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div style="border-bottom:1px solid #D6D4CA;padding-bottom:7px;display:flex;justify-content:space-between;align-items:baseline">
+        <div style="font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#5D635B">Motion tokens</div>
+        <div class="mono" style="font-size:9px;color:#8A8F86">NO LOOP</div>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:10px">
+        <div style="flex:1;border:1px solid #D6D4CA;border-radius:6px;padding:7px 8px"><div class="mono" style="font-size:9px;color:#B8432F">120</div><div style="font-size:9px;color:#5D635B">short</div></div>
+        <div style="flex:1;border:1px solid #D6D4CA;border-radius:6px;padding:7px 8px"><div class="mono" style="font-size:9px;color:#B8432F">180</div><div style="font-size:9px;color:#5D635B">short2</div></div>
+        <div style="flex:1;border:1px solid #D6D4CA;border-radius:6px;padding:7px 8px"><div class="mono" style="font-size:9px;color:#B8432F">220</div><div style="font-size:9px;color:#5D635B">medium</div></div>
+        <div style="flex:1;border:1px solid #D6D4CA;border-radius:6px;padding:7px 8px"><div class="mono" style="font-size:9px;color:#B8432F">300</div><div style="font-size:9px;color:#5D635B">long</div></div>
+      </div>
+
+      <svg width="420" height="82" viewBox="0 0 420 82" fill="none" aria-hidden="true" style="margin-top:10px">
+        <path d="M8 72H412" stroke="#D6D4CA" stroke-width="1"/>
+        <path d="M8 10V72" stroke="#D6D4CA" stroke-width="1"/>
+        <path d="M8 72C96 10 170 8 412 8" stroke="#171A17" stroke-width="1.4"/>
+        <path d="M8 72C40 62 78 22 150 12C250 4 330 6 412 8" stroke="#B8432F" stroke-width="1.4" stroke-dasharray="4 3"/>
+        <text x="12" y="86" fill="#8A8F86" font-size="8" font-family="monospace">standard</text>
+        <text x="360" y="86" fill="#B8432F" font-size="8" font-family="monospace">emphasized</text>
+      </svg>
+
+      <div style="margin-top:4px;font-size:10px;line-height:16px;color:#6B7069">
+        <div style="display:flex;justify-content:space-between;border-top:1px solid #E4E2D9;padding-top:6px"><span>休息盘进入</span><span class="mono">180 + 220 ms</span></div>
+        <div style="display:flex;justify-content:space-between;border-top:1px solid #E4E2D9;margin-top:5px;padding-top:6px"><span>休息盘退出</span><span class="mono">120 ms ease-in</span></div>
+        <div style="display:flex;justify-content:space-between;border-top:1px solid #E4E2D9;margin-top:5px;padding-top:6px"><span>进度线</span><span class="mono">900 ms linear</span></div>
+        <div style="display:flex;justify-content:space-between;border-top:1px solid #E4E2D9;margin-top:5px;padding-top:6px"><span>Reduce Motion</span><span class="mono">不再位移/淡入</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1200,"height":860}}'>
+class Component extends DCLogic {}
+</script>
+</body>
+</html>

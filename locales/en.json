@@ -1,0 +1,539 @@
+{
+  "@@locale": "en",
+  "appName": "Fermata",
+  "appTagline": "A held note in the workday.",
+  "menuNextMini": "{n, plural, one {Next mini break in about # minute} other {Next mini break in about # minutes}}",
+  "@menuNextMini": {
+    "description": "Tray status while waiting for a mini break.",
+    "placeholders": {
+      "n": {
+        "type": "int",
+        "example": "9"
+      }
+    }
+  },
+  "menuNextLong": "{n, plural, one {Next long break in about # minute} other {Next long break in about # minutes}}",
+  "@menuNextLong": {
+    "description": "Tray status while waiting for a long break.",
+    "placeholders": {
+      "n": {
+        "type": "int",
+        "example": "4"
+      }
+    }
+  },
+  "menuAfterMini": "{n, plural, one {Long break after # more mini break} other {Long break after # more mini breaks}}",
+  "@menuAfterMini": {
+    "description": "Second tray status line, before a long break.",
+    "placeholders": {
+      "n": {
+        "type": "int",
+        "example": "2"
+      }
+    }
+  },
+  "menuSoonMini": "Mini break any moment now",
+  "@menuSoonMini": {
+    "description": "Tray status when a mini break starts within a second."
+  },
+  "menuSoonLong": "Long break any moment now",
+  "@menuSoonLong": {
+    "description": "Tray status when a long break starts within a second."
+  },
+  "menuNotifiedMini": "Mini break in {n, plural, one {# second} other {# seconds}}",
+  "@menuNotifiedMini": {
+    "description": "Tray status during the notice before a mini break.",
+    "placeholders": {
+      "n": {
+        "type": "int",
+        "example": "10"
+      }
+    }
+  },
+  "menuNotifiedLong": "Long break in {n, plural, one {# second} other {# seconds}}",
+  "@menuNotifiedLong": {
+    "description": "Tray status during the notice before a long break.",
+    "placeholders": {
+      "n": {
+        "type": "int",
+        "example": "30"
+      }
+    }
+  },
+  "menuBreakingMini": "Mini break — {time} left",
+  "@menuBreakingMini": {
+    "description": "Tray status during a mini break.",
+    "placeholders": {
+      "time": {
+        "type": "String",
+        "example": "0:14"
+      }
+    }
+  },
+  "menuBreakingLong": "Long break — {time} left",
+  "@menuBreakingLong": {
+    "description": "Tray status during a long break.",
+    "placeholders": {
+      "time": {
+        "type": "String",
+        "example": "4:58"
+      }
+    }
+  },
+  "menuStrictMini": "Strict mini break — {time} left",
+  "@menuStrictMini": {
+    "description": "Tray status during a strict mini break.",
+    "placeholders": {
+      "time": {
+        "type": "String",
+        "example": "0:14"
+      }
+    }
+  },
+  "menuStrictLong": "Strict long break — {time} left",
+  "@menuStrictLong": {
+    "description": "Tray status during a strict long break.",
+    "placeholders": {
+      "time": {
+        "type": "String",
+        "example": "4:58"
+      }
+    }
+  },
+  "menuBreakOver": "Break over — waiting for you",
+  "@menuBreakOver": {
+    "description": "Tray status after a break with manual finish ran out."
+  },
+  "menuPausedTimed": "{n, plural, one {Paused — resuming in about # minute} other {Paused — resuming in about # minutes}}",
+  "@menuPausedTimed": {
+    "description": "Tray status while paused for a set time.",
+    "placeholders": {
+      "n": {
+        "type": "int",
+        "example": "12"
+      }
+    }
+  },
+  "menuPausedForever": "Paused — indefinitely",
+  "@menuPausedForever": {
+    "description": "Tray status while paused without an end."
+  },
+  "menuPausedDnd": "Paused — Focus is on",
+  "@menuPausedDnd": {
+    "description": "Tray status while the system's Focus is on."
+  },
+  "menuPausedIdle": "Paused — you were away",
+  "@menuPausedIdle": {
+    "description": "Tray status while the user is away from the keyboard."
+  },
+  "menuPausedLocked": "Paused — the screen is locked",
+  "@menuPausedLocked": {
+    "description": "Tray status while the screen is locked or the system sleeps."
+  },
+  "menuPausedExclusion": "Paused — app exclusion rule",
+  "@menuPausedExclusion": {
+    "description": "Tray status while a listed application runs."
+  },
+  "menuPreparing": "Getting ready",
+  "trayTooltip": "Fermata — A held note in the workday",
+  "@trayTooltip": {
+    "description": "First line of the tray tooltip, over the status."
+  },
+  "menuSkipTo": "Skip to",
+  "menuMiniBreak": "Mini break",
+  "menuLongBreak": "Long break",
+  "menuPause": "Pause breaks",
+  "menuResume": "Resume breaks",
+  "menuReset": "Reset breaks",
+  "menuSettingsEllipsis": "Settings…",
+  "menuSettings": "Settings",
+  "menuQuit": "Quit Fermata",
+  "menuExit": "Exit Fermata",
+  "menuPause30": "30 minutes",
+  "menuPause1h": "1 hour",
+  "menuPause2h": "2 hours",
+  "menuPause5h": "5 hours",
+  "menuPauseMorning": "Until morning",
+  "menuPauseIndefinitely": "Indefinitely",
+  "notifyMini": "Mini break in {n, plural, one {# second} other {# seconds}}.",
+  "@notifyMini": {
+    "description": "Notification before a mini break.",
+    "placeholders": {
+      "n": {
+        "type": "int",
+        "example": "10"
+      }
+    }
+  },
+  "notifyLong": "Long break in {n, plural, one {# second} other {# seconds}}.",
+  "@notifyLong": {
+    "description": "Notification before a long break.",
+    "placeholders": {
+      "n": {
+        "type": "int",
+        "example": "30"
+      }
+    }
+  },
+  "notifyResumed": "Fermata is resuming.",
+  "@notifyResumed": {
+    "description": "Notification when a manual pause ends."
+  },
+  "breakLabelMini": "MINI BREAK",
+  "breakLabelLong": "LONG BREAK",
+  "breakLabelStrictMini": "STRICT MINI BREAK",
+  "breakLabelStrictLong": "STRICT LONG BREAK",
+  "breakPostpone": "Postpone",
+  "breakSkip": "Skip",
+  "breakFinish": "Finish",
+  "settingsTitle": "Settings",
+  "settingsGeneral": "General",
+  "settingsSchedule": "Schedule",
+  "settingsAppearance": "Appearance",
+  "settingsAbout": "About",
+  "settingsGeneralSubtitle": "When Fermata goes quiet.",
+  "settingsScheduleSubtitle": "Set the rhythm. Keep at least one break type on.",
+  "settingsAppearanceSubtitle": "Choose the light you rest in.",
+  "settingsOpenAtLogin": "Start at login",
+  "settingsLanguage": "Language",
+  "languageSystem": "System",
+  "languageEnglish": "English",
+  "languageChineseSimplified": "简体中文",
+  "settingsMenuBar": "Menu bar",
+  "settingsTrayIcon": "Tray icon",
+  "styleMark": "Mark",
+  "styleTime": "Time",
+  "styleRing": "Ring",
+  "settingsPauseAway": "Pause when away",
+  "settingsAfterMinutes": "after {n, plural, one {# minute} other {# minutes}}",
+  "@settingsAfterMinutes": {
+    "description": "Indented label under Pause when away.",
+    "placeholders": {
+      "n": {
+        "type": "int",
+        "example": "5"
+      }
+    }
+  },
+  "settingsPauseFocus": "Pause during Focus",
+  "settingsPauseLock": "Pause when the screen is locked",
+  "settingsAllDisplays": "Show on all displays",
+  "settingsContentOn": "Content on",
+  "settingsFillScreen": "Fill the screen",
+  "settingsScreen": "Screen",
+  "displayAll": "All displays",
+  "displayPrimary": "Primary display",
+  "displayCursor": "Display with the pointer",
+  "settingsMiniBreaks": "Mini breaks",
+  "settingsLongBreaks": "Long breaks",
+  "settingsBreakFor": "Break for",
+  "settingsEvery": "Every",
+  "settingsEveryMiniBreaks": "mini breaks",
+  "settingsNotifyBefore": "Notify before",
+  "settingsAllowPostpone": "Allow postpone",
+  "settingsWaitFinish": "Wait for me to finish",
+  "settingsManualFinish": "until you press Finish",
+  "settingsStrictMode": "Strict mode",
+  "settingsStrictHelp": "Strict breaks cannot be skipped, postponed, or closed.",
+  "settingsKeepOne": "Keep at least one break type on.",
+  "settingsStrictCannotPostpone": "Strict mode cannot postpone.",
+  "unitSeconds": "{n} s",
+  "@unitSeconds": {
+    "description": "A duration in a stepper, in seconds.",
+    "placeholders": {
+      "n": {
+        "type": "int",
+        "example": "20"
+      }
+    }
+  },
+  "unitMinutes": "{n} min",
+  "@unitMinutes": {
+    "description": "A duration in a stepper, in minutes.",
+    "placeholders": {
+      "n": {
+        "type": "int",
+        "example": "10"
+      }
+    }
+  },
+  "unitCount": "{n}",
+  "@unitCount": {
+    "description": "A bare count in a stepper.",
+    "placeholders": {
+      "n": {
+        "type": "int",
+        "example": "2"
+      }
+    }
+  },
+  "durationSeconds": "{n, plural, one {# second} other {# seconds}}",
+  "@durationSeconds": {
+    "description": "A duration written out, as under Notify before.",
+    "placeholders": {
+      "n": {
+        "type": "int",
+        "example": "10"
+      }
+    }
+  },
+  "durationMinutes": "{n, plural, one {# minute} other {# minutes}}",
+  "@durationMinutes": {
+    "description": "A duration written out, in minutes.",
+    "placeholders": {
+      "n": {
+        "type": "int",
+        "example": "5"
+      }
+    }
+  },
+  "settingsPostponeOnce": "{n} min · once",
+  "@settingsPostponeOnce": {
+    "description": "Under Allow postpone.",
+    "placeholders": {
+      "n": {
+        "type": "int",
+        "example": "2"
+      }
+    }
+  },
+  "settingsSummary": "{mini} every {interval} · {long} every {nth} break",
+  "@settingsSummary": {
+    "description": "The rhythm summary under the two columns.",
+    "placeholders": {
+      "mini": {
+        "type": "String",
+        "example": "20 s"
+      },
+      "interval": {
+        "type": "String",
+        "example": "10 min"
+      },
+      "long": {
+        "type": "String",
+        "example": "5 min"
+      },
+      "nth": {
+        "type": "String",
+        "example": "3rd"
+      }
+    }
+  },
+  "settingsSummaryLongOnly": "{duration} every {interval}",
+  "settingsSummaryMiniOnly": "{duration} every {interval}",
+  "@settingsSummaryMiniOnly": {
+    "placeholders": {
+      "duration": {
+        "type": "String",
+        "example": "20 s"
+      },
+      "interval": {
+        "type": "String",
+        "example": "10 min"
+      }
+    }
+  },
+  "@settingsSummaryLongOnly": {
+    "description": "The rhythm summary when only long breaks are on.",
+    "placeholders": {
+      "duration": {
+        "type": "String",
+        "example": "5 min"
+      },
+      "interval": {
+        "type": "String",
+        "example": "30 min"
+      }
+    }
+  },
+  "rhythmMini": "MINI",
+  "rhythmLong": "LONG",
+  "ordinal": "{n, selectordinal, one {#st} two {#nd} few {#rd} other {#th}}",
+  "@ordinal": {
+    "description": "A rank such as 3rd, for the rhythm summary.",
+    "placeholders": {
+      "n": {
+        "type": "int",
+        "example": "3"
+      }
+    }
+  },
+  "settingsHealth": "Break health",
+  "settingsHealthHelp": "A vermilion edge when breaks are often postponed or skipped.",
+  "settingsExclusions": "App exclusions",
+  "settingsExclusionsHelp": "Pause breaks while a listed app runs.",
+  "settingsExclusionsEmpty": "No rules yet.",
+  "settingsAddRule": "Add rule",
+  "settingsRulePause": "Pause",
+  "settingsRuleResume": "Break only",
+  "settingsRuleName": "Name",
+  "settingsRuleProcesses": "Processes",
+  "settingsRuleProcessesHint": "Comma-separated names, e.g. Xcode, zoom.us",
+  "settingsRuleRemove": "Remove",
+  "settingsPreview": "Preview",
+  "settingsBreakField": "Break field",
+  "settingsCustom": "Custom…",
+  "fieldPine": "Pine",
+  "fieldInk": "Ink",
+  "fieldOxblood": "Oxblood",
+  "fieldSlate": "Slate",
+  "fieldSand": "Sand",
+  "fieldPaper": "Paper",
+  "settingsShowTime": "Show the current time",
+  "settingsSounds": "Sounds",
+  "settingsStartSound": "Start",
+  "settingsEndSound": "End",
+  "settingsVolume": "Volume",
+  "settingsPreviewSound": "Preview",
+  "settingsMute": "Mute all sounds",
+  "soundSilence": "Silence",
+  "soundCrystalGlass": "Crystal glass",
+  "soundWindChime": "Wind chime",
+  "soundTicToc": "Tic-toc",
+  "soundReverie": "Reverie",
+  "aboutVersion": "Version {version} (build {build})",
+  "@aboutVersion": {
+    "description": "The version line in the About page.",
+    "placeholders": {
+      "version": {
+        "type": "String",
+        "example": "0.1.0"
+      },
+      "build": {
+        "type": "String",
+        "example": "1"
+      }
+    }
+  },
+  "aboutInspired": "Inspired by Stretchly. Fermata is MIT licensed.",
+  "aboutWebsite": "Website",
+  "aboutSource": "Source code",
+  "aboutReport": "Report an issue",
+  "aboutFooter": "© 2026 gythialy · No account, no telemetry, no sync.",
+  "aboutUpdateAvailable": "Version {version} is available.",
+  "@aboutUpdateAvailable": {
+    "description": "Shown in the About page when a newer release exists.",
+    "placeholders": {
+      "version": {
+        "type": "String",
+        "example": "0.2.0"
+      }
+    }
+  },
+  "aboutReleaseNotes": "Release notes",
+  "settingsRestore": "Restore Defaults…",
+  "dialogRestoreTitle": "Restore defaults?",
+  "dialogRestoreBody": "All settings return to their initial values. This cannot be undone.",
+  "dialogCancel": "Cancel",
+  "dialogRestore": "Restore",
+  "bannerWriteFailed": "Settings could not be saved.",
+  "bannerConfigCorrupt": "Settings were reset after a read error.",
+  "welcomeStart": "Start",
+  "welcomeOpenSettings": "Open Settings",
+  "welcomeClosingHint": "Closing this window starts Fermata too.",
+  "welcomeLivesInMenuBar": "Lives in the menu bar. Quit from its menu. No account, no telemetry.",
+  "welcomeMiniBreak": "Mini break",
+  "welcomeLongBreak": "Long break",
+  "welcomeEveryNth": "every {n} break",
+  "@welcomeEveryNth": {
+    "description": "The long break's place in the rhythm, as every 3rd.",
+    "placeholders": {
+      "n": {
+        "type": "String",
+        "example": "3rd"
+      }
+    }
+  },
+  "displayNumbered": "Display {n}",
+  "@displayNumbered": {
+    "placeholders": {
+      "n": {
+        "type": "int",
+        "example": "2"
+      }
+    }
+  },
+  "settingsRuleActive": "Enabled",
+  "settingsPreviewScale": "Preview · ~0.43×",
+  "shortMini": "Mini",
+  "shortLong": "Long",
+  "settingsWaitTyping": "Wait while typing",
+  "settingsWaitTypingHelp": "Waits up to 30 seconds while you type.",
+  "settingsWaitFullscreen": "Wait for fullscreen apps",
+  "settingsWaitFullscreenHelp": "Waits up to 1 hour while an app is fullscreen.",
+  "menuHeldTyping": "Break held — typing",
+  "menuHeldFullscreen": "Break held — fullscreen app",
+  "popoverTakeBreak": "Take a break now",
+  "popoverPause": "Pause 30 minutes",
+  "popoverSettings": "Settings…",
+  "settingsTheme": "Theme",
+  "settingsThemeHelp": "Follow the system, or force light or dark.",
+  "themeSystem": "System",
+  "themeLight": "Light",
+  "themeDark": "Dark",
+  "popoverPush5": "Push 5 minutes",
+  "settingsOpacity": "Break window opacity",
+  "settingsOpacityHelp": "30–100% of the field's color over the desktop.",
+  "popoverStartNow": "Start now",
+  "popoverNextMini": "Next mini break",
+  "popoverNextLong": "Next long break",
+  "popoverMini": "Mini break",
+  "popoverLong": "Long break",
+  "popoverStarting": "starting",
+  "popoverInProgress": "in progress",
+  "popoverPaused": "Paused",
+  "popoverStrict": "Strict",
+  "welcomeLivesInTray": "Lives in the system tray. Quit from its menu. No account, no telemetry.",
+  "actionDecrease": "Decrease",
+  "actionIncrease": "Increase",
+  "actionClose": "Close",
+  "actionShowMenu": "Show menu",
+  "@actionDecrease": {
+    "description": "The stepper button that lowers its value."
+  },
+  "@actionIncrease": {
+    "description": "The stepper button that raises its value."
+  },
+  "@actionClose": {
+    "description": "The popover button that closes it."
+  },
+  "@actionShowMenu": {
+    "description": "The popover button that opens the tray menu."
+  },
+  "@popoverStartNow": {
+    "description": "The popover action that starts the due break at once."
+  },
+  "@welcomeLivesInTray": {
+    "description": "Where the app lives on Windows and Linux."
+  },
+  "unitSecondsShort": "{n}s",
+  "unitMinutesShort": "{n}m",
+  "@unitSecondsShort": {
+    "description": "A compact duration for the rhythm chips.",
+    "placeholders": {
+      "n": {
+        "type": "int",
+        "example": "20"
+      }
+    }
+  },
+  "@unitMinutesShort": {
+    "description": "A compact duration for the rhythm chips.",
+    "placeholders": {
+      "n": {
+        "type": "int",
+        "example": "5"
+      }
+    }
+  },
+  "welcomeEvery": "every {interval}",
+  "@welcomeEvery": {
+    "description": "The mini break row of the welcome rhythm.",
+    "placeholders": {
+      "interval": {
+        "type": "String",
+        "example": "25 min"
+      }
+    }
+  }
+}

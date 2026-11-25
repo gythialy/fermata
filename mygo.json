@@ -1,0 +1,20 @@
+{
+  "name": "Fermata",
+  "slug": "fermata",
+  "identifier": "dev.gythialy.fermata",
+  "version": "0.1.0",
+  "copyright": "© 2026 gythialy",
+  "icon": "resources/icon.png",
+  "out": "build",
+  "macos": {
+    "minimumSystemVersion": "13.0",
+    "infoPlist": {
+      "LSUIElement": true
+    },
+    "icon": "icons/AppIcon.car"
+  },
+  "i18n": {
+    "dir": "locales",
+    "source": "en"
+  }
+}

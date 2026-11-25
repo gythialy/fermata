@@ -1,0 +1,328 @@
+{
+  "v": 3,
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-11-25T05:15:00Z"
+  },
+  "title": "停琴（Fermata）跨平台 UI/UX 设计",
+  "launch": {
+    "view": "canvas",
+    "page": "overview"
+  },
+  "pages": [
+    {
+      "id": "overview",
+      "name": "01 总览"
+    },
+    {
+      "id": "language",
+      "name": "02 设计语言"
+    },
+    {
+      "id": "break",
+      "name": "03 休息窗"
+    },
+    {
+      "id": "settings",
+      "name": "04 设置与首次启动"
+    },
+    {
+      "id": "system",
+      "name": "05 系统与交付"
+    },
+    {
+      "id": "popover",
+      "name": "06 状态弹窗"
+    }
+  ],
+  "boards": {
+    "Main.dc.html": {
+      "x": 0,
+      "y": 0,
+      "w": 1440,
+      "h": 900,
+      "title": "停琴 · Fermata",
+      "page": "overview"
+    },
+    "overview/Platforms.dc.html": {
+      "x": 1520,
+      "y": 0,
+      "w": 1440,
+      "h": 900,
+      "title": "三平台入口与菜单",
+      "page": "overview"
+    },
+    "overview/Principles.dc.html": {
+      "x": 0,
+      "y": 1020,
+      "w": 1440,
+      "h": 980,
+      "title": "原则、M3 取舍与状态模型",
+      "page": "overview"
+    },
+    "language/Color.dc.html": {
+      "x": 0,
+      "y": 0,
+      "w": 1200,
+      "h": 1120,
+      "title": "颜色角色与色板",
+      "page": "language"
+    },
+    "language/Type.dc.html": {
+      "x": 1280,
+      "y": 0,
+      "w": 1200,
+      "h": 1280,
+      "title": "字体与字号",
+      "page": "language"
+    },
+    "language/ShapeMotion.dc.html": {
+      "x": 0,
+      "y": 1240,
+      "w": 1200,
+      "h": 860,
+      "title": "形状、层级与动效",
+      "page": "language"
+    },
+    "language/Components.dc.html": {
+      "x": 1280,
+      "y": 1320,
+      "w": 1280,
+      "h": 960,
+      "title": "桌面组件",
+      "page": "language",
+      "is_interactive": true
+    },
+    "break/Mini.dc.html": {
+      "x": 0,
+      "y": 0,
+      "w": 1440,
+      "h": 900,
+      "title": "短休息 · 默认",
+      "page": "break"
+    },
+    "break/Long.dc.html": {
+      "x": 1520,
+      "y": 0,
+      "w": 1440,
+      "h": 900,
+      "title": "长休息",
+      "page": "break"
+    },
+    "break/States.dc.html": {
+      "x": 0,
+      "y": 1020,
+      "w": 1280,
+      "h": 1000,
+      "title": "四种时刻与浅色场",
+      "page": "break"
+    },
+    "settings/General.dc.html": {
+      "x": 0,
+      "y": 0,
+      "w": 800,
+      "h": 720,
+      "title": "设置 · 通用",
+      "page": "settings"
+    },
+    "settings/Schedule.dc.html": {
+      "x": 880,
+      "y": 0,
+      "w": 800,
+      "h": 720,
+      "title": "设置 · 日程",
+      "page": "settings"
+    },
+    "settings/Appearance.dc.html": {
+      "x": 1760,
+      "y": 0,
+      "w": 800,
+      "h": 720,
+      "title": "设置 · 外观",
+      "page": "settings"
+    },
+    "settings/About.dc.html": {
+      "x": 0,
+      "y": 840,
+      "w": 800,
+      "h": 720,
+      "title": "设置 · 关于",
+      "page": "settings"
+    },
+    "onboarding/Welcome.dc.html": {
+      "x": 880,
+      "y": 840,
+      "w": 800,
+      "h": 540,
+      "title": "首次启动",
+      "page": "settings"
+    },
+    "system/Tray.dc.html": {
+      "x": 0,
+      "y": 0,
+      "w": 1440,
+      "h": 960,
+      "title": "菜单栏 / 托盘 / 指示器",
+      "page": "system"
+    },
+    "system/SystemStates.dc.html": {
+      "x": 0,
+      "y": 1080,
+      "w": 1280,
+      "h": 860,
+      "title": "暂停、通知与严格",
+      "page": "system"
+    },
+    "system/PlatformSpec.dc.html": {
+      "x": 1360,
+      "y": 1080,
+      "w": 1200,
+      "h": 1000,
+      "title": "跨平台适配规格",
+      "page": "system"
+    },
+    "system/A11y.dc.html": {
+      "x": 0,
+      "y": 2060,
+      "w": 1200,
+      "h": 860,
+      "title": "可访问性与验收",
+      "page": "system"
+    },
+    "language/Icons.dc.html": {
+      "x": 2560,
+      "y": 1240,
+      "w": 1200,
+      "h": 860,
+      "title": "图标：一个记号，按尺寸加粗",
+      "page": "language"
+    },
+    "system/Audit.dc.html": {
+      "x": 1360,
+      "y": 2100,
+      "w": 1200,
+      "h": 900,
+      "title": "文档与实现一致性",
+      "page": "system"
+    },
+    "popover/Popover.dc.html": {
+      "x": 0,
+      "y": 0,
+      "w": 1440,
+      "h": 900,
+      "title": "状态弹窗 · 等待（浅/深）",
+      "page": "popover"
+    },
+    "popover/PopoverStates.dc.html": {
+      "x": 1520,
+      "y": 0,
+      "w": 1440,
+      "h": 900,
+      "title": "状态弹窗 · 四种时刻",
+      "page": "popover"
+    },
+    "popover/Spec.dc.html": {
+      "x": 0,
+      "y": 1020,
+      "w": 1440,
+      "h": 1080,
+      "title": "状态弹窗 · 规格与对照",
+      "page": "popover"
+    },
+    "popover/PopoverAPI.dc.html": {
+      "x": 1520,
+      "y": 1020,
+      "w": 1440,
+      "h": 1000,
+      "title": "状态弹窗 · MyGo 实现图",
+      "page": "popover"
+    },
+    "popover/PopoverCountdown.dc.html": {
+      "x": 0,
+      "y": 2220,
+      "w": 1440,
+      "h": 900,
+      "title": "状态弹窗 · 倒计时三个变体",
+      "page": "popover"
+    }
+  },
+  "order": [
+    "Main.dc.html",
+    "overview/Platforms.dc.html",
+    "overview/Principles.dc.html",
+    "language/Color.dc.html",
+    "language/Type.dc.html",
+    "language/ShapeMotion.dc.html",
+    "language/Components.dc.html",
+    "language/Icons.dc.html",
+    "break/Mini.dc.html",
+    "break/Long.dc.html",
+    "break/States.dc.html",
+    "settings/General.dc.html",
+    "settings/Schedule.dc.html",
+    "settings/Appearance.dc.html",
+    "settings/About.dc.html",
+    "onboarding/Welcome.dc.html",
+    "system/Tray.dc.html",
+    "system/SystemStates.dc.html",
+    "system/PlatformSpec.dc.html",
+    "system/A11y.dc.html",
+    "system/Audit.dc.html",
+    "popover/Popover.dc.html",
+    "popover/PopoverStates.dc.html",
+    "popover/PopoverCountdown.dc.html",
+    "popover/PopoverAPI.dc.html",
+    "popover/Spec.dc.html"
+  ],
+  "notes": {
+    "t-overview": {
+      "kind": "title1",
+      "x": 0,
+      "y": -260,
+      "text": "01 · 总览",
+      "maxW": 2960,
+      "page": "overview"
+    },
+    "t-language": {
+      "kind": "title1",
+      "x": 0,
+      "y": -260,
+      "text": "02 · 设计语言",
+      "maxW": 2480,
+      "page": "language"
+    },
+    "t-break": {
+      "kind": "title1",
+      "x": 0,
+      "y": -260,
+      "text": "03 · 休息窗",
+      "maxW": 2960,
+      "page": "break"
+    },
+    "t-settings": {
+      "kind": "title1",
+      "x": 0,
+      "y": -260,
+      "text": "04 · 设置与首次启动",
+      "maxW": 2560,
+      "page": "settings"
+    },
+    "t-system": {
+      "kind": "title1",
+      "x": 0,
+      "y": -260,
+      "text": "05 · 系统与交付",
+      "maxW": 2480,
+      "page": "system"
+    },
+    "t-popover": {
+      "kind": "title1",
+      "x": 0,
+      "y": -260,
+      "text": "06 · 状态弹窗",
+      "maxW": 2960,
+      "page": "popover"
+    }
+  },
+  "designSystems": []
+}

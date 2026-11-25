@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Break states — one exit, four moments</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Spectral:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  body{margin:0;background:#F4F2EA;color:#171A17;-webkit-font-smoothing:antialiased;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI Variable Text","Segoe UI",Inter,"Noto Sans",sans-serif}
+  h1,h2,h3,p{margin:0}
+  .serif{font-family:"Spectral","Iowan Old Style","Noto Serif SC","Songti SC",serif}
+  .mono{font-family:"SF Mono","Cascadia Mono","JetBrains Mono",monospace;font-variant-numeric:tabular-nums}
+  .num{font-variant-numeric:tabular-nums}
+  .panel{width:560px;height:280px;border-radius:14px;padding:22px 24px 26px;box-sizing:border-box;display:flex;flex-direction:column;color:#F3F2EA}
+  .exit{background:none;border:0;color:rgba(243,242,234,.82);font-family:inherit;font-size:10px;line-height:14px;padding:2px 4px;cursor:pointer}
+  .exit:hover{text-decoration:underline;text-underline-offset:3px}
+  a{color:#B8432F}a:hover{color:#8F3223}
+</style>
+</helmet>
+<div style="width:1280px;height:1000px;background:#F4F2EA;padding:42px 48px;box-sizing:border-box;display:flex;flex-direction:column">
+  <div style="display:flex;justify-content:space-between;align-items:flex-end">
+    <div>
+      <div style="font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#B8432F">Break states / 10</div>
+      <h2 class="serif" style="margin-top:8px;font-size:38px;line-height:44px;font-weight:300;letter-spacing:-.012em">One exit, four moments.</h2>
+      <div style="margin-top:8px;font-size:12px;line-height:18px;color:#6B7069">出口随时间变化，但同一时刻只有一个；严格版本没有出口。场可以换，结构不换。</div>
+    </div>
+    <div class="mono" style="font-size:9px;line-height:15px;letter-spacing:.1em;color:#8A8F86;text-align:right">POSTPONE → SKIP → FINISH<br>STRICT = NONE</div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(2,560px);gap:28px 40px;margin-top:22px">
+    <div>
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px">
+        <div class="mono" style="font-size:9px;letter-spacing:.1em;color:#5D635B">0–30% · POSTPONE</div>
+        <div style="font-size:10px;color:#8A8F86">还没坐稳，允许一次</div>
+      </div>
+      <div class="panel" style="background:#2B4A41">
+        <div style="display:flex;justify-content:space-between;font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:rgba(243,242,234,.55)"><span>Mini Break</span><span class="num" style="letter-spacing:.04em">14:32</span></div>
+        <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center">
+          <svg width="24" height="24" viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M6 18C8 8.5 24 8.5 26 18" stroke="#F3F2EA" stroke-width="2.8" stroke-linecap="round"/><circle cx="16" cy="25" r="3.0" fill="#F0836C"/></svg>
+          <div class="serif" style="margin-top:12px;max-width:440px;text-align:center;font-size:23px;line-height:29px;font-weight:300">Look out a window until your eyes relax.</div>
+          <div style="margin-top:16px;width:140px;height:1px;background:rgba(243,242,234,.25)"><div style="width:12%;height:1px;background:rgba(243,242,234,.85)"></div></div>
+          <div class="mono num" style="margin-top:7px;font-size:8px;letter-spacing:.04em;color:rgba(243,242,234,.65)">0:17</div>
+        </div>
+        <div style="text-align:center"><button class="exit" type="button">Postpone <span class="mono" style="margin-left:4px;color:rgba(243,242,234,.55)">⌘X</span></button></div>
+      </div>
+    </div>
+
+    <div>
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px">
+        <div class="mono" style="font-size:9px;letter-spacing:.1em;color:#5D635B">30–100% · SKIP</div>
+        <div style="font-size:10px;color:#8A8F86">已经进入，只剩跳过</div>
+      </div>
+      <div class="panel" style="background:#141A18">
+        <div style="display:flex;justify-content:space-between;font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:rgba(243,242,234,.55)"><span>Mini Break</span><span class="num" style="letter-spacing:.04em">14:32</span></div>
+        <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center">
+          <svg width="24" height="24" viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M6 18C8 8.5 24 8.5 26 18" stroke="#F3F2EA" stroke-width="2.8" stroke-linecap="round"/><circle cx="16" cy="25" r="3.0" fill="#F0836C"/></svg>
+          <div class="serif" style="margin-top:12px;max-width:440px;text-align:center;font-size:23px;line-height:29px;font-weight:300">Stand up and let your shoulders drop.</div>
+          <div style="margin-top:16px;width:140px;height:1px;background:rgba(243,242,234,.25)"><div style="width:55%;height:1px;background:rgba(243,242,234,.85)"></div></div>
+          <div class="mono num" style="margin-top:7px;font-size:8px;letter-spacing:.04em;color:rgba(243,242,234,.65)">0:08</div>
+        </div>
+        <div style="text-align:center"><button class="exit" type="button">Skip <span class="mono" style="margin-left:4px;color:rgba(243,242,234,.55)">⌘X</span></button></div>
+      </div>
+    </div>
+
+    <div>
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px">
+        <div class="mono" style="font-size:9px;letter-spacing:.1em;color:#B8432F">COUNT-UP · FINISH</div>
+        <div style="font-size:10px;color:#8A8F86">手动结束：等你按下完成</div>
+      </div>
+      <div class="panel" style="background:#2E383F">
+        <div style="display:flex;justify-content:space-between;font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:rgba(243,242,234,.55)"><span>Mini Break</span><span class="num" style="letter-spacing:.04em">14:32</span></div>
+        <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center">
+          <svg width="24" height="24" viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M6 18C8 8.5 24 8.5 26 18" stroke="#F3F2EA" stroke-width="2.8" stroke-linecap="round"/><circle cx="16" cy="25" r="3.0" fill="#F0836C"/></svg>
+          <div class="serif" style="margin-top:12px;max-width:440px;text-align:center;font-size:23px;line-height:29px;font-weight:300">Rest your eyes on something far away.</div>
+          <div style="margin-top:16px;width:140px;height:1px;background:rgba(243,242,234,.25)"></div>
+          <div class="mono num" style="margin-top:7px;font-size:8px;letter-spacing:.04em;color:#F0836C">+0:07</div>
+        </div>
+        <div style="text-align:center"><button class="exit" type="button">Finish <span class="mono" style="margin-left:4px;color:rgba(243,242,234,.55)">⌘X</span></button></div>
+      </div>
+    </div>
+
+    <div>
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px">
+        <div class="mono" style="font-size:9px;letter-spacing:.1em;color:#8F3223">STRICT · NO EXIT</div>
+        <div style="font-size:10px;color:#8A8F86">严格：窗口不可关，没有出口</div>
+      </div>
+      <div class="panel" style="background:#4A2A2E">
+        <div style="display:flex;justify-content:space-between;font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:rgba(243,242,234,.55)"><span>Strict Mini Break</span><span class="num" style="letter-spacing:.04em">14:32</span></div>
+        <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center">
+          <svg width="24" height="24" viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M6 18C8 8.5 24 8.5 26 18" stroke="#F3F2EA" stroke-width="2.8" stroke-linecap="round"/><circle cx="16" cy="25" r="3.0" fill="#F0836C"/></svg>
+          <div class="serif" style="margin-top:12px;max-width:440px;text-align:center;font-size:23px;line-height:29px;font-weight:300">Drink a glass of water.</div>
+          <div style="margin-top:16px;width:140px;height:1px;background:rgba(243,242,234,.25)"><div style="width:40%;height:1px;background:rgba(243,242,234,.85)"></div></div>
+          <div class="mono num" style="margin-top:7px;font-size:8px;letter-spacing:.04em;color:rgba(243,242,234,.65)">0:12</div>
+        </div>
+        <div style="text-align:center;font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:rgba(243,242,234,.38)">No exit</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:22px;border-top:1px solid #D6D4CA;padding-top:14px;display:grid;grid-template-columns:360px 360px 1fr;gap:24px;align-items:start">
+    <div>
+      <div class="mono" style="font-size:9px;letter-spacing:.1em;color:#5D635B;margin-bottom:7px">LIGHT FIELD · SAND</div>
+      <div style="height:150px;background:#CFC5B2;color:#171A17;border-radius:12px;padding:14px 16px;box-sizing:border-box;display:flex;flex-direction:column">
+        <div style="display:flex;justify-content:space-between;font-size:7px;letter-spacing:.14em;text-transform:uppercase;opacity:.6"><span>Mini Break</span><span class="num">14:32</span></div>
+        <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center">
+          <div class="serif" style="max-width:300px;text-align:center;font-size:18px;line-height:24px;font-weight:300">Stand up and let your shoulders drop.</div>
+          <div style="margin-top:9px;width:110px;height:1px;background:rgba(23,26,23,.2)"><div style="width:30%;height:1px;background:rgba(23,26,23,.85)"></div></div>
+          <div class="mono num" style="margin-top:5px;font-size:7px;color:rgba(23,26,23,.65)">0:14</div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="mono" style="font-size:9px;letter-spacing:.1em;color:#5D635B;margin-bottom:7px">LIGHT FIELD · PAPER · 中文</div>
+      <div style="height:150px;background:#EFEEE6;color:#171A17;border:1px solid #D8D5CB;border-radius:12px;padding:14px 16px;box-sizing:border-box;display:flex;flex-direction:column">
+        <div style="display:flex;justify-content:space-between;font-size:7px;letter-spacing:.14em;text-transform:uppercase;opacity:.6"><span>Mini Break</span><span class="num">14:32</span></div>
+        <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center">
+          <div class="serif" style="max-width:310px;text-align:center;font-size:18px;line-height:26px;font-weight:300">望向窗外，直到眼睛放松下来。</div>
+          <div style="margin-top:9px;width:110px;height:1px;background:rgba(23,26,23,.2)"><div style="width:30%;height:1px;background:rgba(23,26,23,.85)"></div></div>
+          <div class="mono num" style="margin-top:5px;font-size:7px;color:rgba(23,26,23,.65)">0:14</div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="mono" style="font-size:9px;letter-spacing:.1em;color:#5D635B;margin-bottom:7px">WHY LIGHT FIELDS</div>
+      <div style="font-size:11px;line-height:17px;color:#5D635B">
+        <div style="display:flex;gap:8px;border-top:1px solid #E4E2D9;padding-top:7px"><span style="color:#B8432F">01</span>强光房间里，深色盘会像一块黑洞；浅色场更舒服。</div>
+        <div style="display:flex;gap:8px;border-top:1px solid #E4E2D9;margin-top:6px;padding-top:7px"><span style="color:#B8432F">02</span>前景按亮度自动选纸色或墨色，不要求用户自己配对比度。</div>
+        <div style="display:flex;gap:8px;border-top:1px solid #E4E2D9;margin-top:6px;padding-top:7px"><span style="color:#B8432F">03</span>进度轨道 25%，已用 85%；浅色场也一样，只换颜色。</div>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1000}}'>
+class Component extends DCLogic {}
+</script>
+</body>
+</html>

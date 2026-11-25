@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+<meta charset="utf-8">
+<title>可访问性与验收</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Spectral:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  body{margin:0;background:#F4F2EA;color:#171A17;-webkit-font-smoothing:antialiased;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI Variable Text","Segoe UI",Inter,"Noto Sans SC","PingFang SC",sans-serif}
+  h1,h2,h3,p{margin:0}
+  .serif{font-family:"Spectral","Iowan Old Style","Noto Serif SC","Songti SC",serif}
+  .mono{font-family:"SF Mono","Cascadia Mono","JetBrains Mono",monospace;font-variant-numeric:tabular-nums}
+  .check{width:14px;height:14px;border-radius:50%;background:#D7E3D9;color:#2A4A39;display:inline-flex;align-items:center;justify-content:center;font-size:9px;flex:none;margin-top:1px}
+  .item{display:flex;gap:9px;align-items:flex-start;padding:7px 0;border-bottom:1px solid #E4E2D9;font-size:11px;line-height:16px;color:#3F453E}
+  .item b{font-weight:600;color:#171A17}
+  .cov{display:grid;grid-template-columns:170px 1fr 16px;gap:10px;align-items:center;padding:6px 0;border-bottom:1px solid #E4E2D9;font-size:10px;line-height:15px}
+  .cov .name{font-weight:600;color:#2F342E}
+  .cov .note{color:#6B7069}
+  .dot{width:6px;height:6px;border-radius:50%;background:#3E5F4E;justify-self:end}
+  .plat{border:1px solid #D6D4CA;border-radius:8px;padding:12px 14px;background:#FBFAF5}
+  a{color:#B8432F}a:hover{color:#8F3223}
+</style>
+</helmet>
+<div style="width:1200px;height:860px;background:#F4F2EA;padding:42px 48px;box-sizing:border-box;display:flex;flex-direction:column">
+  <div style="display:flex;justify-content:space-between;align-items:flex-end">
+    <div>
+      <div style="font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#B8432F">Accessibility / 18</div>
+      <h2 class="serif" style="margin-top:8px;font-size:40px;line-height:46px;font-weight:300;letter-spacing:-.012em">Accessible as drawn.</h2>
+      <div style="margin-top:8px;font-size:12px;line-height:18px;color:#6B7069">对比度、焦点、键盘、屏幕阅读器与缩放不是实现阶段的补丁；它们决定布局和状态。</div>
+    </div>
+    <div class="mono" style="font-size:9px;line-height:15px;letter-spacing:.1em;color:#8A8F86;text-align:right">4.5 : 1 TEXT<br>3 : 1 LARGE / GRAPHIC</div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:640px 1fr;gap:48px;margin-top:22px">
+    <div>
+      <div style="display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid #D6D4CA;padding-bottom:7px">
+        <div style="font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#5D635B">Checklist</div>
+        <div class="mono" style="font-size:9px;color:#8A8F86">10 ITEMS</div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 28px">
+        <div class="item"><span class="check">✓</span><div><b>Contrast.</b> 正文 4.5:1；大字与图形 3:1；浅色场同样。</div></div>
+        <div class="item"><span class="check">✓</span><div><b>Focus.</b> 2 px ring，offset 2；只走键盘焦点。</div></div>
+        <div class="item"><span class="check">✓</span><div><b>Keyboard.</b> Tab / Shift+Tab；方向键切换 Segmented；Space 切开关。</div></div>
+        <div class="item"><span class="check">✓</span><div><b>Screen reader.</b> 控件有 role/name/state；休息开始由系统通知播报。</div></div>
+        <div class="item"><span class="check">✓</span><div><b>Reduce Motion.</b> 去掉位移与淡入；进度线仍可每秒跳变。</div></div>
+        <div class="item"><span class="check">✓</span><div><b>Increase Contrast.</b> hairline 加深；焦点环加粗到 3 px。</div></div>
+        <div class="item"><span class="check">✓</span><div><b>Reduce Transparency.</b> 不加 blur；休息盘保持不透明。</div></div>
+        <div class="item"><span class="check">✓</span><div><b>Text scaling.</b> 200% 不截断；行高随内容增长，不压字。</div></div>
+        <div class="item"><span class="check">✓</span><div><b>Targets.</b> 控件 ≥ 32 × 32；休息出口 44 × 28。</div></div>
+        <div class="item" style="border-bottom:none"><span class="check">✓</span><div><b>No color-only.</b> 严格、暂停、错误都有文字；颜色只辅助。</div></div>
+      </div>
+
+      <div style="margin-top:18px;font-size:10px;line-height:15px;color:#5D635B;border-top:1px solid #E4E2D9;padding-top:9px">
+        <b style="color:#171A17">不动焦点。</b> 休息窗用 ShowInactive 显示；交互不依赖窗口获得键盘焦点，⌘X / Ctrl+X 与鼠标都可用。
+      </div>
+    </div>
+
+    <div>
+      <div style="display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid #D6D4CA;padding-bottom:7px">
+        <div style="font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#5D635B">State coverage</div>
+        <div class="mono" style="font-size:9px;color:#8A8F86">WORDS, NOT HUES</div>
+      </div>
+      <div style="margin-top:4px">
+        <div class="cov"><div class="name">Waiting</div><div class="note">菜单栏 9m / 托盘 tooltip / 菜单状态行</div><div class="dot"></div></div>
+        <div class="cov"><div class="name">Notified</div><div class="note">系统通知；点击不改排期</div><div class="dot"></div></div>
+        <div class="cov"><div class="name">Breaking</div><div class="note">一个出口；剩余时间与进度线</div><div class="dot"></div></div>
+        <div class="cov"><div class="name">Manual finish</div><div class="note">+m:ss；Finish 是唯一动作</div><div class="dot"></div></div>
+        <div class="cov"><div class="name">Strict</div><div class="note">标签写明 Strict；没有出口</div><div class="dot"></div></div>
+        <div class="cov"><div class="name">Paused × 5</div><div class="note">原因不同，状态行不同；菜单随之收敛</div><div class="dot"></div></div>
+        <div class="cov"><div class="name">Config error</div><div class="note">横幅说明；内存设置继续生效</div><div class="dot"></div></div>
+        <div class="cov" style="border-bottom:none"><div class="name">Light field</div><div class="note">前景自动取墨色；对比复核</div><div class="dot"></div></div>
+      </div>
+
+      <div style="margin-top:16px;font-size:10px;line-height:15px;color:#6B7069;border-top:1px solid #E4E2D9;padding-top:9px">
+        <b style="color:#171A17">Known limits.</b> 通知授权状态不可查询；Focus 读取需权限；严格模式没有应用内紧急出口（系统会话结束除外）。
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:auto">
+    <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px">
+      <div style="font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#5D635B">Platform acceptance</div>
+      <div style="font-size:10px;color:#8A8F86">Before ship, on real hardware</div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px">
+      <div class="plat">
+        <div style="font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#3E5F4E">macOS 13+</div>
+        <div style="margin-top:5px;font-size:10px;line-height:15px;color:#5D635B">VoiceOver 走完偏好与休息窗；Reduce Motion / Transparency；1× 与 2×；菜单栏在深/浅色下可辨。</div>
+      </div>
+      <div class="plat">
+        <div style="font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#3E5F4E">Windows 11</div>
+        <div style="margin-top:5px;font-size:10px;line-height:15px;color:#5D635B">Narrator / UIA 名称；High Contrast；100 / 125 / 150 / 200%；托盘溢出与 16 px 图标可读。</div>
+      </div>
+      <div class="plat">
+        <div style="font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#3E5F4E">Linux</div>
+        <div style="margin-top:5px;font-size:10px;line-height:15px;color:#5D635B">Orca 能读菜单与设置；GTK 字体缩放；100–200% 分数缩放；GNOME 无扩展时的状态窗口。</div>
+      </div>
+    </div>
+    <div style="margin-top:12px;display:flex;justify-content:space-between;font-size:9px;letter-spacing:.02em;color:#8A8F86">
+      <span>Also verify: EN / zh-Hans 1.3× 文案宽度；严格模式无隐藏出口；休息窗不抢焦点；多屏内容只在一块屏。</span>
+      <span class="mono">WCAG 2.2 AA · 44 px 关键动作</span>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1200,"height":860}}'>
+class Component extends DCLogic {}
+</script>
+</body>
+</html>

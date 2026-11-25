@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+<meta charset="utf-8">
+<title>跨平台适配规格</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Spectral:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  body{margin:0;background:#F4F2EA;color:#171A17;-webkit-font-smoothing:antialiased;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI Variable Text","Segoe UI",Inter,"Noto Sans SC","PingFang SC",sans-serif}
+  h1,h2,h3,p{margin:0}
+  .serif{font-family:"Spectral","Iowan Old Style","Noto Serif SC","Songti SC",serif}
+  .mono{font-family:"SF Mono","Cascadia Mono","JetBrains Mono",monospace;font-variant-numeric:tabular-nums}
+  .thead{display:grid;grid-template-columns:240px repeat(3,minmax(0,1fr));gap:20px;border-bottom:1px solid #171A17;padding-bottom:8px}
+  .trow{display:grid;grid-template-columns:240px repeat(3,minmax(0,1fr));gap:20px;border-bottom:1px solid #E2E0D7;padding:8px 0;min-height:48px;box-sizing:border-box}
+  .feat{font-size:10px;font-weight:600;color:#3F453E}
+  .cell{font-size:10px;line-height:15px;color:#5D635B}
+  .col{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#5D635B}
+  a{color:#B8432F}a:hover{color:#8F3223}
+</style>
+</helmet>
+<div style="width:1200px;height:1000px;background:#F4F2EA;padding:44px 48px;box-sizing:border-box;display:flex;flex-direction:column">
+  <div style="display:flex;justify-content:space-between;align-items:flex-end">
+    <div>
+      <div style="font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#B8432F">Platform spec / 17</div>
+      <h2 class="serif" style="margin-top:8px;font-size:40px;line-height:46px;font-weight:300;letter-spacing:-.012em">Same content, native shell.</h2>
+      <div style="margin-top:8px;font-size:12px;line-height:18px;color:#6B7069">内容自绘；窗口装饰、菜单、通知、登录项交给系统。平台差异只出现在这一页。</div>
+    </div>
+    <div class="mono" style="font-size:9px;line-height:15px;letter-spacing:.1em;color:#8A8F86;text-align:right">TOKENS SHARED<br>CHROME NATIVE</div>
+  </div>
+
+  <div style="display:flex;gap:24px;margin-top:20px;border-top:1px solid #D6D4CA;border-bottom:1px solid #D6D4CA;padding:10px 0;font-size:10px;line-height:15px;color:#5D635B">
+    <div><span style="font-weight:600;color:#171A17">渲染假设</span> 内容由同一套自绘控件渲染，因此 32 px 控件、8 px 圆角、状态层在三平台一致。</div>
+    <div><span style="font-weight:600;color:#171A17">不复制 UI</span> 不自绘菜单、标题栏、通知；只提供内容与文案，系统决定外观。</div>
+  </div>
+
+  <div style="margin-top:12px">
+    <div class="thead">
+      <div class="col">Surface</div>
+      <div class="col">macOS 13+</div>
+      <div class="col">Windows 11</div>
+      <div class="col">Linux · GNOME / KDE</div>
+    </div>
+
+    <div class="trow"><div class="feat">入口</div><div class="cell">菜单栏额外项；LSUIElement，无 Dock 图标</div><div class="cell">系统托盘 + 溢出区；无常驻主窗口</div><div class="cell">StatusNotifierItem；GNOME 需 AppIndicator 扩展</div></div>
+    <div class="trow"><div class="feat">菜单</div><div class="cell">原生菜单；<span class="mono">⌘</span> 加速键</div><div class="cell">原生上下文菜单；<span class="mono">Ctrl</span> 加速键</div><div class="cell">原生 DBusMenu；<span class="mono">Ctrl</span> 加速键</div></div>
+    <div class="trow"><div class="feat">图标</div><div class="cell">18 pt 模板图，系统着色；标题可带 9m</div><div class="cell">16–24 px 单色；无标题（SetTitle no-op）</div><div class="cell">22 px symbolic；AppIndicator 可带标签（MonospacedTitle no-op）</div></div>
+    <div class="trow"><div class="feat">窗口</div><div class="cell">隐藏标题栏 + 交通灯；休息盘无边框</div><div class="cell">系统标题栏 + 11 圆角；休息盘置顶、无任务栏项、仅当前虚拟桌面</div><div class="cell">GTK / KDE 装饰；休息盘置顶或 layer-shell</div></div>
+    <div class="trow"><div class="feat">标题栏高度</div><div class="cell">28 pt，红绿灯左置</div><div class="cell">32 px，按钮右置</div><div class="cell">40 px 头栏 / 服务端装饰</div></div>
+    <div class="trow"><div class="feat">通知</div><div class="cell">Notification Center；无动作按钮</div><div class="cell">Toast + 操作中心；无动作按钮</div><div class="cell">libnotify / 桌面通知；无动作按钮</div></div>
+    <div class="trow"><div class="feat">字体</div><div class="cell">SF Pro Text / Display · PingFang SC</div><div class="cell">Segoe UI Variable · 微软雅黑 UI</div><div class="cell">Inter → Noto Sans → Cantarell · Noto Sans CJK</div></div>
+    <div class="trow"><div class="feat">快捷键</div><div class="cell"><span class="mono">⌘X</span> 结束 · <span class="mono">⌘,</span> 设置 · <span class="mono">⌘Q</span> 退出</div><div class="cell"><span class="mono">Ctrl+X</span> · <span class="mono">Ctrl+,</span>（退出走托盘）</div><div class="cell"><span class="mono">Ctrl+X</span> · <span class="mono">Ctrl+,</span> · <span class="mono">Ctrl+Q</span></div></div>
+    <div class="trow"><div class="feat">缩放</div><div class="cell">2× Retina；1× 外接屏</div><div class="cell">100 / 125 / 150 / 200%</div><div class="cell">100–200%；支持分数缩放</div></div>
+    <div class="trow"><div class="feat">无托盘</div><div class="cell">—</div><div class="cell">溢出隐藏时提示固定一次</div><div class="cell">无扩展时打开状态窗口，菜单同内容</div></div>
+    <div class="trow"><div class="feat">勿扰 / Focus</div><div class="cell">Focus；读取断言需完全磁盘访问</div><div class="cell">Focus Assist / 勿扰；MyGo 无统一 API，需平台实现</div><div class="cell">无统一 API；按桌面实现，缺失时隐藏</div></div>
+    <div class="trow"><div class="feat">登录时启动</div><div class="cell">SMAppService / 登录项</div><div class="cell">启动任务 / 注册表 Run</div><div class="cell">~/.config/autostart/*.desktop</div></div>
+    <div class="trow"><div class="feat">多屏</div><div class="cell">每屏一个 NSPanel；内容屏可选</div><div class="cell">每显示器一个置顶窗；不显示任务栏项；不跨虚拟桌面</div><div class="cell">每输出一个窗口；内容屏可选</div></div>
+    <div class="trow" style="border-bottom:none"><div class="feat">退出语义</div><div class="cell">⌘Q；严格休息时隐藏退出</div><div class="cell">托盘 Exit；关闭设置窗不等于退出</div><div class="cell">托盘 Quit；关闭设置窗不等于退出</div></div>
+  </div>
+
+  <div style="margin-top:auto;border-top:1px solid #D6D4CA;padding-top:14px;display:flex;justify-content:space-between;align-items:flex-start;gap:24px">
+    <div style="font-size:10px;line-height:16px;color:#5D635B;max-width:760px">
+      <span style="font-weight:600;color:#171A17">Token → toolkit</span>：颜色角色 → 主题；字号 → 字体规格；4 px 网格 → 间距；8–20 px → 圆角；32 px → 控件高；120–300 ms → 动效。休息盘是唯一不受平台外观影响的表面。
+    </div>
+    <div class="mono" style="font-size:9px;line-height:15px;color:#8A8F86;text-align:right">NO CUSTOM MENU<br>NO CUSTOM TITLEBAR</div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1200,"height":1000}}'>
+class Component extends DCLogic {}
+</script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+{
+  "groups": [
+    {
+      "layers": [
+        {
+          "image-name": "bg-light.png",
+          "image-name-specializations": [
+            {
+              "value": "bg-light.png"
+            },
+            {
+              "appearance": "dark",
+              "value": "bg-dark.png"
+            }
+          ],
+          "name": "field"
+        },
+        {
+          "image-name": "mark-light.png",
+          "image-name-specializations": [
+            {
+              "value": "mark-light.png"
+            },
+            {
+              "appearance": "dark",
+              "value": "mark-dark.png"
+            }
+          ],
+          "name": "mark"
+        }
+      ],
+      "lighting": "individual",
+      "shadow": {
+        "kind": "none",
+        "opacity": 0.5
+      },
+      "translucency": {
+        "enabled": false,
+        "value": 0.5
+      }
+    }
+  ],
+  "supported-platforms": {
+    "squares": "shared"
+  }
+}

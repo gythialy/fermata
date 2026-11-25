@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Settings — Appearance</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Spectral:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  body{margin:0;background:#F6F4ED;color:#171A17;-webkit-font-smoothing:antialiased;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI Variable Text","Segoe UI",Inter,"Noto Sans","PingFang SC",sans-serif}
+  h1,h2,h3,p{margin:0}
+  .mono{font-family:"SF Mono","Cascadia Mono","JetBrains Mono",monospace;font-variant-numeric:tabular-nums}
+  .serif{font-family:"Spectral","Iowan Old Style","Noto Serif SC","Songti SC",serif}
+  .num{font-variant-numeric:tabular-nums}
+  .label{font-size:13px;line-height:19px;color:#171A17}
+  .desc{font-size:10px;line-height:14px;color:#6B7069;margin-top:1px}
+  .row{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:42px}
+  .hr{height:1px;background:#E2E0D7;margin:5px 0}
+  .nav{display:flex;flex-direction:column;gap:2px;margin-top:16px}
+  .nav button{height:32px;border:0;background:transparent;border-radius:6px;padding:0 10px;text-align:left;font-family:inherit;font-size:13px;line-height:19px;color:#4C5149;cursor:pointer}
+  .nav button:hover{background:rgba(255,255,255,.55)}
+  .nav button[aria-current="page"]{background:#FBFAF5;color:#171A17;font-weight:600;box-shadow:inset 0 0 0 1px #E2E0D7}
+  .nav button:focus-visible{outline:2px solid rgba(184,67,47,.55);outline-offset:1px}
+  .sw{position:relative;display:inline-flex;width:36px;height:20px;flex:none}
+  .sw input{position:absolute;inset:0;width:100%;height:100%;opacity:0;margin:0;cursor:pointer}
+  .sw span{position:absolute;inset:0;border-radius:999px;background:#D6D4CA;transition:background .12s}
+  .sw span:after{content:"";position:absolute;width:16px;height:16px;left:2px;top:2px;border-radius:50%;background:#FFFFFF;box-shadow:0 1px 2px rgba(0,0,0,.2);transition:transform .12s}
+  .sw input:checked + span{background:#B8432F}
+  .sw input:checked + span:after{transform:translateX(16px)}
+  .sw input:focus-visible + span{outline:2px solid rgba(184,67,47,.55);outline-offset:2px}
+  .sw input:disabled + span{opacity:.38}
+  .select{display:inline-flex;align-items:center;justify-content:space-between;gap:8px;width:150px;height:30px;border:1px solid #CFCCC1;border-radius:8px;background:#FBFAF5;padding:0 8px 0 10px;font-family:inherit;font-size:11px;color:#171A17;cursor:pointer}
+  .select:hover{background:#F7F5EE}
+  .select:focus-visible{outline:2px solid rgba(184,67,47,.55);outline-offset:2px}
+  .textbtn{background:none;border:0;color:#B8432F;font-family:inherit;font-size:11px;font-weight:600;padding:3px 4px;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+  .textbtn:hover{color:#8F3223}
+  .swatch{width:28px;height:28px;border-radius:7px;border:1px solid rgba(0,0,0,.08);padding:0;cursor:pointer}
+  .swatch[aria-pressed="true"]{box-shadow:0 0 0 2px #F6F4ED,0 0 0 4px #B8432F}
+  input[type="range"]{width:180px;accent-color:#B8432F;margin:0}
+  a{color:#B8432F}a:hover{color:#8F3223}
+</style>
+</helmet>
+<div style="width:800px;height:720px;background:#F6F4ED;display:flex;box-shadow:inset 0 0 0 1px #D6D4CA;overflow:hidden">
+  <div style="position:absolute;left:18px;top:18px;display:flex;gap:8px;z-index:2">
+    <span style="width:10px;height:10px;border-radius:50%;background:#FF5F57"></span>
+    <span style="width:10px;height:10px;border-radius:50%;background:#FEBC2E"></span>
+    <span style="width:10px;height:10px;border-radius:50%;background:#28C840"></span>
+  </div>
+
+  <aside style="width:208px;flex:none;background:#F0EEE6;border-right:1px solid #DCDAD1;padding:44px 16px 16px 20px;box-sizing:border-box">
+    <div style="display:flex;align-items:center;gap:7px">
+      <svg width="22" height="22" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+        <path d="M6 18C8 8.5 24 8.5 26 18" stroke="#171A17" stroke-width="4.2" stroke-linecap="round"/>
+        <circle cx="16" cy="25" r="3.6" fill="#B8432F"/>
+      </svg>
+      <span style="font-size:13px;line-height:18px;font-weight:600">Fermata</span>
+    </div>
+    <nav class="nav" aria-label="Settings">
+      <button type="button">General</button>
+      <button type="button">Schedule</button>
+      <button type="button" aria-current="page">Appearance</button>
+      <button type="button">About</button>
+    </nav>
+  </aside>
+
+  <main style="flex:1;padding:54px 32px 20px;box-sizing:border-box;min-width:0">
+    <h1 style="font-size:22px;line-height:28px;font-weight:600;letter-spacing:-.01em">Appearance</h1>
+    <div style="margin-top:5px;font-size:12px;line-height:17px;color:#6B7069">选择休息时的光。</div>
+
+    <div class="row" style="min-height:44px;margin-top:12px">
+      <div><div class="label">Theme</div><div class="desc">Follow the system, or force light or dark.</div></div>
+      <div class="seg" role="group" aria-label="Theme">
+        <button type="button" aria-pressed="true">System</button>
+        <button type="button" aria-pressed="false">Light</button>
+        <button type="button" aria-pressed="false">Dark</button>
+      </div>
+    </div>
+
+    <div class="row" style="min-height:44px">
+      <div><div class="label">Break window opacity</div><div class="desc">30–100% of the field's color over the desktop.</div></div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <input type="range" min="30" max="100" value="90" aria-label="Break window opacity" style="width:150px">
+        <span class="mono" style="font-size:11px;color:#5D635B;width:34px;text-align:right">90%</span>
+      </div>
+    </div>
+
+    <div class="hr"></div>
+
+    <div style="margin-top:14px;width:528px;height:216px;background:#2B4A41;border-radius:12px;padding:18px 20px 20px;box-sizing:border-box;color:#F3F2EA;display:flex;flex-direction:column">
+      <div style="display:flex;justify-content:space-between;font-size:7px;letter-spacing:.14em;text-transform:uppercase;color:rgba(243,242,234,.55)"><span>Mini Break</span><span class="num" style="letter-spacing:.04em">14:32</span></div>
+      <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center">
+        <svg width="30" height="30" viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M6 18C8 8.5 24 8.5 26 18" stroke="#F3F2EA" stroke-width="2.6" stroke-linecap="round"/><circle cx="16" cy="25" r="2.9" fill="#F0836C"/></svg>
+        <div class="serif" style="margin-top:9px;max-width:410px;text-align:center;font-size:20px;line-height:26px;font-weight:300">Look out a window until your eyes relax.</div>
+        <div style="margin-top:12px;width:124px;height:1px;background:rgba(243,242,234,.25)"><div style="width:30%;height:1px;background:rgba(243,242,234,.85)"></div></div>
+        <div class="mono num" style="margin-top:6px;font-size:7px;letter-spacing:.04em;color:rgba(243,242,234,.65)">0:14</div>
+      </div>
+      <div style="text-align:center;font-size:9px;color:rgba(243,242,234,.82)">Postpone <span class="mono" style="margin-left:5px;font-size:8px;color:rgba(243,242,234,.55)">⌘X</span></div>
+    </div>
+    <div style="display:flex;justify-content:space-between;margin-top:4px">
+      <div style="font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:#8A8F86">Preview · ~0.43×</div>
+      <div style="font-size:9px;color:#8A8F86">Seconds update live while the window is open</div>
+    </div>
+
+    <div style="margin-top:14px;display:flex;align-items:flex-start;justify-content:space-between;gap:16px">
+      <div>
+        <div style="font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#5D635B">Break field</div>
+        <div style="display:flex;gap:9px;margin-top:8px">
+          <div style="width:50px;text-align:center"><button class="swatch" type="button" aria-pressed="true" aria-label="Pine" style="background:#2B4A41"></button><div style="font-size:10px;color:#5D635B;margin-top:4px">Pine</div></div>
+          <div style="width:50px;text-align:center"><button class="swatch" type="button" aria-pressed="false" aria-label="Ink" style="background:#141A18"></button><div style="font-size:10px;color:#5D635B;margin-top:4px">Ink</div></div>
+          <div style="width:50px;text-align:center"><button class="swatch" type="button" aria-pressed="false" aria-label="Oxblood" style="background:#4A2A2E"></button><div style="font-size:10px;color:#5D635B;margin-top:4px">Oxblood</div></div>
+          <div style="width:50px;text-align:center"><button class="swatch" type="button" aria-pressed="false" aria-label="Slate" style="background:#2E383F"></button><div style="font-size:10px;color:#5D635B;margin-top:4px">Slate</div></div>
+          <div style="width:50px;text-align:center"><button class="swatch" type="button" aria-pressed="false" aria-label="Sand" style="background:#CFC5B2"></button><div style="font-size:10px;color:#5D635B;margin-top:4px">Sand</div></div>
+          <div style="width:50px;text-align:center"><button class="swatch" type="button" aria-pressed="false" aria-label="Paper" style="background:#EFEEE6;border-color:#D8D5CB"></button><div style="font-size:10px;color:#5D635B;margin-top:4px">Paper</div></div>
+        </div>
+      </div>
+      <button class="textbtn" type="button" style="margin-top:20px">Custom…</button>
+    </div>
+
+    <div class="hr" style="margin-top:12px"></div>
+    <div class="row">
+      <div class="label">Show the current time</div>
+      <label class="sw"><input type="checkbox" aria-label="Show the current time"><span></span></label>
+    </div>
+
+    <div class="hr"></div>
+
+    <div style="font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#5D635B;margin-top:10px">Sounds</div>
+    <div class="row">
+      <div class="label">Start</div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <button class="select" type="button" aria-haspopup="listbox"><span>Silence</span><svg width="10" height="10" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M3 4.5 6 7.5 9 4.5" stroke="#5D635B" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <button class="textbtn" type="button">Preview</button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="label">End</div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <button class="select" type="button" aria-haspopup="listbox"><span>Crystal glass</span><svg width="10" height="10" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M3 4.5 6 7.5 9 4.5" stroke="#5D635B" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <button class="textbtn" type="button">Preview</button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="label">Volume</div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <input type="range" min="0" max="100" value="70" aria-label="Volume">
+        <span class="mono" style="font-size:11px;color:#5D635B;width:30px;text-align:right">70%</span>
+      </div>
+    </div>
+    <div class="row">
+      <div class="label">Mute all sounds</div>
+      <label class="sw"><input type="checkbox" aria-label="Mute all sounds"><span></span></label>
+    </div>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":800,"height":720}}'>
+class Component extends DCLogic {}
+</script>
+</body>
+</html>

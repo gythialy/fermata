@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+<meta charset="utf-8">
+<title>状态弹窗 · 等待（macOS 材质 / 纸墨）</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Spectral:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  body{margin:0;background:#F4F2EA;color:#171A17;-webkit-font-smoothing:antialiased;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI Variable Text","Segoe UI",Inter,"Noto Sans SC","PingFang SC",sans-serif}
+  h1,h2,h3,p{margin:0}
+  .serif{font-family:"Spectral","Iowan Old Style","Noto Serif SC","Songti SC",serif}
+  .mono{font-family:"SF Mono","Cascadia Mono","JetBrains Mono",monospace;font-variant-numeric:tabular-nums}
+  .pop{padding:16px;box-sizing:border-box;border-radius:14px;display:flex;flex-direction:column;width:320px}
+  .glass{background:rgba(247,245,238,.82);box-shadow:0 18px 44px rgba(23,26,23,.18),inset 0 0 0 .5px rgba(255,255,255,.45)}
+  .paper{background:#F6F4ED;box-shadow:0 18px 40px rgba(23,26,23,.16),0 2px 6px rgba(23,26,23,.05)}
+  .darkglass{background:rgba(22,24,21,.86);box-shadow:0 24px 52px rgba(0,0,0,.5),inset 0 0 0 .5px rgba(236,237,229,.10)}
+  .darkpaper{background:#121513;box-shadow:0 24px 48px rgba(0,0,0,.45)}
+  .eyebrow{font-size:10px;line-height:14px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:#5D635B}
+  .cap{font-size:11px;line-height:15px;color:#5D635B}
+  .num{font-family:"SF Mono","Cascadia Mono","JetBrains Mono",monospace;font-variant-numeric:tabular-nums;font-size:34px;line-height:40px;font-weight:600;letter-spacing:-.005em}
+  .ghost{width:22px;height:22px;padding:0;border:0;border-radius:6px;background:transparent;color:#5D635B;display:inline-flex;align-items:center;justify-content:center;cursor:pointer}
+  .ghost:hover{background:rgba(23,26,23,.07)}
+  .track{height:6px;border-radius:3px;background:#D6D4CA;overflow:hidden}
+  .fill{height:6px;border-radius:3px;background:#B8432F}
+  .pri{height:32px;width:100%;border:1px solid #B8432F;border-radius:8px;background:#B8432F;color:#FFFFFF;font-family:inherit;font-size:13px;line-height:18px;font-weight:600;cursor:pointer}
+  .pri:hover{background:#A63A28;border-color:#A63A28}
+  .sec{height:32px;width:100%;border:1px solid #D6D4CA;border-radius:8px;background:#EAE8DF;color:#171A17;font-family:inherit;font-size:13px;line-height:18px;font-weight:500;cursor:pointer}
+  .sec:hover{background:#E2E0D7}
+  .div{height:1px;background:#E2E0D7}
+  .link{padding:0;border:0;background:none;color:#5D635B;font-family:inherit;font-size:11px;line-height:16px;font-weight:500;cursor:pointer}
+  .link:hover{color:#171A17}
+  .d .eyebrow,.d .cap{color:#A8AEA4}
+  .d .ghost{color:#A8AEA4}
+  .d .ghost:hover{background:rgba(236,237,229,.08)}
+  .d .num{color:#ECEDE5}
+  .d .track{background:#2E342F}
+  .d .fill{background:#F0836C}
+  .d .pri{background:#F0836C;border-color:#F0836C;color:#451009}
+  .d .pri:hover{background:#F49A84;border-color:#F49A84}
+  .d .sec{background:#1B211D;border-color:#2E342F;color:#ECEDE5}
+  .d .sec:hover{background:#232A25}
+  .d .div{background:#2E342F}
+  .d .link{color:#A8AEA4}
+  .d .link:hover{color:#ECEDE5}
+  .lab{font-family:"SF Mono","Cascadia Mono","JetBrains Mono",monospace;font-size:9px;line-height:14px;letter-spacing:.1em;color:#8A8F86;margin-bottom:10px;height:14px}
+  .note{display:flex;gap:10px;align-items:flex-start}
+  .note .n{font-family:"SF Mono","Cascadia Mono","JetBrains Mono",monospace;font-size:9px;line-height:14px;font-weight:600;color:#B8432F;padding-top:2px;width:16px;flex:none}
+  a{color:#B8432F}a:hover{color:#8F3223}
+</style>
+</helmet>
+<div style="width:1440px;height:900px;background:#F4F2EA;padding:32px;box-sizing:border-box;display:flex;flex-direction:column">
+  <div style="display:flex;justify-content:space-between;align-items:flex-end;border-bottom:1px solid #D6D4CA;padding-bottom:14px">
+    <div>
+      <div style="font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#B8432F">System surfaces / 16</div>
+      <h2 class="serif" style="margin-top:7px;font-size:36px;line-height:42px;font-weight:300;letter-spacing:-.012em">The system draws the frame.</h2>
+      <div style="margin-top:6px;font-size:11px;line-height:17px;color:#6B7069">macOS 上 Flyout 用 <span class="mono" style="font-size:10px">Popover:true</span>：材质、圆角、阴影、指向托盘的箭头和开合动画都由 AppKit 画，内容不画底、不画边；Windows / Linux 退回自绘纸墨与 Shadow。</div>
+    </div>
+    <div class="mono" style="font-size:9px;line-height:14px;letter-spacing:.1em;color:#8A8F86;text-align:right">FLYOUT 320 · FITCONTENT<br>NSPOPOVER / SHADOW</div>
+  </div>
+
+  <div style="display:flex;gap:24px;margin-top:20px">
+    <div style="width:320px;flex:none">
+      <div class="lab">macOS · 浅色 · 材质</div>
+      <div>
+        <div style="display:flex;justify-content:center"><svg width="14" height="8" viewBox="0 0 14 8" aria-hidden="true"><path d="M7 0L14 8H0Z" fill="rgba(247,245,238,.82)"/></svg></div>
+        <div class="pop glass" style="height:296px">
+          <div style="display:flex;align-items:center;gap:8px;height:22px">
+            <svg width="20" height="20" viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M6 18C8 8.5 24 8.5 26 18" stroke="#171A17" stroke-width="2.6" stroke-linecap="round"/><circle cx="16" cy="25" r="2.9" fill="#B8432F"/></svg>
+            <h3 class="eyebrow">Next mini break</h3>
+            <div style="margin-left:auto;display:flex;gap:2px">
+              <button type="button" class="ghost" aria-label="Show the menu"><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true" fill="currentColor"><circle cx="2.2" cy="6" r="1.1"/><circle cx="6" cy="6" r="1.1"/><circle cx="9.8" cy="6" r="1.1"/></svg></button>
+              <button type="button" class="ghost" aria-label="Close"><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.7 2.7l6.6 6.6M9.3 2.7l-6.6 6.6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></button>
+            </div>
+          </div>
+          <div class="num" style="margin-top:12px">21m</div>
+          <svg width="288" height="12" viewBox="0 0 288 12" role="img" aria-label="34 percent elapsed" style="display:block;margin-top:10px">
+            <defs>
+              <pattern id="tk1" width="4.8" height="12" patternUnits="userSpaceOnUse"><rect x="0" y="6" width="1" height="6"/></pattern>
+              <pattern id="tm1" width="24" height="12" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="1" height="12"/></pattern>
+              <clipPath id="tp1"><rect x="0" y="0" width="98" height="12"/></clipPath>
+            </defs>
+            <g fill="#171A17" fill-opacity=".16"><rect width="288" height="12" fill="url(#tk1)"/><rect width="288" height="12" fill="url(#tm1)"/></g>
+            <g fill="#B8432F" clip-path="url(#tp1)"><rect width="288" height="12" fill="url(#tk1)"/><rect width="288" height="12" fill="url(#tm1)"/></g>
+            <rect x="97" y="2" width="2" height="10" rx="1" fill="#B8432F"/>
+          </svg>
+          <p class="cap" style="margin-top:10px">Long break after 4 more mini breaks</p>
+          <button type="button" class="pri" style="margin-top:12px">Take a break now</button>
+          <button type="button" class="sec" style="margin-top:8px">Pause 30 minutes</button>
+          <div class="div" style="margin-top:12px"></div>
+          <button type="button" class="link" style="margin-top:8px;align-self:flex-start">Settings…</button>
+        </div>
+      </div>
+      <p class="cap" style="margin-top:14px">系统材质上的墨与朱红；面板底、圆角、阴影、箭头、开合动画都不归内容画。</p>
+    </div>
+
+    <div style="width:320px;flex:none">
+      <div class="lab">macOS · 深色 · 材质</div>
+      <div>
+        <div style="display:flex;justify-content:center"><svg width="14" height="8" viewBox="0 0 14 8" aria-hidden="true"><path d="M7 0L14 8H0Z" fill="rgba(22,24,21,.86)"/></svg></div>
+        <div class="pop d darkglass" style="height:296px">
+          <div style="display:flex;align-items:center;gap:8px;height:22px">
+            <svg width="20" height="20" viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M6 18C8 8.5 24 8.5 26 18" stroke="#ECEDE5" stroke-width="2.6" stroke-linecap="round"/><circle cx="16" cy="25" r="2.9" fill="#F0836C"/></svg>
+            <h3 class="eyebrow">Next mini break</h3>
+            <div style="margin-left:auto;display:flex;gap:2px">
+              <button type="button" class="ghost" aria-label="Show the menu"><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true" fill="currentColor"><circle cx="2.2" cy="6" r="1.1"/><circle cx="6" cy="6" r="1.1"/><circle cx="9.8" cy="6" r="1.1"/></svg></button>
+              <button type="button" class="ghost" aria-label="Close"><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.7 2.7l6.6 6.6M9.3 2.7l-6.6 6.6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></button>
+            </div>
+          </div>
+          <div class="num" style="margin-top:12px">21m</div>
+          <svg width="288" height="12" viewBox="0 0 288 12" role="img" aria-label="34 percent elapsed" style="display:block;margin-top:10px">
+            <defs>
+              <pattern id="tk2" width="4.8" height="12" patternUnits="userSpaceOnUse"><rect x="0" y="6" width="1" height="6"/></pattern>
+              <pattern id="tm2" width="24" height="12" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="1" height="12"/></pattern>
+              <clipPath id="tp2"><rect x="0" y="0" width="98" height="12"/></clipPath>
+            </defs>
+            <g fill="#ECEDE5" fill-opacity=".18"><rect width="288" height="12" fill="url(#tk2)"/><rect width="288" height="12" fill="url(#tm2)"/></g>
+            <g fill="#F0836C" clip-path="url(#tp2)"><rect width="288" height="12" fill="url(#tk2)"/><rect width="288" height="12" fill="url(#tm2)"/></g>
+            <rect x="97" y="2" width="2" height="10" rx="1" fill="#F0836C"/>
+          </svg>
+          <p class="cap" style="margin-top:10px">Long break after 4 more mini breaks</p>
+          <button type="button" class="pri" style="margin-top:12px">Take a break now</button>
+          <button type="button" class="sec" style="margin-top:8px">Pause 30 minutes</button>
+          <div class="div" style="margin-top:12px"></div>
+          <button type="button" class="link" style="margin-top:8px;align-self:flex-start">Settings…</button>
+        </div>
+      </div>
+      <p class="cap" style="margin-top:14px">深色材质由系统给；只换墨色、轨道与朱红的明度，不改布局。</p>
+    </div>
+
+    <div style="width:320px;flex:none">
+      <div class="lab">WINDOWS / LINUX · 浅色 · 纸墨</div>
+      <div class="pop paper" style="height:296px;margin-top:8px">
+        <div style="display:flex;align-items:center;gap:8px;height:22px">
+          <svg width="20" height="20" viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M6 18C8 8.5 24 8.5 26 18" stroke="#171A17" stroke-width="2.6" stroke-linecap="round"/><circle cx="16" cy="25" r="2.9" fill="#B8432F"/></svg>
+          <h3 class="eyebrow">Next mini break</h3>
+          <div style="margin-left:auto;display:flex;gap:2px">
+            <button type="button" class="ghost" aria-label="Show the menu"><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true" fill="currentColor"><circle cx="2.2" cy="6" r="1.1"/><circle cx="6" cy="6" r="1.1"/><circle cx="9.8" cy="6" r="1.1"/></svg></button>
+            <button type="button" class="ghost" aria-label="Close"><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.7 2.7l6.6 6.6M9.3 2.7l-6.6 6.6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></button>
+          </div>
+        </div>
+        <div class="num" style="margin-top:12px">21m</div>
+        <svg width="288" height="12" viewBox="0 0 288 12" role="img" aria-label="34 percent elapsed" style="display:block;margin-top:10px">
+            <defs>
+              <pattern id="tk3" width="4.8" height="12" patternUnits="userSpaceOnUse"><rect x="0" y="6" width="1" height="6"/></pattern>
+              <pattern id="tm3" width="24" height="12" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="1" height="12"/></pattern>
+              <clipPath id="tp3"><rect x="0" y="0" width="98" height="12"/></clipPath>
+            </defs>
+            <g fill="#171A17" fill-opacity=".16"><rect width="288" height="12" fill="url(#tk3)"/><rect width="288" height="12" fill="url(#tm3)"/></g>
+            <g fill="#B8432F" clip-path="url(#tp3)"><rect width="288" height="12" fill="url(#tk3)"/><rect width="288" height="12" fill="url(#tm3)"/></g>
+            <rect x="97" y="2" width="2" height="10" rx="1" fill="#B8432F"/>
+          </svg>
+        <p class="cap" style="margin-top:10px">Long break after 4 more mini breaks</p>
+        <button type="button" class="pri" style="margin-top:12px">Take a break now</button>
+        <button type="button" class="sec" style="margin-top:8px">Pause 30 minutes</button>
+        <div class="div" style="margin-top:12px"></div>
+        <button type="button" class="link" style="margin-top:8px;align-self:flex-start">Settings…</button>
+      </div>
+      <p class="cap" style="margin-top:14px">没有 NSPopover：内容画 t.Background + CornerRadius 14，阴影交给 Shadow；Windows 11 自己再圆一次角并描边，所以这里不画 border。</p>
+    </div>
+
+    <div style="width:320px;flex:none">
+      <div class="lab">WINDOWS / LINUX · 深色 · 纸墨</div>
+      <div class="pop d darkpaper" style="height:296px;margin-top:8px">
+        <div style="display:flex;align-items:center;gap:8px;height:22px">
+          <svg width="20" height="20" viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M6 18C8 8.5 24 8.5 26 18" stroke="#ECEDE5" stroke-width="2.6" stroke-linecap="round"/><circle cx="16" cy="25" r="2.9" fill="#F0836C"/></svg>
+          <h3 class="eyebrow">Next mini break</h3>
+          <div style="margin-left:auto;display:flex;gap:2px">
+            <button type="button" class="ghost" aria-label="Show the menu"><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true" fill="currentColor"><circle cx="2.2" cy="6" r="1.1"/><circle cx="6" cy="6" r="1.1"/><circle cx="9.8" cy="6" r="1.1"/></svg></button>
+            <button type="button" class="ghost" aria-label="Close"><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.7 2.7l6.6 6.6M9.3 2.7l-6.6 6.6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></button>
+          </div>
+        </div>
+        <div class="num" style="margin-top:12px">21m</div>
+        <svg width="288" height="12" viewBox="0 0 288 12" role="img" aria-label="34 percent elapsed" style="display:block;margin-top:10px">
+            <defs>
+              <pattern id="tk4" width="4.8" height="12" patternUnits="userSpaceOnUse"><rect x="0" y="6" width="1" height="6"/></pattern>
+              <pattern id="tm4" width="24" height="12" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="1" height="12"/></pattern>
+              <clipPath id="tp4"><rect x="0" y="0" width="98" height="12"/></clipPath>
+            </defs>
+            <g fill="#ECEDE5" fill-opacity=".18"><rect width="288" height="12" fill="url(#tk4)"/><rect width="288" height="12" fill="url(#tm4)"/></g>
+            <g fill="#F0836C" clip-path="url(#tp4)"><rect width="288" height="12" fill="url(#tk4)"/><rect width="288" height="12" fill="url(#tm4)"/></g>
+            <rect x="97" y="2" width="2" height="10" rx="1" fill="#F0836C"/>
+          </svg>
+        <p class="cap" style="margin-top:10px">Long break after 4 more mini breaks</p>
+        <button type="button" class="pri" style="margin-top:12px">Take a break now</button>
+        <button type="button" class="sec" style="margin-top:8px">Pause 30 minutes</button>
+        <div class="div" style="margin-top:12px"></div>
+        <button type="button" class="link" style="margin-top:8px;align-self:flex-start">Settings…</button>
+      </div>
+      <p class="cap" style="margin-top:14px">深色纸墨：面板 #121513，轨道 #2E342F，朱红提到 #F0836C，按钮上的字改用 #451009。</p>
+    </div>
+  </div>
+
+  <div style="margin-top:24px;border-top:1px solid #D6D4CA;padding-top:14px;display:flex;gap:32px">
+    <div style="width:300px;flex:none">
+      <div class="mono" style="font-size:9px;letter-spacing:.1em;color:#8A8F86">FRAME</div>
+      <div style="margin-top:6px;font-size:11px;line-height:17px;color:#3C423B">320 宽；高度由 FitContent 跟随内容，不写死。托盘下方 4；<span class="mono" style="font-size:10px">Focusable:false</span>，键盘留在父窗口。</div>
+    </div>
+    <div style="width:300px;flex:none">
+      <div class="mono" style="font-size:9px;letter-spacing:.1em;color:#8A8F86">CONTENT</div>
+      <div style="margin-top:6px;font-size:11px;line-height:17px;color:#3C423B">Column，内边距 <span class="mono" style="font-size:10px">t.Space(4)</span>，块间 <span class="mono" style="font-size:10px">t.Space(3)</span>；所有字号走 <span class="mono" style="font-size:10px">theme.Px</span>，跟随系统文字大小。</div>
+    </div>
+    <div style="width:300px;flex:none">
+      <div class="mono" style="font-size:9px;letter-spacing:.1em;color:#8A8F86">PROGRESS</div>
+      <div style="margin-top:6px;font-size:11px;line-height:17px;color:#3C423B">刻度尺：60 根发丝、12 高，已过段朱红，终点一根游标；<span class="mono" style="font-size:10px">Draw</span> 画 61 个图元，<span class="mono" style="font-size:10px">Role(RoleProgress)+Label</span> 给屏幕阅读器。</div>
+    </div>
+    <div style="width:300px;flex:none">
+      <div class="mono" style="font-size:9px;letter-spacing:.1em;color:#8A8F86">LINUX</div>
+      <div style="margin-top:6px;font-size:11px;line-height:17px;color:#3C423B">托盘图标不报点击：从菜单里的一项打开，Flyout 落在主屏工作区中间——内容相同，入口不同。</div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {}
+</script>
+</body>
+</html>

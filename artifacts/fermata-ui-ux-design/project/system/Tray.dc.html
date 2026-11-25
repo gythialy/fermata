@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+<meta charset="utf-8">
+<title>菜单栏 / 托盘 / 指示器</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Spectral:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  body{margin:0;background:#F4F2EA;color:#171A17;-webkit-font-smoothing:antialiased;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI Variable Text","Segoe UI",Inter,"Noto Sans SC","PingFang SC",sans-serif}
+  h1,h2,h3,p{margin:0}
+  .serif{font-family:"Spectral","Iowan Old Style","Noto Serif SC","Songti SC",serif}
+  .mono{font-family:"SF Mono","Cascadia Mono","JetBrains Mono",monospace;font-variant-numeric:tabular-nums}
+  .m{background:#F9F8F3;border:1px solid #D8D6CC;border-radius:8px;box-shadow:0 12px 32px rgba(0,0,0,.14);padding:5px}
+  .mrow{height:26px;display:flex;align-items:center;gap:6px;padding:0 8px;border-radius:5px;font-size:12px;line-height:17px;color:#171A17}
+  .mrow:hover{background:rgba(184,67,47,.08)}
+  .mstat{padding:3px 8px;font-size:10px;line-height:14px;color:#6B7069}
+  .msep{height:1px;background:#DCDAD1;margin:4px 6px}
+  .short{margin-left:auto;font-size:11px;color:#7C8178;font-variant-numeric:tabular-nums}
+  .chev{margin-left:auto;color:#7C8178}
+  .bar{display:flex;align-items:center;justify-content:flex-end;gap:7px;padding:0 9px;box-sizing:border-box}
+  .cap{font-size:10px;line-height:15px;color:#6B7069}
+  .cap b{font-weight:600;color:#2F342E}
+  .tile{width:190px;border:1px solid #D6D4CA;border-radius:8px;background:#FBFAF5;padding:8px 10px;box-sizing:border-box}
+  a{color:#B8432F}a:hover{color:#8F3223}
+</style>
+</helmet>
+<div style="width:1440px;height:960px;background:#F4F2EA;padding:40px 40px 30px;box-sizing:border-box;display:flex;flex-direction:column">
+  <div style="display:flex;justify-content:space-between;align-items:flex-end;border-bottom:1px solid #D6D4CA;padding-bottom:14px">
+    <div>
+      <div style="font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#B8432F">System surfaces / 15</div>
+      <h2 class="serif" style="margin-top:7px;font-size:36px;line-height:42px;font-weight:300;letter-spacing:-.012em">The menu is the app.</h2>
+      <div style="margin-top:6px;font-size:11px;line-height:17px;color:#6B7069">五种状态、同一套动作。菜单项随状态隐藏，不随状态变灰；平台只决定外壳。</div>
+    </div>
+    <div class="mono" style="font-size:9px;line-height:14px;letter-spacing:.1em;color:#8A8F86;text-align:right">WAITING / PAUSED / STRICT<br>MENU STATE MATRIX</div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:32px;margin-top:22px">
+    <div>
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:7px"><div style="font-size:12px;font-weight:600">macOS</div><div class="mono" style="font-size:8px;color:#8A8F86">18 PT TEMPLATE</div></div>
+      <div style="height:152px;background:#ECEAE1;border:1px solid #D6D4CA;border-radius:8px;overflow:hidden">
+        <div class="bar" style="height:28px;background:#F7F6F1;border-bottom:1px solid #D9D6CD">
+          <svg width="16" height="16" viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M6 18C8 8.5 24 8.5 26 18" stroke="#171A17" stroke-width="2.4" stroke-linecap="round"/><circle cx="16" cy="25" r="2.6" fill="#B8432F"/></svg>
+          <span class="num" style="font-size:11px;color:#171A17">9m</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;height:40px;padding:0 10px;border-bottom:1px solid #E2E0D7">
+          <span class="mono" style="font-size:8px;color:#8A8F86;width:46px">NORMAL</span>
+          <svg width="15" height="15" viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M6 18C8 8.5 24 8.5 26 18" stroke="#171A17" stroke-width="2.6" stroke-linecap="round"/><circle cx="16" cy="25" r="2.8" fill="#B8432F"/></svg>
+          <span class="num" style="font-size:11px;color:#171A17">9m</span>
+          <span class="cap" style="margin-left:auto">remaining time</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;height:40px;padding:0 10px;border-bottom:1px solid #E2E0D7">
+          <span class="mono" style="font-size:8px;color:#8A8F86;width:46px">PAUSED</span>
+          <svg width="15" height="15" viewBox="0 0 32 32" fill="none" aria-hidden="true"><rect x="10" y="10" width="3.4" height="12" rx="1.2" fill="#171A17"/><rect x="18.6" y="10" width="3.4" height="12" rx="1.2" fill="#171A17"/></svg>
+          <span style="font-size:10px;color:#171A17">Paused</span>
+          <span class="cap" style="margin-left:auto">DND / idle / lock</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;height:40px;padding:0 10px">
+          <span class="mono" style="font-size:8px;color:#8A8F86;width:46px">STRICT</span>
+          <svg width="15" height="15" viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M6 18C8 8.5 24 8.5 26 18" stroke="#171A17" stroke-width="2.6" stroke-linecap="round"/><circle cx="16" cy="25" r="2.8" fill="#B8432F"/></svg>
+          <span style="font-size:10px;color:#171A17">0:12</span>
+          <span class="cap" style="margin-left:auto">same mark, label says strict</span>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:7px"><div style="font-size:12px;font-weight:600;font-family:Inter,'Segoe UI',sans-serif">Windows 11</div><div class="mono" style="font-size:8px;color:#8A8F86">16–24 PX MONO</div></div>
+      <div style="height:152px;background:#ECEAE1;border:1px solid #D6D4CA;border-radius:8px;overflow:hidden;font-family:Inter,'Segoe UI',sans-serif">
+        <div class="bar" style="height:30px;background:#F5F4F0;border-bottom:1px solid #DEDCD5">
+          <svg width="15" height="15" viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M6 18C8 8.5 24 8.5 26 18" stroke="#171A17" stroke-width="2.6" stroke-linecap="round"/><circle cx="16" cy="25" r="2.8" fill="#171A17"/></svg>
+          <span class="num" style="font-size:10px;color:#2F342E">14:32</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;height:40px;padding:0 10px;border-bottom:1px solid #E2E0D7">
+          <span class="mono" style="font-size:8px;color:#8A8F86;width:46px">NORMAL</span>
+          <svg width="15" height="15" viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M6 18C8 8.5 24 8.5 26 18" stroke="#171A17" stroke-width="2.6" stroke-linecap="round"/><circle cx="16" cy="25" r="2.8" fill="#171A17"/></svg>
+          <span style="font-size:10px;color:#171A17">Fermata</span>
+          <span class="cap" style="margin-left:auto">no title beside icon</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;height:40px;padding:0 10px;border-bottom:1px solid #E2E0D7">
+          <span class="mono" style="font-size:8px;color:#8A8F86;width:46px">PAUSED</span>
+          <svg width="15" height="15" viewBox="0 0 32 32" fill="none" aria-hidden="true"><rect x="10" y="10" width="3.4" height="12" rx="1.2" fill="#171A17"/><rect x="18.6" y="10" width="3.4" height="12" rx="1.2" fill="#171A17"/></svg>
+          <span style="font-size:10px;color:#171A17">Paused</span>
+          <span class="cap" style="margin-left:auto">tooltip + menu</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;height:40px;padding:0 10px">
+          <span class="mono" style="font-size:8px;color:#8A8F86;width:46px">STRICT</span>
+          <svg width="15" height="15" viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M6 18C8 8.5 24 8.5 26 18" stroke="#171A17" stroke-width="2.6" stroke-linecap="round"/><circle cx="16" cy="25" r="2.8" fill="#171A17"/></svg>
+          <span style="font-size:10px;color:#171A17">0:12</span>
+          <span class="cap" style="margin-left:auto">monochrome, follows theme</span>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:7px"><div style="font-size:12px;font-weight:600;font-family:Inter,'Noto Sans',sans-serif">Linux</div><div class="mono" style="font-size:8px;color:#8A8F86">22 PX SYMBOLIC</div></div>
+      <div style="height:152px;background:#ECEAE1;border:1px solid #D6D4CA;border-radius:8px;overflow:hidden;font-family:Inter,'Noto Sans',sans-serif">
+        <div class="bar" style="height:28px;background:#222421;border-bottom:1px solid #151714">
+          <svg width="15" height="15" viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M6 18C8 8.5 24 8.5 26 18" stroke="#EDEDE6" stroke-width="2.4" stroke-linecap="round"/><circle cx="16" cy="25" r="2.6" fill="#E2674E"/></svg>
+          <span class="num" style="font-size:10px;color:#EDEDE6">9m</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;height:40px;padding:0 10px;border-bottom:1px solid #E2E0D7">
+          <span class="mono" style="font-size:8px;color:#8A8F86;width:46px">NORMAL</span>
+          <svg width="15" height="15" viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M6 18C8 8.5 24 8.5 26 18" stroke="#171A17" stroke-width="2.6" stroke-linecap="round"/><circle cx="16" cy="25" r="2.8" fill="#171A17"/></svg>
+          <span style="font-size:10px;color:#171A17">Fermata</span>
+          <span class="cap" style="margin-left:auto">label if host supports it</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;height:40px;padding:0 10px;border-bottom:1px solid #E2E0D7">
+          <span class="mono" style="font-size:8px;color:#8A8F86;width:46px">PAUSED</span>
+          <svg width="15" height="15" viewBox="0 0 32 32" fill="none" aria-hidden="true"><rect x="10" y="10" width="3.4" height="12" rx="1.2" fill="#171A17"/><rect x="18.6" y="10" width="3.4" height="12" rx="1.2" fill="#171A17"/></svg>
+          <span style="font-size:10px;color:#171A17">Paused</span>
+          <span class="cap" style="margin-left:auto">same two bars</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;height:40px;padding:0 10px">
+          <span class="mono" style="font-size:8px;color:#8A8F86;width:46px">STRICT</span>
+          <svg width="15" height="15" viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M6 18C8 8.5 24 8.5 26 18" stroke="#171A17" stroke-width="2.6" stroke-linecap="round"/><circle cx="16" cy="25" r="2.8" fill="#171A17"/></svg>
+          <span style="font-size:10px;color:#171A17">0:12</span>
+          <span class="cap" style="margin-left:auto">GNOME needs AppIndicator</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:32px;margin-top:24px;flex:1">
+    <div style="background:#ECEAE1;border:1px solid #D6D4CA;border-radius:10px;padding:16px;box-sizing:border-box">
+      <div style="display:flex;justify-content:space-between;align-items:baseline"><div class="mono" style="font-size:9px;letter-spacing:.1em;color:#5D635B">WAITING</div><div style="font-size:9px;color:#8A8F86">full menu</div></div>
+      <div class="m" style="margin-top:12px">
+        <div class="mstat">Next mini break in about 9 minutes<br>Long break after 2 more mini breaks</div>
+        <div class="msep"></div>
+        <div class="mrow">Skip to<span class="chev">›</span></div>
+        <div class="mrow">Pause breaks<span class="chev">›</span></div>
+        <div class="mrow">Reset breaks</div>
+        <div class="msep"></div>
+        <div class="mrow">Settings…<span class="short">⌘,</span></div>
+        <div class="msep"></div>
+        <div class="mrow">Quit Fermata<span class="short">⌘Q</span></div>
+      </div>
+      <div class="cap" style="margin-top:12px">等待 / 预告：跳过、暂停、重置、设置都可用；菜单没有 About。</div>
+    </div>
+
+    <div style="background:#ECEAE1;border:1px solid #D6D4CA;border-radius:10px;padding:16px;box-sizing:border-box">
+      <div style="display:flex;justify-content:space-between;align-items:baseline"><div class="mono" style="font-size:9px;letter-spacing:.1em;color:#5D635B">PAUSED · MANUAL</div><div style="font-size:9px;color:#8A8F86">resume only</div></div>
+      <div class="m" style="margin-top:12px">
+        <div class="mstat">Paused — resuming in about 12 minutes</div>
+        <div class="msep"></div>
+        <div class="mrow">Resume breaks</div>
+        <div class="msep"></div>
+        <div class="mrow">Settings…<span class="short">⌘,</span></div>
+        <div class="msep"></div>
+        <div class="mrow">Quit Fermata<span class="short">⌘Q</span></div>
+      </div>
+      <div class="cap" style="margin-top:12px">手动暂停：只提供恢复；重置在暂停下没有可见效果，所以不显示。</div>
+    </div>
+
+    <div style="background:#ECEAE1;border:1px solid #D6D4CA;border-radius:10px;padding:16px;box-sizing:border-box">
+      <div style="display:flex;justify-content:space-between;align-items:baseline"><div class="mono" style="font-size:9px;letter-spacing:.1em;color:#5D635B">STRICT</div><div style="font-size:9px;color:#8A8F86">status only</div></div>
+      <div class="m" style="margin-top:12px">
+        <div class="mstat" style="padding:8px;font-size:11px;line-height:16px;color:#171A17">Strict mini break — 0:12 left</div>
+      </div>
+      <div class="cap" style="margin-top:12px">严格：菜单只剩状态行；没有退出、跳过、暂停或设置入口。会话结束仍可退出。</div>
+      <div style="margin-top:auto"></div>
+    </div>
+  </div>
+
+  <div style="margin-top:24px;border-top:1px solid #D6D4CA;padding-top:14px;display:flex;align-items:flex-start;gap:24px">
+    <div style="width:196px;flex:none">
+      <div style="font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#5D635B">Icon states</div>
+      <div style="margin-top:4px;font-size:10px;line-height:15px;color:#6B7069">18 pt / 16–24 px / 22 px；深浅色都只用单色 + alpha。</div>
+    </div>
+    <div style="display:flex;gap:14px">
+      <div class="tile">
+        <div style="display:flex;gap:6px;align-items:center;justify-content:center">
+          <div style="flex:1;height:30px;background:#F7F6F1;border:1px solid #DCDAD1;border-radius:4px;display:flex;align-items:center;justify-content:center"><svg width="16" height="16" viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M6 18C8 8.5 24 8.5 26 18" stroke="#171A17" stroke-width="2.6" stroke-linecap="round"/><circle cx="16" cy="25" r="2.8" fill="#171A17"/></svg></div>
+          <div style="flex:1;height:30px;background:#222421;border-radius:4px;display:flex;align-items:center;justify-content:center"><svg width="16" height="16" viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M6 18C8 8.5 24 8.5 26 18" stroke="#EDEDE6" stroke-width="2.6" stroke-linecap="round"/><circle cx="16" cy="25" r="2.8" fill="#EDEDE6"/></svg></div>
+        </div>
+        <div style="margin-top:6px;font-size:9px;font-weight:600">Mark</div>
+        <div style="font-size:8px;color:#8A8F86">default · template</div>
+      </div>
+      <div class="tile">
+        <div style="display:flex;gap:6px;align-items:center;justify-content:center">
+          <div style="flex:1;height:30px;background:#F7F6F1;border:1px solid #DCDAD1;border-radius:4px;display:flex;align-items:center;justify-content:center;gap:3px"><svg width="13" height="13" viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M6 18C8 8.5 24 8.5 26 18" stroke="#171A17" stroke-width="2.6" stroke-linecap="round"/><circle cx="16" cy="25" r="2.8" fill="#171A17"/></svg><span class="num" style="font-size:8px">9m</span></div>
+          <div style="flex:1;height:30px;background:#222421;border-radius:4px;display:flex;align-items:center;justify-content:center;gap:3px"><svg width="13" height="13" viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M6 18C8 8.5 24 8.5 26 18" stroke="#EDEDE6" stroke-width="2.6" stroke-linecap="round"/><circle cx="16" cy="25" r="2.8" fill="#EDEDE6"/></svg><span class="num" style="font-size:8px;color:#EDEDE6">9m</span></div>
+        </div>
+        <div style="margin-top:6px;font-size:9px;font-weight:600">Time</div>
+        <div style="font-size:8px;color:#8A8F86">macOS title · Linux label · Win tooltip</div>
+      </div>
+      <div class="tile">
+        <div style="display:flex;gap:6px;align-items:center;justify-content:center">
+          <div style="flex:1;height:30px;background:#F7F6F1;border:1px solid #DCDAD1;border-radius:4px;display:flex;align-items:center;justify-content:center"><svg width="16" height="16" viewBox="0 0 32 32" fill="none" aria-hidden="true"><circle cx="16" cy="16" r="9" stroke="#171A17" stroke-opacity=".25" stroke-width="2"/><path d="M16 7a9 9 0 0 1 7.8 4.5" stroke="#171A17" stroke-width="2" stroke-linecap="round"/><circle cx="16" cy="16" r="2" fill="#171A17"/></svg></div>
+          <div style="flex:1;height:30px;background:#222421;border-radius:4px;display:flex;align-items:center;justify-content:center"><svg width="16" height="16" viewBox="0 0 32 32" fill="none" aria-hidden="true"><circle cx="16" cy="16" r="9" stroke="#EDEDE6" stroke-opacity=".25" stroke-width="2"/><path d="M16 7a9 9 0 0 1 7.8 4.5" stroke="#EDEDE6" stroke-width="2" stroke-linecap="round"/><circle cx="16" cy="16" r="2" fill="#EDEDE6"/></svg></div>
+        </div>
+        <div style="margin-top:6px;font-size:9px;font-weight:600">Progress</div>
+        <div style="font-size:8px;color:#8A8F86">ring · no digits</div>
+      </div>
+      <div class="tile">
+        <div style="display:flex;gap:6px;align-items:center;justify-content:center">
+          <div style="flex:1;height:30px;background:#F7F6F1;border:1px solid #DCDAD1;border-radius:4px;display:flex;align-items:center;justify-content:center"><svg width="16" height="16" viewBox="0 0 32 32" fill="none" aria-hidden="true"><rect x="10" y="9" width="3.6" height="14" rx="1.2" fill="#171A17"/><rect x="18.4" y="9" width="3.6" height="14" rx="1.2" fill="#171A17"/></svg></div>
+          <div style="flex:1;height:30px;background:#222421;border-radius:4px;display:flex;align-items:center;justify-content:center"><svg width="16" height="16" viewBox="0 0 32 32" fill="none" aria-hidden="true"><rect x="10" y="9" width="3.6" height="14" rx="1.2" fill="#EDEDE6"/><rect x="18.4" y="9" width="3.6" height="14" rx="1.2" fill="#EDEDE6"/></svg></div>
+        </div>
+        <div style="margin-top:6px;font-size:9px;font-weight:600">Paused</div>
+        <div style="font-size:8px;color:#8A8F86">manual / DND / idle / lock</div>
+      </div>
+      <div class="tile">
+        <div style="display:flex;gap:6px;align-items:center;justify-content:center">
+          <div style="flex:1;height:30px;background:#F7F6F1;border:1px solid #DCDAD1;border-radius:4px;display:flex;align-items:center;justify-content:center"><svg width="16" height="16" viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M6 18C8 8.5 24 8.5 26 18" stroke="#171A17" stroke-width="2.6" stroke-linecap="round"/><circle cx="16" cy="25" r="2.8" fill="#171A17"/></svg></div>
+          <div style="flex:1;height:30px;background:#222421;border-radius:4px;display:flex;align-items:center;justify-content:center"><svg width="16" height="16" viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M6 18C8 8.5 24 8.5 26 18" stroke="#EDEDE6" stroke-width="2.6" stroke-linecap="round"/><circle cx="16" cy="25" r="2.8" fill="#EDEDE6"/></svg></div>
+        </div>
+        <div style="margin-top:6px;font-size:9px;font-weight:600">Strict</div>
+        <div style="font-size:8px;color:#8A8F86">same mark · no lock icon</div>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":960}}'>
+class Component extends DCLogic {}
+</script>
+</body>
+</html>

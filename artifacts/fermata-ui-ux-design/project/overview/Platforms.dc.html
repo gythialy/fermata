@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+<meta charset="utf-8">
+<title>三平台入口与菜单</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Spectral:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  body{margin:0;background:#F4F2EA;color:#171A17;-webkit-font-smoothing:antialiased;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI Variable Text","Segoe UI",Inter,"Noto Sans SC","PingFang SC",sans-serif}
+  h1,h2,h3,p{margin:0}
+  .serif{font-family:"Spectral","Iowan Old Style","Noto Serif SC","Songti SC",serif}
+  .mono{font-family:"SF Mono","Cascadia Mono","JetBrains Mono",monospace;font-variant-numeric:tabular-nums}
+  .num{font-variant-numeric:tabular-nums}
+  .menu{position:absolute;background:#F9F8F3;border:1px solid #D8D6CC;border-radius:10px;box-shadow:0 18px 48px rgba(0,0,0,.18);padding:6px;box-sizing:border-box}
+  .mrow{height:28px;display:flex;align-items:center;gap:8px;padding:0 9px;border-radius:6px;font-size:13px;line-height:18px;color:#171A17}
+  .mrow:hover{background:rgba(184,67,47,.08)}
+  .mstat{padding:4px 9px;font-size:11px;line-height:15px;color:#6B7069;letter-spacing:.005em}
+  .msep{height:1px;background:#DCDAD1;margin:5px 7px}
+  .short{margin-left:auto;font-size:12px;color:#7C8178;font-variant-numeric:tabular-nums}
+  .chev{margin-left:auto;display:flex;align-items:center;color:#7C8178}
+  .os-label{font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:#8A8F86}
+  .cap{font-size:11px;line-height:17px;color:#5D635B}
+  .cap b{font-weight:600;color:#2F342E}
+  a{color:#B8432F}a:hover{color:#8F3223}
+</style>
+</helmet>
+<div style="width:1440px;height:900px;background:#F4F2EA;padding:44px 40px;box-sizing:border-box;display:flex;flex-direction:column">
+  <div style="display:flex;justify-content:space-between;align-items:flex-end;border-bottom:1px solid #D6D4CA;padding-bottom:18px">
+    <div>
+      <div style="font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#B8432F">System entry / 01</div>
+      <h2 class="serif" style="margin-top:8px;font-size:38px;line-height:44px;font-weight:300;letter-spacing:-.012em">One Fermata, three desktops.</h2>
+      <div style="margin-top:8px;font-size:12px;line-height:18px;color:#6B7069">入口在系统边缘，内容在同一个令牌系统里。菜单始终交给系统绘制。</div>
+    </div>
+    <div style="display:flex;gap:8px">
+      <span style="font-size:10px;letter-spacing:.06em;color:#4C5149;border:1px solid #CFCCC1;border-radius:5px;padding:5px 8px">macOS 13+</span>
+      <span style="font-size:10px;letter-spacing:.06em;color:#4C5149;border:1px solid #CFCCC1;border-radius:5px;padding:5px 8px">Windows 11</span>
+      <span style="font-size:10px;letter-spacing:.06em;color:#4C5149;border:1px solid #CFCCC1;border-radius:5px;padding:5px 8px">Linux</span>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:32px;margin-top:26px">
+    <!-- macOS -->
+    <div>
+      <div style="display:flex;justify-content:space-between;align-items:baseline">
+        <div style="font-size:14px;font-weight:600">macOS</div>
+        <div class="mono os-label">Menu bar extra</div>
+      </div>
+
+      <div style="position:relative;height:430px;margin-top:12px;background:#E6E3DA;border:1px solid #D6D4CA;border-radius:10px;overflow:hidden">
+        <div style="position:absolute;left:0;right:0;top:0;height:30px;background:rgba(247,246,241,.96);border-bottom:1px solid #D9D6CD;display:flex;align-items:center;justify-content:flex-end;padding:0 10px;gap:8px">
+          <svg width="16" height="16" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+            <path d="M6 18C8 8.5 24 8.5 26 18" stroke="#171A17" stroke-width="2.4" stroke-linecap="round"/>
+            <circle cx="16" cy="25" r="2.6" fill="#B8432F"/>
+          </svg>
+          <span class="num" style="font-size:12px;line-height:16px;color:#171A17;letter-spacing:.02em">9m</span>
+        </div>
+
+        <div class="menu" style="top:44px;right:8px;width:318px">
+          <div class="mstat">Next mini break in about 9 minutes<br>Long break after 2 more mini breaks</div>
+          <div class="msep"></div>
+          <div class="mrow">Skip to<span class="chev"><svg width="9" height="9" viewBox="0 0 9 9" fill="none" aria-hidden="true"><path d="M3 1.5 6 4.5 3 7.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+          <div class="mrow">Pause breaks<span class="chev"><svg width="9" height="9" viewBox="0 0 9 9" fill="none" aria-hidden="true"><path d="M3 1.5 6 4.5 3 7.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+          <div class="mrow">Reset breaks</div>
+          <div class="msep"></div>
+          <div class="mrow">Settings…<span class="short">⌘,</span></div>
+            <div class="msep"></div>
+          <div class="mrow">Quit Fermata<span class="short">⌘Q</span></div>
+        </div>
+
+        <div style="position:absolute;left:16px;bottom:16px;font-size:10px;line-height:15px;color:#6B7069">No Dock icon.<br>The menu bar is the app.</div>
+      </div>
+
+      <div style="margin-top:14px;display:flex;flex-direction:column;gap:8px">
+        <div class="cap"><b>入口</b> 菜单栏额外项，模板图跟随深浅色</div>
+        <div class="cap"><b>快捷键</b> <span class="mono">⌘X</span> 结束休息 · <span class="mono">⌘,</span> 设置</div>
+        <div class="cap"><b>外壳</b> 隐藏标题栏 + 交通灯；原生菜单</div>
+      </div>
+    </div>
+
+    <!-- Windows -->
+    <div>
+      <div style="display:flex;justify-content:space-between;align-items:baseline">
+        <div style="font-size:14px;font-weight:600;font-family:Inter,'Segoe UI',sans-serif">Windows 11</div>
+        <div class="mono os-label">System tray</div>
+      </div>
+
+      <div style="position:relative;height:430px;margin-top:12px;background:#E9E8E3;border:1px solid #D6D4CA;border-radius:10px;overflow:hidden;font-family:Inter,'Segoe UI',sans-serif">
+        <div class="menu" style="right:8px;bottom:50px;width:318px;background:#FBFBF8;border-radius:8px;border-color:#E2E0DA">
+          <div class="mstat">Next mini break in about 9 minutes<br>Long break after 2 more mini breaks</div>
+          <div class="msep"></div>
+          <div class="mrow">Skip to<span class="chev"><svg width="9" height="9" viewBox="0 0 9 9" fill="none" aria-hidden="true"><path d="M3 1.5 6 4.5 3 7.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+          <div class="mrow">Pause breaks<span class="chev"><svg width="9" height="9" viewBox="0 0 9 9" fill="none" aria-hidden="true"><path d="M3 1.5 6 4.5 3 7.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+          <div class="mrow">Reset breaks</div>
+          <div class="msep"></div>
+          <div class="mrow">Settings</div>
+            <div class="msep"></div>
+          <div class="mrow">Exit Fermata</div>
+        </div>
+
+        <div style="position:absolute;left:0;right:0;bottom:0;height:38px;background:#F5F4F0;border-top:1px solid #DEDCD5;display:flex;align-items:center;justify-content:flex-end;padding:0 10px;gap:9px">
+          <svg width="11" height="11" viewBox="0 0 12 12" fill="none" aria-hidden="true" style="color:#5D635B"><path d="M2 8 6 4 10 8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <svg width="16" height="16" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+            <path d="M6 18C8 8.5 24 8.5 26 18" stroke="#171A17" stroke-width="2.4" stroke-linecap="round"/>
+            <circle cx="16" cy="25" r="2.6" fill="#171A17"/>
+          </svg>
+          <span class="num" style="font-size:11px;line-height:15px;color:#2F342E">14:32</span>
+        </div>
+
+        <div style="position:absolute;left:16px;top:16px;font-size:10px;line-height:15px;color:#6B7069;font-family:-apple-system,BlinkMacSystemFont,'PingFang SC',sans-serif">Tray overflow hides the icon on first run.<br>The welcome window offers a one-click pin hint.</div>
+      </div>
+
+      <div style="margin-top:14px;display:flex;flex-direction:column;gap:8px">
+        <div class="cap"><b>入口</b> 系统托盘 + 溢出区；无常驻主窗口</div>
+        <div class="cap"><b>快捷键</b> <span class="mono">Ctrl+X</span> · <span class="mono">Ctrl+,</span></div>
+        <div class="cap"><b>外壳</b> 系统标题栏；Windows 11 圆角；原生菜单</div>
+      </div>
+    </div>
+
+    <!-- Linux -->
+    <div>
+      <div style="display:flex;justify-content:space-between;align-items:baseline">
+        <div style="font-size:14px;font-weight:600;font-family:Inter,'Segoe UI',sans-serif">Linux</div>
+        <div class="mono os-label">StatusNotifier</div>
+      </div>
+
+      <div style="position:relative;height:430px;margin-top:12px;background:#E5E2D8;border:1px solid #D6D4CA;border-radius:10px;overflow:hidden;font-family:Inter,'Noto Sans',sans-serif">
+        <div style="position:absolute;left:0;right:0;top:0;height:30px;background:#222421;display:flex;align-items:center;justify-content:flex-end;padding:0 10px;gap:8px">
+          <svg width="15" height="15" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+            <path d="M6 18C8 8.5 24 8.5 26 18" stroke="#EDEDE6" stroke-width="2.4" stroke-linecap="round"/>
+            <circle cx="16" cy="25" r="2.6" fill="#E2674E"/>
+          </svg>
+          <span class="num" style="font-size:11px;line-height:15px;color:#EDEDE6;letter-spacing:.02em">9m</span>
+        </div>
+
+        <div class="menu" style="top:42px;right:8px;width:318px;background:#F8F7F1;border-color:#D9D6CC">
+          <div class="mstat">Next mini break in about 9 minutes<br>Long break after 2 more mini breaks</div>
+          <div class="msep"></div>
+          <div class="mrow">Skip to<span class="chev"><svg width="9" height="9" viewBox="0 0 9 9" fill="none" aria-hidden="true"><path d="M3 1.5 6 4.5 3 7.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+          <div class="mrow">Pause breaks<span class="chev"><svg width="9" height="9" viewBox="0 0 9 9" fill="none" aria-hidden="true"><path d="M3 1.5 6 4.5 3 7.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+          <div class="mrow">Reset breaks</div>
+          <div class="msep"></div>
+          <div class="mrow">Settings…</div>
+            <div class="msep"></div>
+          <div class="mrow">Quit Fermata</div>
+        </div>
+
+        <div style="position:absolute;left:12px;bottom:12px;width:246px;background:#F8F7F1;border:1px solid #CFCCC1;border-radius:8px;padding:10px;box-shadow:0 8px 24px rgba(0,0,0,.12);box-sizing:border-box">
+          <div style="font-size:11px;font-weight:600;line-height:15px;color:#171A17">Fermata</div>
+          <div style="font-size:10px;line-height:14px;color:#5D635B;margin-top:2px">Next mini break in about 9 minutes</div>
+          <div style="display:flex;gap:6px;margin-top:8px">
+            <span style="font-size:10px;border:1px solid #D6D4CA;border-radius:4px;padding:3px 6px">Pause</span>
+            <span style="font-size:10px;border:1px solid #D6D4CA;border-radius:4px;padding:3px 6px">Settings</span>
+            <span style="font-size:10px;border:1px solid #D6D4CA;border-radius:4px;padding:3px 6px">Quit</span>
+          </div>
+          <div style="font-size:9px;line-height:13px;color:#8A8F86;margin-top:7px">No tray? The same menu opens as a window.</div>
+        </div>
+      </div>
+
+      <div style="margin-top:14px;display:flex;flex-direction:column;gap:8px">
+        <div class="cap"><b>入口</b> StatusNotifierItem；GNOME 需 AppIndicator 扩展</div>
+        <div class="cap"><b>快捷键</b> <span class="mono">Ctrl+X</span> · <span class="mono">Ctrl+,</span></div>
+        <div class="cap"><b>外壳</b> GTK / KDE 原生装饰；原生菜单</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:auto;border-top:1px solid #D6D4CA;padding-top:14px;display:flex;justify-content:space-between;align-items:center">
+    <div style="font-size:11px;line-height:17px;color:#5D635B">同一套状态、同一份文案、同一个图标记号。菜单由系统绘制，避免维护三套自绘菜单。</div>
+    <div class="mono" style="font-size:9px;letter-spacing:.1em;color:#8A8F86">ENTRY / MENU / SHORTCUT</div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {}
+</script>
+</body>
+</html>

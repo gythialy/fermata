@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 32 32" role="img" aria-label="Fermata mark">
+  <title>Fermata mark</title>
+  <path d="M 6 18 C 8 8.5, 24 8.5, 26 18" stroke="#171A17" stroke-width="2.4" stroke-linecap="round" fill="none"/>
+  <circle cx="16" cy="25" r="2.6" fill="#B8432F"/>
+</svg>

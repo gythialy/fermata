@@ -1,0 +1,55 @@
+name: Feature request
+description: Suggest a change in behaviour, interface or packaging.
+title: "[Feature] "
+labels: [enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Fermata keeps its scope small. Please say what the problem is before
+        the solution: the behaviour, not the implementation.
+  - type: textarea
+    id: problem
+    attributes:
+      label: The problem
+      description: What is awkward or missing today, and who hits it.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What you would like
+      description: The behaviour you expect. Reference the spec or design system where it applies.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Other ways to solve it, including doing nothing.
+    validations:
+      required: false
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Break schedule or rules
+        - Break window
+        - Menu bar, menu or popover
+        - Settings
+        - Notifications or sounds
+        - Command line
+        - Packaging, build or release
+        - Documentation
+    validations:
+      required: true
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checks
+      options:
+        - label: I searched the existing issues.
+          required: true
+        - label: This request keeps the v1 scope (macOS, no account, no telemetry).
+          required: true

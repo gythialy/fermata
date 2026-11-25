@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+<meta charset="utf-8">
+<title>字体与字号</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Spectral:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  body{margin:0;background:#F4F2EA;color:#171A17;-webkit-font-smoothing:antialiased;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI Variable Text","Segoe UI",Inter,"Noto Sans SC","PingFang SC",sans-serif}
+  h1,h2,h3,p{margin:0}
+  .serif{font-family:"Spectral","Iowan Old Style","Noto Serif SC","Songti SC",serif}
+  .mono{font-family:"SF Mono","Cascadia Mono","JetBrains Mono",monospace;font-variant-numeric:tabular-nums}
+  .num{font-variant-numeric:tabular-nums}
+  .trow{display:grid;grid-template-columns:140px 190px 1fr;gap:16px;align-items:center;height:44px;border-bottom:1px solid #E4E2D9}
+  a{color:#B8432F}a:hover{color:#8F3223}
+</style>
+</helmet>
+<div style="width:1200px;height:1280px;background:#F4F2EA;padding:44px 48px;box-sizing:border-box;display:flex;flex-direction:column">
+  <div style="display:flex;justify-content:space-between;align-items:flex-end">
+    <div>
+      <div style="font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#B8432F">Type / 05</div>
+      <h2 class="serif" style="margin-top:8px;font-size:40px;line-height:46px;font-weight:300;letter-spacing:-.012em">System voice, serif for the break.</h2>
+      <div style="margin-top:8px;font-size:12px;line-height:18px;color:#6B7069">UI 用系统字体保持原生感；休息建议用衬线，形成一次“离开界面”的换气。</div>
+    </div>
+    <div class="mono" style="font-size:9px;line-height:15px;letter-spacing:.1em;color:#8A8F86;text-align:right">HOST UI FONT<br>BUNDLED SERIF · OFL</div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;margin-top:24px">
+    <div style="border-top:1px solid #171A17;padding-top:11px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline">
+        <div style="font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#5D635B">macOS</div>
+        <div class="mono" style="font-size:8px;color:#8A8F86">native</div>
+      </div>
+      <div style="margin-top:9px;font-size:25px;line-height:31px;letter-spacing:-.01em">Fermata <span class="num">9m</span></div>
+      <div class="mono" style="margin-top:6px;font-size:8px;line-height:13px;color:#6B7069">SF Pro Text / Display<br>PingFang SC (中文)</div>
+    </div>
+    <div style="border-top:1px solid #171A17;padding-top:11px;font-family:Inter,'Segoe UI',sans-serif">
+      <div style="display:flex;justify-content:space-between;align-items:baseline">
+        <div style="font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#5D635B">Windows 11</div>
+        <div class="mono" style="font-size:8px;color:#8A8F86">native</div>
+      </div>
+      <div style="margin-top:9px;font-size:25px;line-height:31px;letter-spacing:-.01em">Fermata <span class="num">9m</span></div>
+      <div class="mono" style="margin-top:6px;font-size:8px;line-height:13px;color:#6B7069">Segoe UI Variable Text / Display<br>Microsoft YaHei UI (中文)</div>
+    </div>
+    <div style="border-top:1px solid #171A17;padding-top:11px;font-family:Inter,'Noto Sans',sans-serif">
+      <div style="display:flex;justify-content:space-between;align-items:baseline">
+        <div style="font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#5D635B">Linux</div>
+        <div class="mono" style="font-size:8px;color:#8A8F86">native stack</div>
+      </div>
+      <div style="margin-top:9px;font-size:25px;line-height:31px;letter-spacing:-.01em">Fermata <span class="num">9m</span></div>
+      <div class="mono" style="margin-top:6px;font-size:8px;line-height:13px;color:#6B7069">Inter → Noto Sans → Cantarell<br>Noto Sans CJK SC</div>
+    </div>
+  </div>
+
+  <div style="margin-top:24px;border-bottom:1px solid #D6D4CA;padding-bottom:7px;display:flex;justify-content:space-between;align-items:baseline">
+    <div style="font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#5D635B">Desktop typescale</div>
+    <div class="mono" style="font-size:9px;color:#8A8F86">SIZE / LINE · WEIGHT · TRACKING</div>
+  </div>
+
+  <div>
+    <div class="trow">
+      <div class="mono" style="font-size:10px;color:#5D635B">display</div>
+      <div class="mono" style="font-size:9px;color:#8A8F86">34 / 40 · 600 · −0.01em</div>
+      <div style="font-size:34px;line-height:40px;font-weight:600;letter-spacing:-.01em">A held note</div>
+    </div>
+    <div class="trow">
+      <div class="mono" style="font-size:10px;color:#5D635B">title.lg</div>
+      <div class="mono" style="font-size:9px;color:#8A8F86">22 / 28 · 600</div>
+      <div style="font-size:22px;line-height:28px;font-weight:600">Settings</div>
+    </div>
+    <div class="trow">
+      <div class="mono" style="font-size:10px;color:#5D635B">title.md</div>
+      <div class="mono" style="font-size:9px;color:#8A8F86">18 / 24 · 600</div>
+      <div style="font-size:18px;line-height:24px;font-weight:600">Appearance</div>
+    </div>
+    <div class="trow">
+      <div class="mono" style="font-size:10px;color:#5D635B">heading</div>
+      <div class="mono" style="font-size:9px;color:#8A8F86">14 / 20 · 600</div>
+      <div style="font-size:14px;line-height:20px;font-weight:600">Mini breaks</div>
+    </div>
+    <div class="trow">
+      <div class="mono" style="font-size:10px;color:#5D635B">body</div>
+      <div class="mono" style="font-size:9px;color:#8A8F86">13 / 19 · 400</div>
+      <div style="font-size:13px;line-height:19px">Pause when the screen is locked</div>
+    </div>
+    <div class="trow">
+      <div class="mono" style="font-size:10px;color:#5D635B">secondary</div>
+      <div class="mono" style="font-size:9px;color:#8A8F86">12 / 17 · 400</div>
+      <div style="font-size:12px;line-height:17px;color:#5D635B">Needs Full Disk Access.</div>
+    </div>
+    <div class="trow">
+      <div class="mono" style="font-size:10px;color:#5D635B">note</div>
+      <div class="mono" style="font-size:9px;color:#8A8F86">11 / 16 · 400</div>
+      <div style="font-size:11px;line-height:16px;color:#5D635B">Waits up to 30 seconds while you type.</div>
+    </div>
+    <div class="trow">
+      <div class="mono" style="font-size:10px;color:#5D635B">caption</div>
+      <div class="mono" style="font-size:9px;color:#8A8F86">11 / 15 · 500 · +0.14em</div>
+      <div style="font-size:11px;line-height:15px;font-weight:500;letter-spacing:.14em;text-transform:uppercase">Mini Break</div>
+    </div>
+    <div class="trow">
+      <div class="mono" style="font-size:10px;color:#5D635B">micro</div>
+      <div class="mono" style="font-size:9px;color:#8A8F86">10 / 14 · 500</div>
+      <div style="font-size:10px;line-height:14px;font-weight:500;color:#5D635B">Version 0.1.0 (build 1)</div>
+    </div>
+    <div class="trow">
+      <div class="mono" style="font-size:10px;color:#5D635B">action</div>
+      <div class="mono" style="font-size:9px;color:#8A8F86">13 / 20 · 500</div>
+      <div style="font-size:13px;line-height:20px;font-weight:500;color:#B8432F">Postpone <span class="mono" style="font-size:11px;color:#8A8F86">⌘X</span></div>
+    </div>
+    <div class="trow" style="border-bottom:none">
+      <div class="mono" style="font-size:10px;color:#5D635B">countdown</div>
+      <div class="mono" style="font-size:9px;color:#8A8F86">13 / 16 · 400 · tnum</div>
+      <div class="mono num" style="font-size:13px;line-height:16px">0:14 · 4:58 · 1:02:33</div>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;margin-top:20px">
+    <div style="background:#FBFAF5;border:1px solid #E2E0D7;border-radius:10px;padding:18px 20px">
+      <div style="font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#5D635B">System text scale</div>
+      <div style="margin-top:9px;font-size:13px;line-height:19px">All interface text passes through <span class="mono" style="font-size:12px">theme.Px(c, v)</span>: 1.0–1.5× of the design size, line height included.</div>
+      <div style="margin-top:8px;font-size:11px;line-height:16px;color:#6B7069">Rows grow and the page scrolls; the scaled preview keeps its own optical sizes.</div>
+    </div>
+    <div style="background:#FBFAF5;border:1px solid #E2E0D7;border-radius:10px;padding:18px 20px">
+      <div style="font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#5D635B">Chinese setting</div>
+      <div style="margin-top:9px;font-size:13px;line-height:19px">建议 +2 pt、行高 ×1.25；中文不加负字距。</div>
+      <div style="margin-top:8px;font-size:11px;line-height:16px;color:#6B7069">Noto Serif SC 子集覆盖全部建议与界面汉字；新增文案缺字会让覆盖测试失败。</div>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;margin-top:20px">
+    <div style="background:#2B4A41;border-radius:10px;padding:20px 22px;color:#F3F2EA;height:200px;box-sizing:border-box;display:flex;flex-direction:column">
+      <div style="display:flex;justify-content:space-between;font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:rgba(243,242,234,.55)">
+        <span>The break voice</span><span class="mono" style="letter-spacing:.04em">44 / 54 · 300</span>
+      </div>
+      <div class="serif" style="margin-top:14px;font-size:30px;line-height:37px;font-weight:300;max-width:500px">Look out a window until your eyes relax.</div>
+      <div class="serif" style="margin-top:8px;font-size:22px;line-height:30px;font-weight:300;color:rgba(243,242,234,.86);max-width:500px">望向窗外，直到眼睛放松下来。</div>
+      <div style="margin-top:auto;font-size:9px;line-height:14px;color:rgba(243,242,234,.5)">Spectral 300 · Noto Serif SC 子集 · 中文 +2 pt / 行高 ×1.25 · 运行时不再下载字体</div>
+    </div>
+
+    <div style="border:1px solid #D6D4CA;border-radius:10px;padding:18px 22px;height:200px;box-sizing:border-box;display:flex;flex-direction:column">
+      <div style="display:flex;justify-content:space-between;align-items:baseline">
+        <div style="font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#5D635B">Numerals & rules</div>
+        <div class="mono" style="font-size:9px;color:#8A8F86">TABULAR</div>
+      </div>
+      <div style="display:flex;align-items:baseline;gap:24px;margin-top:10px">
+        <div class="mono num" style="font-size:40px;line-height:44px;letter-spacing:.01em">0:14</div>
+        <div class="mono num" style="font-size:22px;line-height:26px;color:#5D635B">9m</div>
+        <div class="mono num" style="font-size:16px;line-height:20px;color:#5D635B">14:32</div>
+      </div>
+      <div style="margin-top:auto;display:grid;grid-template-columns:1fr 1fr;gap:10px 20px;font-size:10px;line-height:15px;color:#5D635B">
+        <div>UI 文本 11 px 起；micro 10 只用于元信息；建议 ≤ 24 个汉字。</div>
+        <div>数字一律 tabular，宽度不跳动。</div>
+        <div>系统 UI 字体随平台；不内嵌 UI 字体。</div>
+        <div>Spectral 与中文衬线按子集打包，运行时不下字体。</div>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1200,"height":1280}}'>
+class Component extends DCLogic {}
+</script>
+</body>
+</html>

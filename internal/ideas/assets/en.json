@@ -1,0 +1,210 @@
+{
+  "mini": [
+    "Look out a window until your eyes relax.",
+    "Stand up and let your shoulders drop.",
+    "Rest your eyes on something far away.",
+    "Drink a glass of water.",
+    "Unclench your jaw and take one slow breath.",
+    "Roll your wrists and let your hands hang loose.",
+    "Look left, then right, without turning your head.",
+    "Put both feet on the floor and sit up straight.",
+    "Blink slowly a few times.",
+    "Look at the ceiling and let your neck lengthen.",
+    "Stretch your arms overhead for a moment.",
+    "Stand and take three slow steps.",
+    "Let your shoulders fall away from your ears.",
+    "Gaze at the farthest thing you can see.",
+    "Relax your grip and open your hands.",
+    "Take one long breath out.",
+    "Sit back until your back meets the chair.",
+    "Look away from the screen for ten seconds.",
+    "Turn your head to one side, then the other.",
+    "Drop your chin and feel the back of your neck.",
+    "Walk to the nearest window.",
+    "Rest your palms on your thighs and breathe.",
+    "Shrug your shoulders, then let them go.",
+    "Look at something green if you can find it.",
+    "Take your hands off the keyboard.",
+    "Say the next sentence in your head before typing it.",
+    "Stretch one arm across your chest, then the other.",
+    "Sit up and imagine a string lifting your head.",
+    "Close your eyes for five slow breaths.",
+    "Roll your ankles under the desk.",
+    "Look at a corner of the room and soften your eyes.",
+    "Take a sip of something warm.",
+    "Stand up and stretch toward the ceiling.",
+    "Let your knees fall apart a little.",
+    "Blink and look at something twenty paces away.",
+    "Loosen your feet inside your shoes.",
+    "Take one breath that fills your ribs.",
+    "Turn your palms up and let your fingers curl.",
+    "Look at the wall and let one thought finish.",
+    "Stand, settle your weight, and sit down again.",
+    "Look up from the screen and blink slowly.",
+    "Set both feet flat and press them into the floor.",
+    "Let your hands rest open on the desk.",
+    "Turn your chair away from the screen for a moment.",
+    "Look at the tree outside, if there is one.",
+    "Take a sip of water and set the glass down.",
+    "Straighten your back and let your chest open.",
+    "Rest your eyes on the wall behind the screen.",
+    "Move your mouse hand away from the mouse.",
+    "Uncross your legs and let your knees fall open.",
+    "Take one breath that reaches your lower ribs.",
+    "Look at something blue for a few seconds.",
+    "Let your jaw hang loose for one breath.",
+    "Stand up and feel the floor under both feet.",
+    "Turn your palms up and let your fingers uncurl.",
+    "Look out the window until the next car passes.",
+    "Drop your shoulders and let your arms hang.",
+    "Blink ten times, slowly.",
+    "Listen to the room for one full breath.",
+    "Rest your forehead in your hands for a moment."
+  ],
+  "long": [
+    {
+      "title": "Step away",
+      "text": "Walk to a window and look at something far away."
+    },
+    {
+      "title": "Move a little",
+      "text": "Take a short walk, even if it is just down the hall."
+    },
+    {
+      "title": "Leave the screen",
+      "text": "Put your phone down and let your eyes rest."
+    },
+    {
+      "title": "Reset your posture",
+      "text": "Stand up, roll your shoulders back, and breathe out slowly."
+    },
+    {
+      "title": "Get some air",
+      "text": "Open a window or step outside for a minute."
+    },
+    {
+      "title": "Drink something",
+      "text": "Fill a glass and drink it away from your desk."
+    },
+    {
+      "title": "Stretch your back",
+      "text": "Reach for the ceiling, then fold forward gently."
+    },
+    {
+      "title": "Let your eyes rest",
+      "text": "Cover them with your palms and breathe."
+    },
+    {
+      "title": "Walk it off",
+      "text": "Take ten slow steps and let your thoughts settle."
+    },
+    {
+      "title": "Warm your hands",
+      "text": "Rub your palms together until they feel warm."
+    },
+    {
+      "title": "Look far away",
+      "text": "Find the most distant thing you can and hold it."
+    },
+    {
+      "title": "Loosen your neck",
+      "text": "Tip your ear to one shoulder, then the other."
+    },
+    {
+      "title": "Move your shoulders",
+      "text": "Circle them slowly, forward and back."
+    },
+    {
+      "title": "Sit differently",
+      "text": "Move to another chair or stand for a while."
+    },
+    {
+      "title": "Check your feet",
+      "text": "Plant both feet and feel the floor."
+    },
+    {
+      "title": "Breathe deeper",
+      "text": "Take five breaths that reach your belly."
+    },
+    {
+      "title": "Unwind your wrists",
+      "text": "Rotate them slowly in both directions."
+    },
+    {
+      "title": "Rest your voice",
+      "text": "Stop talking for the whole break."
+    },
+    {
+      "title": "Take a short walk",
+      "text": "Head to the kitchen and back."
+    },
+    {
+      "title": "Look at the sky",
+      "text": "Find a window and watch it for a moment."
+    },
+    {
+      "title": "Straighten up",
+      "text": "Sit tall and let your shoulders fall."
+    },
+    {
+      "title": "Let your jaw go",
+      "text": "Part your teeth and breathe through your nose."
+    },
+    {
+      "title": "Water your eyes",
+      "text": "Look at something green for a minute."
+    },
+    {
+      "title": "Stop early",
+      "text": "Finish the break before the timer, if you are ready."
+    },
+    {
+      "title": "Look up",
+      "text": "Find the highest thing you can see and rest your eyes on it."
+    },
+    {
+      "title": "Open a window",
+      "text": "Let fresh air in and stand beside it for a minute."
+    },
+    {
+      "title": "Take the long way",
+      "text": "Walk to the far side of the room and back."
+    },
+    {
+      "title": "Rest your wrists",
+      "text": "Let your hands hang by your sides and shake them out."
+    },
+    {
+      "title": "Clear the desk",
+      "text": "Move one thing you no longer need out of sight."
+    },
+    {
+      "title": "Look outside",
+      "text": "Watch the sky for a minute without checking the time."
+    },
+    {
+      "title": "Stand tall",
+      "text": "Reach up, then let your arms fall slowly."
+    },
+    {
+      "title": "Give your eyes a break",
+      "text": "Close them and cover them with your palms."
+    },
+    {
+      "title": "Step outside",
+      "text": "Stand at the door and take five slow breaths."
+    },
+    {
+      "title": "Move your neck",
+      "text": "Look over one shoulder, then the other, without hurrying."
+    },
+    {
+      "title": "Set the next hour",
+      "text": "Write down the one thing you will do next."
+    },
+    {
+      "title": "Put the screen to sleep",
+      "text": "Lock it and leave it for a minute."
+    }
+  ]
+}

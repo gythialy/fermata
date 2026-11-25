@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Consistency — docs and implementation</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Spectral:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  body{margin:0;background:#F4F2EA;color:#171A17;-webkit-font-smoothing:antialiased;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI Variable Text","Segoe UI",Inter,"Noto Sans","PingFang SC",sans-serif}
+  h1,h2,h3,p{margin:0}
+  .mono{font-family:"SF Mono","Cascadia Mono","JetBrains Mono",monospace;font-variant-numeric:tabular-nums}
+  .row{display:grid;grid-template-columns:210px 1fr 1fr 92px;gap:16px;align-items:start;padding:11px 0;border-bottom:1px solid #E4E2D9}
+  .h{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#5D635B}
+  .k{font-size:12px;line-height:17px;font-weight:600}
+  .v{font-size:11px;line-height:16px;color:#5D635B}
+  .ok{font-size:10px;font-weight:600;letter-spacing:.06em;color:#2F6B4F;background:#DCE9DF;border-radius:4px;padding:3px 6px;text-align:center}
+  .note{font-size:10px;line-height:14px;color:#8A8F86}
+</style>
+</helmet>
+<div style="width:1200px;height:900px;background:#F4F2EA;padding:44px 48px;box-sizing:border-box;display:flex;flex-direction:column">
+  <div style="display:flex;justify-content:space-between;align-items:flex-end">
+    <div>
+      <div style="font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#B8432F">Audit / 08</div>
+      <h2 style="margin-top:8px;font-size:40px;line-height:46px;font-weight:300;letter-spacing:-.012em">Docs and code agree.</h2>
+      <div style="margin-top:8px;font-size:12px;line-height:18px;color:#6B7069">规范（DESIGN.md / functional-rules）与实现（internal/）逐项对照；任何一项变化都要同时改文档、画布和测试。</div>
+    </div>
+    <div class="mono" style="font-size:9px;line-height:15px;color:#8A8F86;text-align:right">2026-11-25<br>188 KEYS · EN / ZH-HANS</div>
+  </div>
+
+  <div style="margin-top:22px">
+    <div class="row" style="border-bottom-color:#171A17;padding-bottom:7px">
+      <div class="h">Item</div><div class="h">Document</div><div class="h">Implementation</div><div class="h" style="text-align:center">Check</div>
+    </div>
+    <div class="row"><div class="k">Mark</div><div class="v">DESIGN §2.1: one fermata, optical weights 18/22/30/48/72</div><div class="v"><span class="mono">internal/mark</span>, <span class="mono">theme.PaintMark</span>, <span class="mono">trayicon</span>, <span class="mono">tools/genicons</span></div><div class="ok">PASS</div></div>
+    <div class="row"><div class="k">App icon</div><div class="v">DESIGN §2.3: sand field + same fermata, 700 box, light/dark</div><div class="v"><span class="mono">icons/AppIcon.icon</span>, <span class="mono">resources/icon.png</span>, <span class="mono">AppIcon.car</span></div><div class="ok">PASS</div></div>
+    <div class="row"><div class="k">Tray states</div><div class="v">DESIGN §2.2: mark / mark+time / ring / paused bars</div><div class="v"><span class="mono">internal/trayicon</span>; template PNGs cached by state</div><div class="ok">PASS</div></div>
+    <div class="row"><div class="k">Interface glyphs</div><div class="v">DESIGN §4.10: plus, minus, close, more, check, chevron; no Unicode</div><div class="v"><span class="mono">internal/icons</span>; stepper and popover use it</div><div class="ok">PASS</div></div>
+    <div class="row"><div class="k">Serif</div><div class="v">DESIGN §3.2: Spectral + Noto Serif SC subset, OFL, no download</div><div class="v"><span class="mono">internal/fonts</span>, <span class="mono">tools/fonts/subset.py</span>; coverage test</div><div class="ok">PASS</div></div>
+    <div class="row"><div class="k">Type scale</div><div class="v">DESIGN §3.2: body 13/19, note 11/16, caption 11/15, micro 10/14</div><div class="v">views use <span class="mono">theme.Px</span>; preview keeps optical sizes</div><div class="ok">PASS</div></div>
+    <div class="row"><div class="k">Text scale</div><div class="v">DESIGN §7.1: 1.0–1.5, rows grow, page scrolls</div><div class="v"><span class="mono">theme.Scale</span> / <span class="mono">theme.Px</span>; tester snapshots at 1.5</div><div class="ok">PASS</div></div>
+    <div class="row"><div class="k">Settings window</div><div class="v">DESIGN §3.3 / §5.3: 800×720, min 760×560</div><div class="v"><span class="mono">internal/prefs/window.go</span></div><div class="ok">PASS</div></div>
+    <div class="row"><div class="k">Copy</div><div class="v">DESIGN §8.2, functional §8: sentence case, 188 keys</div><div class="v"><span class="mono">locales/{en,zh-Hans}.json</span>; dead heads-up keys removed</div><div class="ok">PASS</div></div>
+    <div class="row"><div class="k">Platform copy</div><div class="v">DESIGN §5.4: menu bar on macOS, tray on Windows/Linux</div><div class="v"><span class="mono">welcome.livesText</span> selects by <span class="mono">runtime.GOOS</span></div><div class="ok">PASS</div></div>
+    <div class="row"><div class="k">Defaults</div><div class="v">functional §2: 5 min / 25 min / 15 min / every 4 mini breaks</div><div class="v"><span class="mono">settings.Default</span>; schedule summary and welcome show the same</div><div class="ok">PASS</div></div>
+    <div class="row" style="border-bottom:none"><div class="k">Canvas</div><div class="v">docs/design-canvas.md: 21 boards, 5 pages</div><div class="v">this canvas; <span class="mono">open-artifact check</span> clean</div><div class="ok">PASS</div></div>
+  </div>
+
+  <div style="margin-top:auto;display:grid;grid-template-columns:1fr 1fr;gap:24px;border-top:1px solid #D6D4CA;padding-top:14px">
+    <div>
+      <div class="h">Known limits</div>
+      <div class="note" style="margin-top:5px">Windows tray overflow copy is deferred, not a dead key; custom suggestion files and background images stay file-only in v1; the canvas renders Spectral from a webfont, the app from the bundled subset.</div>
+    </div>
+    <div>
+      <div class="h">Verification</div>
+      <div class="mono note" style="margin-top:5px">make check · go tool mygo i18n check<br>go test ./internal/fonts ./internal/breakwin<br>open-artifact check</div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1200,"height":900}}'>
+class Component extends DCLogic {}
+</script>
+</body>
+</html>

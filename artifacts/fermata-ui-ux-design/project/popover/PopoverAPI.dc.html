@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+<meta charset="utf-8">
+<title>状态弹窗 · MyGo 实现图</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Spectral:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  body{margin:0;background:#F4F2EA;color:#171A17;-webkit-font-smoothing:antialiased;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI Variable Text","Segoe UI",Inter,"Noto Sans SC","PingFang SC",sans-serif}
+  h1,h2,h3,p{margin:0}
+  .serif{font-family:"Spectral","Iowan Old Style","Noto Serif SC","Songti SC",serif}
+  .mono{font-family:"SF Mono","Cascadia Mono","JetBrains Mono",monospace;font-variant-numeric:tabular-nums}
+  .tr{display:grid;gap:12px;align-items:baseline;padding:7px 0;border-bottom:1px solid #E4E2D9;font-size:11px;line-height:16px}
+  .tr .l{color:#171A17}
+  .tr .m{font-family:"SF Mono","Cascadia Mono","JetBrains Mono",monospace;font-size:10px;line-height:15px;color:#8F3223}
+  .tr .n{color:#6B7069}
+  .hdr{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:#8A8F86}
+  .code{background:#171A17;border-radius:10px;padding:14px 16px;box-sizing:border-box;color:#E6E3D8;font-family:"SF Mono","Cascadia Mono","JetBrains Mono",monospace;font-size:10px;line-height:17px;white-space:pre;overflow:hidden}
+  .code .c{color:#8E9388}
+  .code .k{color:#F0A48F}
+  .code .s{color:#C9D6A9}
+  .note{display:flex;gap:9px;font-size:11px;line-height:17px;color:#3C423B;align-items:flex-start}
+  .note b{font-family:"SF Mono","Cascadia Mono","JetBrains Mono",monospace;font-size:9px;line-height:17px;font-weight:600;color:#B8432F}
+  a{color:#B8432F}a:hover{color:#8F3223}
+</style>
+</helmet>
+<div style="width:1440px;height:1000px;background:#F4F2EA;padding:32px;box-sizing:border-box;display:flex;flex-direction:column">
+  <div style="display:flex;justify-content:space-between;align-items:flex-end;border-bottom:1px solid #D6D4CA;padding-bottom:14px">
+    <div>
+      <div style="font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#B8432F">System surfaces / 16 · implementation</div>
+      <h2 class="serif" style="margin-top:7px;font-size:36px;line-height:42px;font-weight:300;letter-spacing:-.012em">What MyGo already draws.</h2>
+      <div style="margin-top:6px;font-size:11px;line-height:17px;color:#6B7069">每一块都落到官方组件上：不手画进度条、不手调按钮状态、不手算高度。这张图是画板与 <span class="mono" style="font-size:10px">popoverView</span> 的对照表。</div>
+    </div>
+    <div class="mono" style="font-size:9px;line-height:14px;letter-spacing:.1em;color:#8A8F86;text-align:right">MYGO v0.10.0<br>UI / FLYOUT / PROGRESS</div>
+  </div>
+
+  <div style="display:flex;gap:32px;margin-top:20px">
+    <div style="width:720px;flex:none">
+      <div class="tr" style="grid-template-columns:110px 240px 1fr;border-bottom:1px solid #CFCDC3"><div class="hdr">区域</div><div class="hdr">MyGo</div><div class="hdr">为什么是它</div></div>
+      <div class="tr" style="grid-template-columns:110px 240px 1fr"><div class="l">外壳</div><div class="m">NewFlyout(FlyoutOptions{…})</div><div class="n">Popover / Shadow / CornerRadius / FitContent 一次说清</div></div>
+      <div class="tr" style="grid-template-columns:110px 240px 1fr"><div class="l">主题</div><div class="m">theme.Apply(c)</div><div class="n">t.Space、t.Radius、t.Accent；字号走 theme.Px</div></div>
+      <div class="tr" style="grid-template-columns:110px 240px 1fr"><div class="l">布局</div><div class="m">ui.Column · ui.Row · ui.Spacer</div><div class="n">Spacer / Divider 代替固定高度空 Box</div></div>
+      <div class="tr" style="grid-template-columns:110px 240px 1fr"><div class="l">记号</div><div class="m">ui.Icon(c, ui.MustParseSVG(mark))</div><div class="n">两色由记号自带，按尺寸加粗</div></div>
+      <div class="tr" style="grid-template-columns:110px 240px 1fr"><div class="l">状态词</div><div class="m">ui.Text(…).Bold().LetterSpacing(.16em)</div><div class="n">10 px 大写标签，随主题文字缩放</div></div>
+      <div class="tr" style="grid-template-columns:110px 240px 1fr"><div class="l">剩余时间</div><div class="m">ContentTransition{Numeric, Down}</div><div class="n">21m→20m 是滚动，不是整块淡入</div></div>
+      <div class="tr" style="grid-template-columns:110px 240px 1fr"><div class="l">刻度尺</div><div class="m">ui.Box(c).Draw(60 ticks)</div><div class="n">61 个图元；RoleProgress + Label 补语义</div></div>
+      <div class="tr" style="grid-template-columns:110px 240px 1fr"><div class="l">说明行</div><div class="m">ui.Text(…).TextColor(t.TextMuted).MaxLines(2)</div><div class="n">不截断、不换行成两段</div></div>
+      <div class="tr" style="grid-template-columns:110px 240px 1fr"><div class="l">主操作</div><div class="m">ui.PrimaryButton(c, label).Grow(1)</div><div class="n">accent 实心；非活动窗口退成默认按钮描边</div></div>
+      <div class="tr" style="grid-template-columns:110px 240px 1fr"><div class="l">次操作</div><div class="m">ui.Button(c, label).Grow(1)</div><div class="n">surface + 1 px 描边，与设置页同源</div></div>
+      <div class="tr" style="grid-template-columns:110px 240px 1fr"><div class="l">页脚</div><div class="m">ui.Divider(c) + ui.Button(c, "Settings…")</div><div class="n">分隔用组件，文字按钮用透明底的 Button</div></div>
+      <div class="tr" style="grid-template-columns:110px 240px 1fr"><div class="l">图标按钮</div><div class="m">ui.Button(c, "").Children(ui.Icon(…)).Tooltip(…)</div><div class="n">有可读名称与提示，不是可点 Icon</div></div>
+      <div class="tr" style="grid-template-columns:110px 240px 1fr"><div class="l">菜单兜底</div><div class="m">a.tray.ShowMenu()</div><div class="n">原生菜单，不第二套自绘</div></div>
+      <div class="tr" style="grid-template-columns:110px 240px 1fr"><div class="l">状态切换</div><div class="m">Transition{Enter, Exit} + Motion{Collapse}</div><div class="n">动作行进来/出去，邻居不跳</div></div>
+      <div class="tr" style="grid-template-columns:110px 240px 1fr"><div class="l">高度</div><div class="m">FitContent: true</div><div class="n">两帧内跟住内容；代码里没有五个 Height</div></div>
+      <div class="tr" style="grid-template-columns:110px 240px 1fr;border-bottom:0"><div class="l">验收</div><div class="m">ui.NewTester(a.popoverView, 320, 320)</div><div class="n">四态文本、点击动作、深浅色、数字滚动</div></div>
+    </div>
+
+    <div style="flex:1">
+      <div class="mono" style="font-size:9px;letter-spacing:.1em;color:#8A8F86;margin-bottom:8px">SKELETON · 与上表一一对应</div>
+      <div class="code"><span class="c">// 外壳：系统画框，内容只画墨</span>
+a.popover = mygo.NewFlyout(mygo.FlyoutOptions{
+	<span class="k">Tray</span>: a.tray.Native(), <span class="k">Placement</span>: mygo.PlacementBottom, <span class="k">Gap</span>: 4,
+	<span class="k">Width</span>: 320, <span class="k">FitContent</span>: true, <span class="k">MinHeight</span>: 220,
+	<span class="k">Popover</span>: runtime.GOOS == <span class="s">"darwin"</span>, <span class="c">// 材质·箭头·开合</span>
+	<span class="k">Shadow</span>: true, <span class="k">CornerRadius</span>: 14,
+	<span class="k">Content</span>: ui.View(a.popoverView),
+})
+
+<span class="k">func</span> (a *App) popoverView(c *ui.Context) {
+	t := theme.Apply(c)
+	ui.Column(c).Padding(t.Space(4)).Gap(t.Space(3)).Children(<span class="k">func</span>() {
+		ui.Row(c).Gap(t.Space(2)).Children(<span class="k">func</span>() {
+			ui.Icon(c, mark)                       <span class="c">// 记号</span>
+			ui.Text(c, state).Bold()
+			ui.Spacer(c)
+			ui.Button(c, <span class="s">""</span>).Children(<span class="k">func</span>() { ui.Icon(c, more) })
+		})
+		ui.Text(c, label).Font(theme.Mono).
+			FontSize(theme.Px(c, 34)).Bold().
+			ContentTransition(ui.ContentTransition{Numeric: true, Down: true})
+		ruler(c, t, share)                     <span class="c">// 60 根刻度 + 游标</span>
+		ui.Text(c, detail).TextColor(t.TextMuted).MaxLines(2)
+		ui.Spacer(c)
+		ui.PrimaryButton(c, take).Grow(1)
+		ui.Button(c, pause).Grow(1)
+		ui.Divider(c)
+		ui.Button(c, settings).Grow(1)
+	})
+}</div>
+
+      <div style="margin-top:16px;display:flex;flex-direction:column;gap:10px">
+        <div class="note"><b>01</b><div>高度不写死：<span class="mono" style="font-size:10px">FitContent</span> 让 336 / 207 / 236 / 147 自己长出来，多一行动作也不会被裁。</div></div>
+        <div class="note"><b>02</b><div>刻度尺是唯一自绘的读数：60 根 1 px 发丝 + 游标，成本 61 个图元；角色与 <span class="mono" style="font-size:10px">Label</span> 要自己补，别让它变成纯装饰。</div></div>
+        <div class="note"><b>03</b><div>主按钮要靠强调色站住：把 <span class="mono" style="font-size:10px">t.InactiveAccent</span> 设为 <span class="mono" style="font-size:10px">t.Accent</span>，三端都是朱红实心；不设的话 MyGo 会把非活动窗口的 PrimaryButton 画成普通按钮，与次级同貌。</div></div>
+        <div class="note"><b>04</b><div>数字用 <span class="mono" style="font-size:10px">ContentTransition</span>：每 30 秒变一次，滚动读起来像钟，不像重绘。</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1000}}'>
+class Component extends DCLogic {}
+</script>
+</body>
+</html>

@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Desktop components</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Spectral:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  body{margin:0;background:#F4F2EA;color:#171A17;-webkit-font-smoothing:antialiased;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI Variable Text","Segoe UI",Inter,"Noto Sans SC","PingFang SC",sans-serif}
+  h1,h2,h3,p{margin:0}
+  .mono{font-family:"SF Mono","Cascadia Mono","JetBrains Mono",monospace;font-variant-numeric:tabular-nums}
+  .serif{font-family:"Spectral","Iowan Old Style","Noto Serif SC","Songti SC",serif}
+  .btn{height:32px;padding:0 14px;border-radius:8px;border:1px solid transparent;font-family:inherit;font-size:13px;line-height:20px;font-weight:500;display:inline-flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;transition:background .12s,color .12s}
+  .filled{background:#B8432F;color:#FFFFFF}
+  .filled:hover{background:#A63A28}
+  .filled:active{background:#8F3223}
+  .tonal{background:#D7E3D9;color:#1B2A21}
+  .tonal:hover{background:#C9D8CD}
+  .outline{background:transparent;border-color:#CFCCC1;color:#171A17}
+  .outline:hover{background:#F1EFE7}
+  .textbtn{background:transparent;color:#B8432F;padding:0 10px}
+  .textbtn:hover{background:rgba(184,67,47,.08)}
+  .btn:focus-visible,.select:focus-visible,.step button:focus-visible,.seg button:focus-visible{outline:2px solid rgba(184,67,47,.55);outline-offset:2px}
+  .btn:disabled{opacity:.38;cursor:default}
+  .link-exit{background:none;border:0;color:#B8432F;font-family:inherit;font-size:13px;line-height:20px;font-weight:500;padding:6px 8px;border-radius:6px;cursor:pointer;text-decoration:underline;text-underline-offset:4px}
+  .link-exit:hover{text-decoration-thickness:1.5px}
+  .sw{position:relative;display:inline-flex;width:36px;height:20px;flex:none;vertical-align:middle}
+  .sw input{position:absolute;inset:0;width:100%;height:100%;opacity:0;margin:0;cursor:pointer}
+  .sw span{position:absolute;inset:0;border-radius:999px;background:#D6D4CA;transition:background .12s}
+  .sw span:after{content:"";position:absolute;width:16px;height:16px;left:2px;top:2px;border-radius:50%;background:#FFFFFF;box-shadow:0 1px 2px rgba(0,0,0,.2);transition:transform .12s}
+  .sw input:checked + span{background:#B8432F}
+  .sw input:checked + span:after{transform:translateX(16px)}
+  .sw input:focus-visible + span{outline:2px solid rgba(184,67,47,.55);outline-offset:2px}
+  .sw input:disabled + span{opacity:.38}
+  .seg{display:inline-flex;padding:2px;background:#EAE8DF;border-radius:8px;gap:2px}
+  .seg button{height:28px;padding:0 12px;border:0;background:transparent;border-radius:6px;font-family:inherit;font-size:12px;line-height:18px;color:#5D635B;cursor:pointer}
+  .seg button[aria-pressed="true"]{background:#FBFAF5;color:#171A17;font-weight:600;box-shadow:0 1px 2px rgba(0,0,0,.08)}
+  .step{display:inline-flex;align-items:center;border:1px solid #D6D4CA;border-radius:8px;height:32px;background:#FBFAF5}
+  .step button{width:30px;height:30px;border:0;background:transparent;color:#171A17;font-size:15px;line-height:1;cursor:pointer;border-radius:6px}
+  .step button:hover{background:#F1EFE7}
+  .step .val{width:52px;text-align:center;font-size:12px;font-variant-numeric:tabular-nums;color:#171A17}
+  .select{display:inline-flex;align-items:center;justify-content:space-between;gap:10px;width:180px;height:32px;border:1px solid #CFCCC1;border-radius:8px;background:#FBFAF5;padding:0 9px 0 11px;font-family:inherit;font-size:12px;color:#171A17;cursor:pointer}
+  .select:hover{background:#F7F5EE}
+  input[type="range"]{width:220px;accent-color:#B8432F;margin:0}
+  .swatch{width:34px;height:34px;border-radius:8px;border:1px solid rgba(0,0,0,.08);cursor:pointer;padding:0}
+  .swatch[aria-pressed="true"]{box-shadow:0 0 0 2px #F4F2EA,0 0 0 4px #B8432F}
+  .banner{background:#F7E8C8;border:1px solid #E6CF9F;border-radius:8px;padding:11px 12px;color:#4A3600;display:flex;align-items:center;justify-content:space-between;gap:16px}
+  .banner button{border:0;background:none;color:#5A4300;font-family:inherit;font-size:12px;font-weight:600;text-decoration:underline;text-underline-offset:3px;cursor:pointer;padding:0}
+  .seclabel{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#5D635B}
+  .spec{font-size:9px;color:#8A8F86;font-family:"SF Mono",monospace}
+  a{color:#B8432F}a:hover{color:#8F3223}
+</style>
+</helmet>
+<div style="width:1280px;height:960px;background:#F4F2EA;padding:44px 48px;box-sizing:border-box;display:flex;flex-direction:column">
+  <div style="display:flex;justify-content:space-between;align-items:flex-end">
+    <div>
+      <div style="font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#B8432F">Components / 07</div>
+      <h2 class="serif" style="margin-top:8px;font-size:40px;line-height:46px;font-weight:300;letter-spacing:-.012em">Desktop controls, 32 px tall.</h2>
+      <div style="margin-top:8px;font-size:12px;line-height:18px;color:#6B7069">一套跨平台自绘控件：鼠标悬停、键盘焦点、禁用状态齐全；尺寸按桌面密度，不按移动端。</div>
+    </div>
+    <div class="mono" style="font-size:9px;line-height:15px;letter-spacing:.1em;color:#8A8F86;text-align:right">H 32 · R 8 · 13/20<br>HOVER 8% · FOCUS 2 PX</div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:56px;margin-top:26px">
+    <div>
+      <div style="display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid #D6D4CA;padding-bottom:7px">
+        <div class="seclabel">Buttons</div><div class="spec">FILLED / TONAL / OUTLINE / TEXT</div>
+      </div>
+      <div style="display:flex;gap:10px;margin-top:14px;align-items:center;flex-wrap:wrap">
+        <button class="btn filled" type="button">Start</button>
+        <button class="btn tonal" type="button">Open Settings</button>
+        <button class="btn outline" type="button">Cancel</button>
+        <button class="btn textbtn" type="button">Preview</button>
+      </div>
+      <div style="display:flex;gap:10px;margin-top:12px;align-items:center;flex-wrap:wrap">
+        <button class="btn filled" type="button" style="background:#A63A28">Hover</button>
+        <button class="btn filled" type="button" style="background:#8F3223">Pressed</button>
+        <button class="btn outline" type="button" style="outline:2px solid rgba(184,67,47,.55);outline-offset:2px">Focus</button>
+        <button class="btn filled" type="button" disabled>Disabled</button>
+      </div>
+      <div style="margin-top:8px;font-size:10px;line-height:15px;color:#6B7069">主按钮只用于“开始”；休息窗出口永远是文字按钮，不填充。</div>
+
+      <div style="display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid #D6D4CA;padding-bottom:7px;margin-top:28px">
+        <div class="seclabel">Break exit</div><div class="spec">TEXT · 44 × 28 HIT</div>
+      </div>
+      <div style="margin-top:12px;display:flex;align-items:baseline;gap:10px">
+        <button class="link-exit" type="button">Postpone</button>
+        <span class="mono" style="font-size:11px;color:#8A8F86">⌘X</span>
+        <span style="font-size:10px;color:#8A8F86">/ Ctrl+X</span>
+      </div>
+      <div style="margin-top:6px;font-size:10px;line-height:15px;color:#6B7069">Underline on hover; no icon, no fill; only one exit at a time.</div>
+
+      <div style="display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid #D6D4CA;padding-bottom:7px;margin-top:28px">
+        <div class="seclabel">Switch</div><div class="spec">36 × 20 · ON / OFF / DISABLED</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:28px;margin-top:14px">
+        <label style="display:flex;align-items:center;gap:9px;font-size:12px;color:#171A17">
+          <span class="sw"><input type="checkbox" checked aria-label="Start at login"><span></span></span>Start at login
+        </label>
+        <label style="display:flex;align-items:center;gap:9px;font-size:12px;color:#171A17">
+          <span class="sw"><input type="checkbox" aria-label="Pause when away"><span></span></span>Pause when away
+        </label>
+        <label style="display:flex;align-items:center;gap:9px;font-size:12px;color:#8A8F86">
+          <span class="sw"><input type="checkbox" disabled aria-label="Muted"><span></span></span>Muted
+        </label>
+      </div>
+
+      <div style="display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid #D6D4CA;padding-bottom:7px;margin-top:28px">
+        <div class="seclabel">Segmented</div><div class="spec">32 H · TRACK + SURFACE</div>
+      </div>
+      <div class="seg" role="group" aria-label="Menu bar style" style="margin-top:14px">
+        <button type="button" aria-pressed="true">Mark</button>
+        <button type="button" aria-pressed="false">Time</button>
+        <button type="button" aria-pressed="false">Ring</button>
+      </div>
+
+      <div style="display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid #D6D4CA;padding-bottom:7px;margin-top:28px">
+        <div class="seclabel">Stepper</div><div class="spec">32 H · LONG-PRESS ACCELERATES</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:16px;margin-top:14px">
+        <div class="step">
+          <button type="button" aria-label="Decrease break time"><svg width="12" height="12" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 8h8" stroke="#171A17" stroke-width="1.5" stroke-linecap="round"/></svg></button>
+          <span class="val">5 min</span>
+          <button type="button" aria-label="Increase break time"><svg width="12" height="12" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 8h8M8 4v8" stroke="#171A17" stroke-width="1.5" stroke-linecap="round"/></svg></button>
+        </div>
+        <span style="font-size:11px;color:#6B7069">1–10 min, 1 min steps</span>
+      </div>
+    </div>
+
+    <div>
+      <div style="display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid #D6D4CA;padding-bottom:7px">
+        <div class="seclabel">Select</div><div class="spec">32 H · 180 W</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:14px;margin-top:14px">
+        <button class="select" type="button" aria-haspopup="listbox">
+          <span>All displays</span>
+          <svg width="11" height="11" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M3 4.5 6 7.5 9 4.5" stroke="#5D635B" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <span style="font-size:11px;color:#6B7069">完全使用自绘，避免三套原生控件外观</span>
+      </div>
+
+      <div style="display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid #D6D4CA;padding-bottom:7px;margin-top:28px">
+        <div class="seclabel">Slider</div><div class="spec">220 W · TRACK 2 PX · THUMB 14</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:14px;margin-top:14px">
+        <input type="range" min="0" max="100" value="70" aria-label="Volume">
+        <span class="mono" style="font-size:12px;color:#5D635B">70%</span>
+      </div>
+
+      <div style="display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid #D6D4CA;padding-bottom:7px;margin-top:28px">
+        <div class="seclabel">Break field swatches</div><div class="spec">34 × 34 · R 8</div>
+      </div>
+      <div style="display:flex;gap:10px;margin-top:14px;align-items:center">
+        <button class="swatch" type="button" aria-pressed="true" aria-label="Pine" style="background:#2B4A41"></button>
+        <button class="swatch" type="button" aria-pressed="false" aria-label="Ink" style="background:#141A18"></button>
+        <button class="swatch" type="button" aria-pressed="false" aria-label="Oxblood" style="background:#4A2A2E"></button>
+        <button class="swatch" type="button" aria-pressed="false" aria-label="Slate" style="background:#2E383F"></button>
+        <button class="swatch" type="button" aria-pressed="false" aria-label="Sand" style="background:#CFC5B2"></button>
+        <button class="swatch" type="button" aria-pressed="false" aria-label="Paper" style="background:#EFEEE6;border-color:#D8D5CB"></button>
+      </div>
+
+      <div style="display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid #D6D4CA;padding-bottom:7px;margin-top:28px">
+        <div class="seclabel">Banner</div><div class="spec">WARNING / INFO · NO LEFT BAR</div>
+      </div>
+      <div class="banner" style="margin-top:14px">
+        <div>
+          <div style="font-size:12px;font-weight:600">Pause during Focus needs Full Disk Access.</div>
+          <div style="font-size:10px;line-height:15px;margin-top:2px;color:#6B4B00">Fermata only reads the Focus state; it never reads your data.</div>
+        </div>
+        <button type="button">Open System Settings</button>
+      </div>
+
+      <div style="display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid #D6D4CA;padding-bottom:7px;margin-top:28px">
+        <div class="seclabel">Focus / disabled</div><div class="spec">KEYBOARD ONLY</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;margin-top:14px">
+        <button class="btn outline" type="button" style="outline:2px solid rgba(184,67,47,.55);outline-offset:2px">Focus visible</button>
+        <button class="btn outline" type="button" disabled>Disabled</button>
+        <span style="font-size:10px;color:#8A8F86">2 px ring, offset 2</span>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:auto;border-top:1px solid #D6D4CA;padding-top:14px;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:24px">
+    <div><div class="mono" style="font-size:9px;color:#B8432F">HIT</div><div style="margin-top:3px;font-size:10px;line-height:15px;color:#5D635B">控件 ≥ 32 × 32；休息出口 44 × 28</div></div>
+    <div><div class="mono" style="font-size:9px;color:#B8432F">FOCUS</div><div style="margin-top:3px;font-size:10px;line-height:15px;color:#5D635B">只在键盘导航时出现，不抢鼠标用户注意力</div></div>
+    <div><div class="mono" style="font-size:9px;color:#B8432F">MOTION</div><div style="margin-top:3px;font-size:10px;line-height:15px;color:#5D635B">状态层 120 ms；不位移、不缩放、不脉冲</div></div>
+    <div><div class="mono" style="font-size:9px;color:#B8432F">TEXT</div><div style="margin-top:3px;font-size:10px;line-height:15px;color:#5D635B">最小 11 px；行高 ≥ 1.35；不截断说明</div></div>
+    <div><div class="mono" style="font-size:9px;color:#B8432F">PLATFORM</div><div style="margin-top:3px;font-size:10px;line-height:15px;color:#5D635B">控件一致；窗口装饰与菜单交给系统</div></div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":960}}'>
+class Component extends DCLogic {}
+</script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Mini break — default</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Spectral:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  body{margin:0;background:#D6D3C9;color:#F3F2EA;-webkit-font-smoothing:antialiased;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI Variable Text","Segoe UI",Inter,"Noto Sans",sans-serif}
+  h1,h2,h3,p{margin:0}
+  .serif{font-family:"Spectral","Iowan Old Style","Noto Serif SC","Songti SC",serif}
+  .mono{font-family:"SF Mono","Cascadia Mono","JetBrains Mono",monospace;font-variant-numeric:tabular-nums}
+  .num{font-variant-numeric:tabular-nums}
+  .exit{background:none;border:0;color:rgba(243,242,234,.82);font-family:inherit;font-size:15px;line-height:20px;font-weight:400;letter-spacing:.01em;padding:3px 6px;cursor:pointer}
+  .exit:hover{text-decoration:underline;text-underline-offset:4px;color:#F3F2EA}
+  .exit:focus-visible{outline:2px solid rgba(243,242,234,.6);outline-offset:4px;border-radius:3px}
+  a{color:#F3F2EA}a:hover{color:#FFFFFF}
+</style>
+</helmet>
+<div style="width:1440px;height:900px;background:#D6D3C9;display:flex;align-items:center;justify-content:center">
+  <div style="position:relative;width:1224px;height:765px;background:#2B4A41;border-radius:20px;box-shadow:0 24px 80px rgba(0,0,0,.38);padding:48px 48px 64px;box-sizing:border-box;display:flex;flex-direction:column">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start">
+      <div style="font-size:11px;line-height:15px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:rgba(243,242,234,.55)">Mini Break</div>
+      <div class="mono num" style="font-size:11px;line-height:15px;letter-spacing:.04em;color:rgba(243,242,234,.55)">14:32</div>
+    </div>
+
+    <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center">
+      <svg width="48" height="48" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+        <path d="M6 18C8 8.5 24 8.5 26 18" stroke="#F3F2EA" stroke-width="2.6" stroke-linecap="round"/>
+        <circle cx="16" cy="25" r="2.9" fill="#F0836C"/>
+      </svg>
+
+      <div class="serif" style="margin-top:28px;max-width:760px;text-align:center;font-size:42px;line-height:51px;font-weight:300;letter-spacing:-.008em;color:#F3F2EA">Look out a window until your eyes relax.</div>
+
+      <div style="margin-top:40px;width:280px;height:1px;background:rgba(243,242,234,.25)">
+        <div style="width:30%;height:1px;background:rgba(243,242,234,.85)"></div>
+      </div>
+      <div class="mono num" style="margin-top:16px;font-size:13px;line-height:16px;letter-spacing:.04em;color:rgba(243,242,234,.65)">0:14</div>
+    </div>
+
+    <div style="display:flex;justify-content:center">
+      <button class="exit" type="button" aria-label="Postpone this break, Command X">Postpone <span class="mono" style="margin-left:8px;font-size:12px;letter-spacing:.02em;color:rgba(243,242,234,.55)">⌘X</span></button>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {}
+</script>
+</body>
+</html>

@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Settings — Schedule</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Spectral:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  body{margin:0;background:#F6F4ED;color:#171A17;-webkit-font-smoothing:antialiased;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI Variable Text","Segoe UI",Inter,"Noto Sans","PingFang SC",sans-serif}
+  h1,h2,h3,p{margin:0}
+  .mono{font-family:"SF Mono","Cascadia Mono","JetBrains Mono",monospace;font-variant-numeric:tabular-nums}
+  .label{font-size:13px;line-height:19px;color:#171A17}
+  .desc{font-size:10px;line-height:14px;color:#6B7069;margin-top:1px}
+  .hr{height:1px;background:#E2E0D7;margin:5px 0}
+  .nav{display:flex;flex-direction:column;gap:2px;margin-top:16px}
+  .nav button{height:32px;border:0;background:transparent;border-radius:6px;padding:0 10px;text-align:left;font-family:inherit;font-size:13px;line-height:19px;color:#4C5149;cursor:pointer}
+  .nav button:hover{background:rgba(255,255,255,.55)}
+  .nav button[aria-current="page"]{background:#FBFAF5;color:#171A17;font-weight:600;box-shadow:inset 0 0 0 1px #E2E0D7}
+  .nav button:focus-visible{outline:2px solid rgba(184,67,47,.55);outline-offset:1px}
+  .sw{position:relative;display:inline-flex;width:36px;height:20px;flex:none}
+  .sw input{position:absolute;inset:0;width:100%;height:100%;opacity:0;margin:0;cursor:pointer}
+  .sw span{position:absolute;inset:0;border-radius:999px;background:#D6D4CA;transition:background .12s}
+  .sw span:after{content:"";position:absolute;width:16px;height:16px;left:2px;top:2px;border-radius:50%;background:#FFFFFF;box-shadow:0 1px 2px rgba(0,0,0,.2);transition:transform .12s}
+  .sw input:checked + span{background:#B8432F}
+  .sw input:checked + span:after{transform:translateX(16px)}
+  .sw input:focus-visible + span{outline:2px solid rgba(184,67,47,.55);outline-offset:2px}
+  .sw input:disabled + span{opacity:.38}
+  .step{display:inline-flex;align-items:center;border:1px solid #D6D4CA;border-radius:8px;height:30px;background:#FBFAF5;flex:none}
+  .step button{width:26px;height:28px;border:0;background:transparent;color:#171A17;font-size:14px;line-height:1;cursor:pointer;border-radius:6px}
+  .step button:hover{background:#F1EFE7}
+  .step .val{width:48px;text-align:center;font-size:11px;font-variant-numeric:tabular-nums;color:#171A17}
+  .step button:focus-visible{outline:2px solid rgba(184,67,47,.55);outline-offset:-2px}
+  .colrow{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px solid #E8E6DD;min-height:42px;box-sizing:border-box}
+  .colhead{display:flex;align-items:center;justify-content:space-between;padding-bottom:6px;border-bottom:1px solid #D6D4CA}
+  a{color:#B8432F}a:hover{color:#8F3223}
+</style>
+</helmet>
+<div style="width:800px;height:720px;background:#F6F4ED;display:flex;box-shadow:inset 0 0 0 1px #D6D4CA;overflow:hidden">
+  <div style="position:absolute;left:18px;top:18px;display:flex;gap:8px;z-index:2">
+    <span style="width:10px;height:10px;border-radius:50%;background:#FF5F57"></span>
+    <span style="width:10px;height:10px;border-radius:50%;background:#FEBC2E"></span>
+    <span style="width:10px;height:10px;border-radius:50%;background:#28C840"></span>
+  </div>
+
+  <aside style="width:208px;flex:none;background:#F0EEE6;border-right:1px solid #DCDAD1;padding:44px 16px 16px 20px;box-sizing:border-box">
+    <div style="display:flex;align-items:center;gap:7px">
+      <svg width="22" height="22" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+        <path d="M6 18C8 8.5 24 8.5 26 18" stroke="#171A17" stroke-width="4.2" stroke-linecap="round"/>
+        <circle cx="16" cy="25" r="3.6" fill="#B8432F"/>
+      </svg>
+      <span style="font-size:13px;line-height:18px;font-weight:600">Fermata</span>
+    </div>
+    <nav class="nav" aria-label="Settings">
+      <button type="button">General</button>
+      <button type="button" aria-current="page">Schedule</button>
+      <button type="button">Appearance</button>
+      <button type="button">About</button>
+    </nav>
+  </aside>
+
+  <main style="flex:1;padding:54px 32px 24px;box-sizing:border-box;min-width:0">
+    <h1 style="font-size:22px;line-height:28px;font-weight:600;letter-spacing:-.01em">Schedule</h1>
+    <div style="margin-top:5px;font-size:12px;line-height:17px;color:#6B7069">设定节奏。两类休息至少保留一类。</div>
+
+    <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;margin-top:20px">
+      <div>
+        <div class="colhead">
+          <div style="font-size:13px;line-height:19px;font-weight:600">Mini breaks</div>
+          <label class="sw"><input type="checkbox" checked aria-label="Enable mini breaks"><span></span></label>
+        </div>
+        <div class="colrow">
+          <span class="label">Break for</span>
+          <div class="step"><button type="button" aria-label="Decrease mini break duration">−</button><span class="val">5 min</span><button type="button" aria-label="Increase mini break duration">+</button></div>
+        </div>
+        <div class="colrow">
+          <span class="label">Every</span>
+          <div class="step"><button type="button" aria-label="Decrease mini break interval">−</button><span class="val">25 min</span><button type="button" aria-label="Increase mini break interval">+</button></div>
+        </div>
+        <div class="colrow">
+          <div><div class="label">Notify before</div><div class="desc">10 seconds</div></div>
+          <label class="sw"><input type="checkbox" checked aria-label="Notify before mini breaks"><span></span></label>
+        </div>
+        <div class="colrow">
+          <div><div class="label">Allow postpone</div><div class="desc">2 min · once</div></div>
+          <label class="sw"><input type="checkbox" checked aria-label="Allow postponing mini breaks"><span></span></label>
+        </div>
+        <div class="colrow" style="border-bottom:none">
+          <div><div class="label">Wait for me to finish</div><div class="desc">until you press Finish</div></div>
+          <label class="sw"><input type="checkbox" aria-label="Wait for me to finish mini breaks"><span></span></label>
+        </div>
+      </div>
+
+      <div>
+        <div class="colhead">
+          <div style="font-size:13px;line-height:19px;font-weight:600">Long breaks</div>
+          <label class="sw"><input type="checkbox" checked aria-label="Enable long breaks"><span></span></label>
+        </div>
+        <div class="colrow">
+          <span class="label">Break for</span>
+          <div class="step"><button type="button" aria-label="Decrease long break duration">−</button><span class="val">15 min</span><button type="button" aria-label="Increase long break duration">+</button></div>
+        </div>
+        <div class="colrow">
+          <div><div class="label">Every</div><div class="desc">mini breaks</div></div>
+          <div class="step"><button type="button" aria-label="Decrease long break frequency">−</button><span class="val">4</span><button type="button" aria-label="Increase long break frequency">+</button></div>
+        </div>
+        <div class="colrow">
+          <div><div class="label">Notify before</div><div class="desc">30 seconds</div></div>
+          <label class="sw"><input type="checkbox" checked aria-label="Notify before long breaks"><span></span></label>
+        </div>
+        <div class="colrow">
+          <div><div class="label">Allow postpone</div><div class="desc">5 min · once</div></div>
+          <label class="sw"><input type="checkbox" checked aria-label="Allow postponing long breaks"><span></span></label>
+        </div>
+        <div class="colrow" style="border-bottom:none">
+          <div><div class="label">Wait for me to finish</div><div class="desc">until you press Finish</div></div>
+          <label class="sw"><input type="checkbox" aria-label="Wait for me to finish long breaks"><span></span></label>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:18px;border-top:1px solid #D6D4CA;padding-top:12px">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:20px">
+        <div>
+          <div style="font-size:13px;line-height:19px;font-weight:600">Strict mode</div>
+          <div style="margin-top:2px;font-size:11px;line-height:16px;color:#6B7069">Strict breaks cannot be skipped, postponed, or closed.</div>
+        </div>
+        <div style="display:flex;gap:18px;padding-top:2px">
+          <label style="display:flex;align-items:center;gap:7px;font-size:11px;color:#5D635B">Mini <span class="sw"><input type="checkbox" aria-label="Strict mini breaks"><span></span></span></label>
+          <label style="display:flex;align-items:center;gap:7px;font-size:11px;color:#5D635B">Long <span class="sw"><input type="checkbox" aria-label="Strict long breaks"><span></span></span></label>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:14px;border-top:1px solid #D6D4CA;padding-top:12px">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:20px">
+        <div>
+          <div style="font-size:13px;line-height:19px;font-weight:600">Break health</div>
+          <div style="margin-top:2px;font-size:11px;line-height:16px;color:#6B7069">A vermilion edge when breaks are often postponed or skipped.</div>
+        </div>
+        <label class="sw" style="margin-top:2px"><input type="checkbox" aria-label="Break health"><span></span></label>
+      </div>
+    </div>
+
+    <div style="margin-top:14px;background:#EFEEE8;border-radius:8px;padding:12px 14px;display:flex;align-items:center;justify-content:space-between;gap:16px">
+      <div>
+        <div style="font-size:12px;line-height:17px;font-weight:600">5 min every 25 min · 15 min every 5th break</div>
+        <div style="margin-top:2px;font-size:10px;line-height:14px;color:#6B7069">A 5-minute break every 25 minutes, and a 15-minute break every fifth break.</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:5px;flex:none">
+        <span style="font-size:9px;letter-spacing:.04em;color:#3E5F4E;background:#D7E3D9;border-radius:4px;padding:4px 6px">MINI 5m</span>
+        <span style="font-size:9px;color:#8A8F86">·</span>
+        <span style="font-size:9px;letter-spacing:.04em;color:#3E5F4E;background:#D7E3D9;border-radius:4px;padding:4px 6px">MINI 5m</span>
+        <span style="font-size:9px;color:#8A8F86">·</span>
+        <span style="font-size:9px;letter-spacing:.04em;color:#3E5F4E;background:#D7E3D9;border-radius:4px;padding:4px 6px">MINI 5m</span>
+        <span style="font-size:9px;color:#8A8F86">·</span>
+        <span style="font-size:9px;letter-spacing:.04em;color:#3E5F4E;background:#D7E3D9;border-radius:4px;padding:4px 6px">MINI 5m</span>
+        <span style="font-size:9px;color:#8A8F86">·</span>
+        <span style="font-size:9px;letter-spacing:.04em;color:#F3F2EA;background:#2B4A41;border-radius:4px;padding:4px 6px">LONG 15m</span>
+      </div>
+    </div>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":800,"height":720}}'>
+class Component extends DCLogic {}
+</script>
+</body>
+</html>

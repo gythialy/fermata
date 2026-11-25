@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Welcome — first run</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Spectral:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  body{margin:0;background:#F6F4ED;color:#171A17;-webkit-font-smoothing:antialiased;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI Variable Text","Segoe UI",Inter,"Noto Sans","PingFang SC",sans-serif}
+  h1,h2,h3,p{margin:0}
+  .serif{font-family:"Spectral","Iowan Old Style","Noto Serif SC","Songti SC",serif}
+  .mono{font-family:"SF Mono","Cascadia Mono","JetBrains Mono",monospace;font-variant-numeric:tabular-nums}
+  .num{font-variant-numeric:tabular-nums}
+  .sw{position:relative;display:inline-flex;width:36px;height:20px;flex:none}
+  .sw input{position:absolute;inset:0;width:100%;height:100%;opacity:0;margin:0;cursor:pointer}
+  .sw span{position:absolute;inset:0;border-radius:999px;background:#D6D4CA;transition:background .12s}
+  .sw span:after{content:"";position:absolute;width:16px;height:16px;left:2px;top:2px;border-radius:50%;background:#FFFFFF;box-shadow:0 1px 2px rgba(0,0,0,.2);transition:transform .12s}
+  .sw input:checked + span{background:#B8432F}
+  .sw input:checked + span:after{transform:translateX(16px)}
+  .sw input:focus-visible + span{outline:2px solid rgba(184,67,47,.55);outline-offset:2px}
+  .select{display:inline-flex;align-items:center;justify-content:space-between;gap:8px;width:150px;height:30px;border:1px solid #CFCCC1;border-radius:8px;background:#FBFAF5;padding:0 8px 0 10px;font-family:inherit;font-size:11px;color:#171A17;cursor:pointer}
+  .select:hover{background:#F7F5EE}
+  .select:focus-visible{outline:2px solid rgba(184,67,47,.55);outline-offset:2px}
+  .btn{height:34px;padding:0 16px;border-radius:8px;border:1px solid transparent;font-family:inherit;font-size:13px;line-height:20px;font-weight:500;cursor:pointer}
+  .filled{background:#B8432F;color:#FFFFFF}
+  .filled:hover{background:#A63A28}
+  .filled:active{background:#8F3223}
+  .textbtn{background:none;border:0;color:#B8432F;font-family:inherit;font-size:12px;line-height:18px;font-weight:500;padding:6px 7px;border-radius:6px;cursor:pointer}
+  .textbtn:hover{background:rgba(184,67,47,.08)}
+  .btn:focus-visible,.textbtn:focus-visible{outline:2px solid rgba(184,67,47,.55);outline-offset:2px}
+  a{color:#B8432F}a:hover{color:#8F3223}
+</style>
+</helmet>
+<div style="width:800px;height:540px;background:#F6F4ED;display:flex;box-shadow:inset 0 0 0 1px #D6D4CA;overflow:hidden">
+  <div style="width:320px;flex:none;background:#2B4A41;color:#F3F2EA;padding:26px 28px 28px;box-sizing:border-box;display:flex;flex-direction:column">
+    <div style="display:flex;justify-content:space-between;font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:rgba(243,242,234,.55)"><span>Mini Break</span><span class="num" style="letter-spacing:.04em">14:32</span></div>
+    <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center">
+      <svg width="44" height="44" viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M6 18C8 8.5 24 8.5 26 18" stroke="#F3F2EA" stroke-width="2.6" stroke-linecap="round"/><circle cx="16" cy="25" r="2.9" fill="#F0836C"/></svg>
+      <div class="serif" style="margin-top:16px;max-width:250px;text-align:center;font-size:24px;line-height:32px;font-weight:300">Look out a window until your eyes relax.</div>
+      <div style="margin-top:20px;width:130px;height:1px;background:rgba(243,242,234,.25)"><div style="width:30%;height:1px;background:rgba(243,242,234,.85)"></div></div>
+      <div class="mono num" style="margin-top:8px;font-size:8px;letter-spacing:.04em;color:rgba(243,242,234,.65)">0:14</div>
+    </div>
+    <div style="text-align:center;font-size:10px;color:rgba(243,242,234,.82)">Postpone <span class="mono" style="margin-left:5px;font-size:9px;color:rgba(243,242,234,.55)">⌘X</span></div>
+  </div>
+
+  <div style="flex:1;padding:30px 34px 34px;box-sizing:border-box;display:flex;flex-direction:column">
+    <div style="display:flex;align-items:center;gap:10px">
+      <svg width="30" height="30" viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M6 18C8 8.5 24 8.5 26 18" stroke="#171A17" stroke-width="3.2" stroke-linecap="round"/><circle cx="16" cy="25" r="3.0" fill="#B8432F"/></svg>
+      <div style="font-size:20px;line-height:26px;font-weight:600;letter-spacing:-.01em">Fermata</div>
+    </div>
+    <div class="serif" style="margin-top:10px;font-size:14px;line-height:21px;color:#5D635B">A held note in the workday.</div>
+
+    <div style="margin-top:22px;border-top:1px solid #E2E0D7;padding-top:10px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;padding:6px 0">
+        <span style="font-size:11px;color:#6B7069">Mini break</span>
+        <span style="font-size:11px;color:#171A17"><span class="mono num">5 min</span> · every <span class="mono num">25 min</span></span>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:baseline;padding:6px 0;border-top:1px solid #EFEDE4">
+        <span style="font-size:11px;color:#6B7069">Long break</span>
+        <span style="font-size:11px;color:#171A17"><span class="mono num">15 min</span> · every 5th break</span>
+      </div>
+    </div>
+
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-top:16px">
+      <span style="font-size:12px;line-height:18px;color:#5D635B">Language</span>
+      <button class="select" type="button" aria-haspopup="listbox"><span>System</span><svg width="10" height="10" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M3 4.5 6 7.5 9 4.5" stroke="#5D635B" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    </div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-top:8px">
+      <span style="font-size:12px;line-height:18px;color:#5D635B">Start at login</span>
+      <label class="sw"><input type="checkbox" aria-label="Start at login"><span></span></label>
+    </div>
+
+    <div style="display:flex;align-items:center;gap:6px;margin-top:auto">
+      <button class="btn filled" type="button">Start</button>
+      <button class="textbtn" type="button">Open Settings</button>
+      <span style="margin-left:auto;font-size:10px;color:#8A8F86">Closing this window starts Fermata too.</span>
+    </div>
+
+    <div style="margin-top:12px;font-size:9px;line-height:14px;color:#8A8F86">Lives in the menu bar. Quit from its menu. No account, no telemetry.</div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":800,"height":540}}'>
+class Component extends DCLogic {}
+</script>
+</body>
+</html>

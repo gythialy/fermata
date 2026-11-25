@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+<meta charset="utf-8">
+<title>状态弹窗 · 规格与对照</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Spectral:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  body{margin:0;background:#F4F2EA;color:#171A17;-webkit-font-smoothing:antialiased;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI Variable Text","Segoe UI",Inter,"Noto Sans SC","PingFang SC",sans-serif}
+  h1,h2,h3,p{margin:0}
+  .serif{font-family:"Spectral","Iowan Old Style","Noto Serif SC","Songti SC",serif}
+  .mono{font-family:"SF Mono","Cascadia Mono","JetBrains Mono",monospace;font-variant-numeric:tabular-nums}
+  .sec{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#5D635B;margin-bottom:8px}
+  .tr{display:grid;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px solid #E4E2D9;font-size:11px;line-height:16px}
+  .tr .l{color:#6B7069}
+  .tr .v{color:#171A17}
+  .mono-v{font-family:"SF Mono","Cascadia Mono","JetBrains Mono",monospace;font-variant-numeric:tabular-nums;font-size:10px;line-height:15px;color:#171A17}
+  .sw{display:inline-block;width:11px;height:11px;border-radius:3px;vertical-align:-1px;margin-right:6px;box-shadow:inset 0 0 0 1px rgba(23,26,23,.16)}
+  .hdr{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:#8A8F86}
+  .bullet{display:flex;gap:9px;font-size:11px;line-height:17px;color:#3C423B}
+  .bullet span{font-family:"SF Mono","Cascadia Mono","JetBrains Mono",monospace;font-size:9px;line-height:17px;color:#B8432F}
+  .btn{height:32px;border-radius:8px;font-size:13px;line-height:18px;display:inline-flex;align-items:center;justify-content:center;padding:0 14px;box-sizing:border-box}
+  .btn.on{background:#B8432F;border:1px solid #B8432F;color:#fff;font-weight:600}
+  .btn.off{background:#EAE8DF;border:1px solid #B8432F;color:#8F3223;font-weight:600}
+  .btn.sec{background:#EAE8DF;border:1px solid #D6D4CA;color:#171A17;font-weight:500}
+  a{color:#B8432F}a:hover{color:#8F3223}
+</style>
+</helmet>
+<div style="width:1440px;height:1080px;background:#F4F2EA;padding:32px;box-sizing:border-box;display:flex;flex-direction:column">
+  <div style="display:flex;justify-content:space-between;align-items:flex-end;border-bottom:1px solid #D6D4CA;padding-bottom:14px">
+    <div>
+      <div style="font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#B8432F">System surfaces / 16 · specification</div>
+      <h2 class="serif" style="margin-top:7px;font-size:36px;line-height:42px;font-weight:300;letter-spacing:-.012em">What the system owns, what we own.</h2>
+      <div style="margin-top:6px;font-size:11px;line-height:17px;color:#6B7069">规范正文在 DESIGN.md §5.2。这里只写会落到 <span class="mono" style="font-size:10px">FlyoutOptions</span> 与 <span class="mono" style="font-size:10px">ui</span> 调用上的数。</div>
+    </div>
+    <div class="mono" style="font-size:9px;line-height:14px;letter-spacing:.1em;color:#8A8F86;text-align:right">320 WIDE · FITCONTENT<br>THEME UNITS ONLY</div>
+  </div>
+
+  <div style="display:flex;gap:40px;margin-top:20px">
+    <div style="width:620px;flex:none">
+      <div class="sec">01 · 外壳：谁画框</div>
+      <div class="tr" style="grid-template-columns:88px 1fr"><div class="l">macOS</div><div class="v"><span class="mono-v">Popover: true</span> · NSPopover 画材质、圆角、阴影、指向托盘的箭头与开合动画；内容<b>不画底、不画边</b></div></div>
+      <div class="tr" style="grid-template-columns:88px 1fr"><div class="l">Windows 11</div><div class="v"><span class="mono-v">Shadow: true</span> · 系统圆角并描边，内容画 <span class="mono-v">t.Background</span>、不画 border</div></div>
+      <div class="tr" style="grid-template-columns:88px 1fr"><div class="l">Linux</div><div class="v">无阴影；内容画纸墨底与 <span class="mono-v">CornerRadius 14</span>；托盘不报点击，从菜单一项打开</div></div>
+      <div class="tr" style="grid-template-columns:88px 1fr;border-bottom:0"><div class="l">三端共有</div><div class="v"><span class="mono-v">Width 320 · FitContent · MinHeight 220 · MaxHeight 560 · Gap 4 · Focusable:false · Content: ui.View</span></div></div>
+
+      <div class="sec" style="margin-top:24px">02 · 尺寸与字号（主题单位）</div>
+      <div class="tr" style="grid-template-columns:104px 130px 1fr"><div class="hdr">部位</div><div class="hdr">值</div><div class="hdr">来源</div></div>
+      <div class="tr" style="grid-template-columns:104px 130px 1fr"><div class="l">内边距 / 块间</div><div class="v mono-v">16 / 12</div><div class="v">t.Space(4) / t.Space(3)</div></div>
+      <div class="tr" style="grid-template-columns:104px 130px 1fr"><div class="l">记号 / 图标按钮</div><div class="v mono-v">20 / 22（图形 12）</div><div class="v">t.Space(5) / t.Space(5.5)</div></div>
+      <div class="tr" style="grid-template-columns:104px 130px 1fr"><div class="l">数字</div><div class="v mono-v">34 / 40</div><div class="v">theme.Px(c,34)，mono 600</div></div>
+      <div class="tr" style="grid-template-columns:104px 130px 1fr"><div class="l">状态词</div><div class="v mono-v">10 / 14 · .16em</div><div class="v">theme.Px(c,10)，600，大写</div></div>
+      <div class="tr" style="grid-template-columns:104px 130px 1fr"><div class="l">说明行</div><div class="v mono-v">11 / 15</div><div class="v">theme.Px(c,11)，t.TextMuted</div></div>
+      <div class="tr" style="grid-template-columns:104px 130px 1fr"><div class="l">按钮高</div><div class="v mono-v">32</div><div class="v">主题默认（不覆写 Height）</div></div>
+      <div class="tr" style="grid-template-columns:104px 130px 1fr"><div class="l">刻度尺</div><div class="v mono-v">12 高 · 60 格</div><div class="v">每 5 格一根长刻度；游标 2×10</div></div>
+      <div class="tr" style="grid-template-columns:104px 130px 1fr;border-bottom:0"><div class="l">间距 / 字缩放</div><div class="v mono-v">t.Spacing / t.TextScale</div><div class="v">跟系统走，别写死 px</div></div>
+    </div>
+
+    <div style="flex:1">
+      <div class="sec">03 · 颜色（浅 / 深）</div>
+      <div class="tr" style="grid-template-columns:92px 120px 120px"><div class="hdr">角色</div><div class="hdr">浅色</div><div class="hdr">深色</div></div>
+      <div class="tr" style="grid-template-columns:92px 120px 120px"><div class="l">面板底</div><div class="v"><span class="sw" style="background:#F6F4ED"></span><span class="mono-v">F6F4ED</span></div><div class="v"><span class="sw" style="background:#121513"></span><span class="mono-v">121513</span></div></div>
+      <div class="tr" style="grid-template-columns:92px 120px 120px"><div class="l">次级面</div><div class="v"><span class="sw" style="background:#EAE8DF"></span><span class="mono-v">EAE8DF</span></div><div class="v"><span class="sw" style="background:#1B211D"></span><span class="mono-v">1B211D</span></div></div>
+      <div class="tr" style="grid-template-columns:92px 120px 120px"><div class="l">描边 / 轨道</div><div class="v"><span class="sw" style="background:#D6D4CA"></span><span class="mono-v">D6D4CA</span></div><div class="v"><span class="sw" style="background:#2E342F"></span><span class="mono-v">2E342F</span></div></div>
+      <div class="tr" style="grid-template-columns:92px 120px 120px"><div class="l">分隔线</div><div class="v"><span class="sw" style="background:#E2E0D7"></span><span class="mono-v">E2E0D7</span></div><div class="v"><span class="sw" style="background:#2E342F"></span><span class="mono-v">2E342F</span></div></div>
+      <div class="tr" style="grid-template-columns:92px 120px 120px"><div class="l">正文</div><div class="v"><span class="sw" style="background:#171A17"></span><span class="mono-v">171A17</span></div><div class="v"><span class="sw" style="background:#ECEDE5"></span><span class="mono-v">ECEDE5</span></div></div>
+      <div class="tr" style="grid-template-columns:92px 120px 120px"><div class="l">说明</div><div class="v"><span class="sw" style="background:#5D635B"></span><span class="mono-v">5D635B</span></div><div class="v"><span class="sw" style="background:#A8AEA4"></span><span class="mono-v">A8AEA4</span></div></div>
+      <div class="tr" style="grid-template-columns:92px 120px 120px"><div class="l">强调</div><div class="v"><span class="sw" style="background:#B8432F"></span><span class="mono-v">B8432F</span></div><div class="v"><span class="sw" style="background:#F0836C"></span><span class="mono-v">F0836C</span></div></div>
+      <div class="tr" style="grid-template-columns:92px 120px 120px;border-bottom:0"><div class="l">强调上的字</div><div class="v"><span class="sw" style="background:#FFFFFF"></span><span class="mono-v">FFFFFF</span></div><div class="v"><span class="sw" style="background:#451009"></span><span class="mono-v">451009</span></div></div>
+
+      <div class="sec" style="margin-top:22px">04 · 主按钮：一个实心，靠强调色站住</div>
+      <div style="display:flex;gap:12px;align-items:center;margin-top:2px">
+        <div class="btn on" style="width:150px">Take a break now</div>
+        <div class="btn sec" style="width:150px">Pause 30 minutes</div>
+        <div class="btn" style="width:170px;background:#EAE8DF;border:1px solid #D6D4CA;color:#171A17;font-weight:500">不设 InactiveAccent 时</div>
+      </div>
+      <div style="margin-top:8px;font-size:11px;line-height:17px;color:#3C423B"><span class="mono" style="font-size:10px">ui.PrimaryButton</span> 只在「强调」窗口填 accent；非焦点的 flyout 往往不算，默认会退成与次级同貌的普通按钮——所以主题里把 <span class="mono" style="font-size:10px">InactiveAccent</span> 设为 <span class="mono" style="font-size:10px">Accent</span>，第三块是反例。</div>
+
+      <div class="sec" style="margin-top:20px">05 · 可访问性与测试</div>
+      <div style="display:flex;flex-direction:column;gap:7px">
+        <div class="bullet"><span>01</span><div>数字不设 live region；每次打开时读一次「Next mini break, 21 minutes」。</div></div>
+        <div class="bullet"><span>02</span><div>两个图标按钮带 <span class="mono" style="font-size:10px">Label()</span> 与 <span class="mono" style="font-size:10px">Tooltip()</span>；刻度尺带 <span class="mono" style="font-size:10px">Role(RoleProgress)</span> 与 <span class="mono" style="font-size:10px">Label("34%")</span>。</div></div>
+        <div class="bullet"><span>03</span><div>macOS 的 NSPopover 拿键盘：Tab 走按钮、Return 触发默认；Windows / Linux 只鼠标，键盘走菜单。</div></div>
+        <div class="bullet"><span>04</span><div>验收：<span class="mono" style="font-size:10px">ui.NewTester(a.popoverView, 320, 320)</span> 跑四态文本、点主/次按钮、<span class="mono" style="font-size:10px">tt.SetDark</span>、<span class="mono" style="font-size:10px">tt.Advance</span> 推数字、<span class="mono" style="font-size:10px">tt.FramePending()==false</span>。</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:22px;border-top:1px solid #D6D4CA;padding-top:14px">
+    <div class="sec">06 · 旧稿 → 现在</div>
+    <div class="tr" style="grid-template-columns:110px 1fr 1fr"><div class="hdr">部位</div><div class="hdr">旧稿（截图）</div><div class="hdr">现在</div></div>
+    <div class="tr" style="grid-template-columns:110px 1fr 1fr"><div class="l">外壳</div><div class="v" style="color:#6B7069">自绘圆角、蓝色系统色</div><div class="v">macOS 交给 NSPopover；只有 Windows / Linux 自绘纸墨</div></div>
+    <div class="tr" style="grid-template-columns:110px 1fr 1fr"><div class="l">数字</div><div class="v" style="color:#6B7069">居中，与标题说同一件事</div><div class="v">左对齐等宽，<span class="mono" style="font-size:10px">Numeric</span> 滚动；状态词只说是什么</div></div>
+    <div class="tr" style="grid-template-columns:110px 1fr 1fr"><div class="l">进度</div><div class="v" style="color:#6B7069">4 px 手绘条</div><div class="v">60 格刻度尺 + 游标，与 Ring 图标同源</div></div>
+    <div class="tr" style="grid-template-columns:110px 1fr 1fr"><div class="l">动作</div><div class="v" style="color:#6B7069">三个同样体量、两个描边</div><div class="v">PrimaryButton + Button + 文字设置行</div></div>
+    <div class="tr" style="grid-template-columns:110px 1fr 1fr;border-bottom:0"><div class="l">高度</div><div class="v" style="color:#6B7069">固定 300×352</div><div class="v"><span class="mono" style="font-size:10px">FitContent</span>，内容多高就多高</div></div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1080}}'>
+class Component extends DCLogic {}
+</script>
+</body>
+</html>
