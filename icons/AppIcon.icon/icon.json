@@ -3,19 +3,6 @@
     {
       "layers": [
         {
-          "image-name": "bg-light.png",
-          "image-name-specializations": [
-            {
-              "value": "bg-light.png"
-            },
-            {
-              "appearance": "dark",
-              "value": "bg-dark.png"
-            }
-          ],
-          "name": "field"
-        },
-        {
           "image-name": "mark-light.png",
           "image-name-specializations": [
             {
@@ -27,6 +14,19 @@
             }
           ],
           "name": "mark"
+        },
+        {
+          "image-name": "bg-light.png",
+          "image-name-specializations": [
+            {
+              "value": "bg-light.png"
+            },
+            {
+              "appearance": "dark",
+              "value": "bg-dark.png"
+            }
+          ],
+          "name": "field"
         }
       ],
       "lighting": "individual",

@@ -88,21 +88,24 @@ func writeAppIcons() error {
 	doc := map[string]any{
 		"groups": []any{
 			map[string]any{
+				// Layers render front to back: the mark sits above the field.
+				// The other order draws the field over the mark, and the app
+				// icon shows as an empty square.
 				"layers": []any{
-					map[string]any{
-						"name":       "field",
-						"image-name": "bg-light.png",
-						"image-name-specializations": []any{
-							map[string]any{"value": "bg-light.png"},
-							map[string]any{"appearance": "dark", "value": "bg-dark.png"},
-						},
-					},
 					map[string]any{
 						"name":       "mark",
 						"image-name": "mark-light.png",
 						"image-name-specializations": []any{
 							map[string]any{"value": "mark-light.png"},
 							map[string]any{"appearance": "dark", "value": "mark-dark.png"},
+						},
+					},
+					map[string]any{
+						"name":       "field",
+						"image-name": "bg-light.png",
+						"image-name-specializations": []any{
+							map[string]any{"value": "bg-light.png"},
+							map[string]any{"appearance": "dark", "value": "bg-dark.png"},
 						},
 					},
 				},
