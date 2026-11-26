@@ -1,0 +1,73 @@
+name: Nightly
+
+on:
+  schedule:
+    - cron: "0 17 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: nightly
+  cancel-in-progress: true
+
+jobs:
+  nightly:
+    if: github.ref == 'refs/heads/main'
+    runs-on: macos-15
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+          cache: true
+
+      - name: Version the build
+        run: |
+          set -eu
+          VERSION="$(python3 -c 'import json; print(json.load(open("mygo.json"))["version"])')-nightly.$(date -u +%Y%m%d).$(git rev-parse --short=7 HEAD)"
+          echo "VERSION=$VERSION" >> "$GITHUB_ENV"
+
+          python3 -c 'import json,sys; p="mygo.json"; d=json.load(open(p)); d["version"]=sys.argv[1]; json.dump(d, open(p,"w"), indent=2, ensure_ascii=False); open(p,"a").write("\n")' "$VERSION"
+          perl -0pi -e "s/version = \"[^\"]*\"/version = \"$VERSION\"/; s/build   = \"[^\"]*\"/build   = \"$GITHUB_RUN_NUMBER\"/; s/commit  = \"[^\"]*\"/commit  = \"$(git rev-parse --short HEAD)\"/" main.go
+
+      - name: Check
+        run: make check
+
+      - name: Build the disk image
+        run: make dmg
+
+      - name: Package
+        run: |
+          set -eu
+          DMG="$(find build -type f -name '*.dmg' | head -n 1)"
+          test -n "$DMG"
+          mkdir -p dist
+          cp "$DMG" dist/Fermata-nightly.dmg
+          (cd dist && shasum -a 256 Fermata-nightly.dmg > SHA256SUMS)
+
+      # One rolling prerelease named nightly; its tag moves to main's head so
+      # the download links stay stable.
+      - name: Publish the nightly
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -eu
+          NOTES="$(mktemp)"
+          printf 'Nightly build of `main` at %s (%s).\n\nThis is an unsigned, ad-hoc build for testing. It may be broken.\n' "$(git rev-parse --short=7 HEAD)" "$(date -u +%Y-%m-%d)" > "$NOTES"
+
+          if gh release view nightly >/dev/null 2>&1; then
+            gh api -X PATCH "repos/$GITHUB_REPOSITORY/git/refs/tags/nightly" -f sha="$GITHUB_SHA" -F force=true >/dev/null
+            gh release edit nightly --prerelease --notes-file "$NOTES"
+            gh release upload nightly dist/Fermata-nightly.dmg dist/SHA256SUMS --clobber
+          else
+            gh api -X DELETE "repos/$GITHUB_REPOSITORY/git/refs/tags/nightly" >/dev/null 2>&1 || true
+            gh release create nightly --prerelease --target "$GITHUB_SHA" \
+              --title "Fermata nightly" --notes-file "$NOTES" \
+              dist/Fermata-nightly.dmg dist/SHA256SUMS
+          fi
+
+          rm -f "$NOTES"

@@ -16,6 +16,7 @@
 [![CI](https://github.com/gythialy/fermata/actions/workflows/ci.yml/badge.svg)](https://github.com/gythialy/fermata/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-3E5F4E.svg)](https://github.com/gythialy/fermata/blob/main/LICENSE)
 [![macOS 13+](https://img.shields.io/badge/macOS-13%2B-171A17?logo=apple&logoColor=white)](https://github.com/gythialy/fermata/blob/main/docs/development.md#requirements)
+[![Nightly](https://github.com/gythialy/fermata/actions/workflows/nightly.yml/badge.svg)](https://github.com/gythialy/fermata/actions/workflows/nightly.yml)
 
 ## 它能做什么
 
@@ -42,27 +43,27 @@
 
 ## 截图
 
-![休息窗：深绿色的场、延长记号、一条建议、发丝线与倒计时](docs/images/break-mini.png)
+<p align="center"><img src="docs/images/zh-Hans/break-mini.png" width="840" alt="休息窗：深绿色的场、延长记号、一条建议、发丝线与倒计时"></p>
 
 长休息：一个标题、一块更深的场、十五分钟。
 
-![长休息窗：标题、正文、更长的发丝线与十五分钟](docs/images/break-long.png)
+<p align="center"><img src="docs/images/zh-Hans/break-long.png" width="840" alt="长休息窗：标题、正文、更长的发丝线与十五分钟"></p>
 
 ### 应用各处
 
 | 状态弹窗 | 首次启动 |
 |:-:|:-:|
-| ![带倒计时和快捷操作的状态弹窗](docs/images/popover.png) | ![带实时休息预览的欢迎窗](docs/images/welcome.png) |
+| <img src="docs/images/zh-Hans/popover.png" width="320" alt="带倒计时和快捷操作的状态弹窗"> | <img src="docs/images/zh-Hans/welcome.png" width="480" alt="带实时休息预览的欢迎窗"> |
 
 ### 设置
 
 | 通用 | 日程 |
 |:-:|:-:|
-| ![通用设置](docs/images/settings-general.png) | ![日程设置](docs/images/settings-schedule.png) |
+| <img src="docs/images/zh-Hans/settings-general.png" width="400" alt="通用设置"> | <img src="docs/images/zh-Hans/settings-schedule.png" width="400" alt="日程设置"> |
 
 | 外观 | 关于 |
 |:-:|:-:|
-| ![外观设置](docs/images/settings-appearance.png) | ![关于设置](docs/images/settings-about.png) |
+| <img src="docs/images/zh-Hans/settings-appearance.png" width="400" alt="外观设置"> | <img src="docs/images/zh-Hans/settings-about.png" width="400" alt="关于设置"> |
 
 ## 安装
 
@@ -77,6 +78,11 @@ cask 位于 [gythialy/homebrew-tap](https://github.com/gythialy/homebrew-tap)。
 Fermata 为 ad-hoc 签名、未公证；cask 会清除下载隔离，若首次启动仍被 macOS
 拦截，右键应用选择「打开」。更新用 `brew upgrade --cask fermata`。从源码构建见
 [开发指南](https://github.com/gythialy/fermata/blob/main/docs/development.md)。
+
+### Nightly（每夜构建）
+
+每晚从 `main` 构建一个 DMG：未签名、未公证，可能随时是坏的。
+[下载 Fermata-nightly.dmg](https://github.com/gythialy/fermata/releases/download/nightly/Fermata-nightly.dmg)。
 
 ## 名字的由来
 

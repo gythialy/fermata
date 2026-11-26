@@ -206,8 +206,10 @@ make screenshots
 ```
 
 This runs build-tagged tests (`-tags screenshots`) in `internal/breakwin`,
-`internal/prefs`, `internal/welcome` and `internal/popover`. Each renders its
-view with `ui.NewTester` at 2× and writes a PNG into `docs/images/`:
+`internal/prefs`, `internal/welcome` and `internal/popover`. Each view is
+rendered with `ui.NewTester` at 2×, once in English and once in `zh-Hans`:
+English writes to `docs/images/` and Chinese to `docs/images/zh-Hans/`, so each
+README shows its own language.
 
 | File | View |
 |---|---|
@@ -216,9 +218,11 @@ view with `ui.NewTester` at 2× and writes a PNG into `docs/images/`:
 | `welcome.png` | First run |
 | `popover.png` | The status popover |
 
-These are real renders of the app's views — not mockups. When a surface
-changes, re-run the target so the README and the docs do not drift. The test
-files are excluded from normal runs by the build tag.
+Each file above exists in both folders. The tests draw fixed suggestions, so a
+re-run only changes an image when a surface changes. These are real renders of
+the app's views — not mockups: when a surface changes, re-run the target so the
+README and the docs do not drift. The test files are excluded from normal runs
+by the build tag.
 
 ## GitHub assets
 
@@ -276,9 +280,17 @@ Two GitHub Actions workflows live in `.github/workflows/`:
 |---|---|---|
 | `ci.yml` | Push to `main`, pull requests, manual | `make check`, then a universal `make build` on a macOS runner |
 | `release.yml` | Push a tag matching `v*` | Injects the tag's version and commit into `main.go`/`mygo.json`, runs `make check`, builds the universal ad-hoc DMG, and creates the GitHub release with `Fermata-<version>.dmg`, a rolling `Fermata.dmg` and `SHA256SUMS` |
+| `nightly.yml` | Daily at 17:00 UTC, manual | Injects `<version>-nightly.<date>.<sha>` into `main.go`/`mygo.json`, runs `make check`, builds the universal ad-hoc DMG, and refreshes the rolling `nightly` prerelease with `Fermata-nightly.dmg` and `SHA256SUMS` |
 
 The release is ad-hoc signed: no Apple certificate, no notarization. CI has no
 secrets to configure.
+
+The nightly is one rolling prerelease: its tag moves to the head of `main`, so
+`releases/download/nightly/Fermata-nightly.dmg` always points at the latest
+build. It is unsigned and may be broken; it never replaces a stable release.
+
+Dependabot checks Go modules and GitHub Actions weekly (`.github/dependabot.yml`):
+minor and patch bumps arrive grouped, majors separately.
 
 The Homebrew tap ([gythialy/homebrew-tap](https://github.com/gythialy/homebrew-tap))
 runs its own scheduled workflow (`update.yml`, daily and manual). It reads the

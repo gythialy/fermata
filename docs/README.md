@@ -46,7 +46,7 @@ The rule is: change the document first, then the code, then the canvas.
 
 | Path | What it is |
 |---|---|
-| [`images/`](images/) | Real screenshots, rendered from the app's own views by `make screenshots` |
+| [`images/`](images/) | Real screenshots, rendered from the app's own views by `make screenshots`; English, with the Chinese set in [`images/zh-Hans/`](images/zh-Hans/) |
 | [`../.github/assets/`](../.github/assets/) | Banner, social preview, mark and icon for the repository |
 | [`../artifacts/fermata-ui-ux-design/`](../artifacts/) | The Open Artifact canvas indexed in [product.md §11](product.md#11-visual-canvas) |
 
