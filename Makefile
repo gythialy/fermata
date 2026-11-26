@@ -5,6 +5,7 @@
 #   make build-linux    build the Linux app and its packages
 #   make build-windows  build the Windows app, its installer and its portable archive (installer needs NSIS)
 #   make build-all  build every platform into build/
+#   make e2e      run the e2e suite against an e2e build of this machine
 #   make test     run the tests
 #   make check    fmt-check, vet and test
 #   make run      run from source
@@ -22,12 +23,12 @@ SIGN    ?= -
 VERSION := $(shell python3 -c 'import json;print(json.load(open("mygo.json"))["version"])' 2>/dev/null || echo 0.0.0)
 WINDOWS_ARCHES := amd64 arm64
 
-.PHONY: all build app dmg build-linux build-windows build-all run test test-race vet fmt fmt-check check icons screenshots animation assets clean help
+.PHONY: all build app dmg build-linux build-windows build-all e2e run test test-race vet fmt fmt-check check icons screenshots animation assets clean help
 
 all: check build
 
 help:
-	@sed -n '2,15p' Makefile
+	@sed -n '2,16p' Makefile
 
 build:
 	$(MYGO) build -skip-dmg -platform $(PLATFORM) -sign $(SIGN)
@@ -49,6 +50,9 @@ build-windows:
 
 build-all:
 	$(MYGO) build -platform darwin/universal,windows/amd64,windows/arm64,linux/amd64,linux/arm64 -sign $(SIGN)
+
+e2e:
+	./tools/e2e/run.sh
 
 run:
 	$(GO) $(GOFLAGS) run .
