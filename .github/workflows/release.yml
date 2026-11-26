@@ -146,9 +146,11 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -eu
+          # No checkout here: gh needs the repository named, not a clone.
           mkdir -p sums
           cd sums
-          gh release download "$GITHUB_REF_NAME" --pattern "SHA256SUMS-*" --clobber
+          gh release download "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" \
+            --pattern "SHA256SUMS-*" --clobber
           cat SHA256SUMS-* > SHA256SUMS
-          gh release upload "$GITHUB_REF_NAME" SHA256SUMS --clobber
-          gh release edit "$GITHUB_REF_NAME" --draft=false
+          gh release upload "$GITHUB_REF_NAME" SHA256SUMS --repo "$GITHUB_REPOSITORY" --clobber
+          gh release edit "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" --draft=false
