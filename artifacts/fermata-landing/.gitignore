@@ -1,0 +1,7 @@
+# Open Artifact local server files
+_agent/
+history/
+.artifact*
+.sharing.json
+*.log
+.DS_Store
