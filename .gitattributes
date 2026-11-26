@@ -1,0 +1,9 @@
+* text=auto eol=lf
+
+# Binaries the toolchain reads byte for byte.
+*.png binary
+*.car binary
+*.icns binary
+*.ttf binary
+*.otf binary
+*.wav binary
