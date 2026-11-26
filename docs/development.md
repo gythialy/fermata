@@ -308,6 +308,46 @@ The general rule: state lives in plain structs; the view is a pure function of
 state; anything that needs the system goes through a narrow interface with a
 fake in tests.
 
+### End-to-end tests
+
+The tests above run a view in memory. The end-to-end suite drives the **built
+app** through MyGo's automation protocol, so the same cases run on macOS,
+Windows and Linux:
+
+```sh
+make e2e                 # build here, run, stop
+go test -tags e2e ./internal/e2e   # against an app already running
+```
+
+`tools/e2e/run.sh` builds an e2e app (`-tags e2e`, inspector kept), starts it
+in a temporary `FERMATA_E2E_DATA` directory with `MYGO_AUTOMATION=tcp::9100`,
+waits for the socket, and stops it after the run. That directory and the name
+`Fermata E2E` keep the run from touching an installed copy, and from being
+forwarded to it.
+
+Against an app on another machine, build there and point the suite at it:
+
+```sh
+FERMATA_E2E_ADDR=192.0.2.10:9100 FERMATA_E2E_APP=windows go test -tags e2e ./internal/e2e
+```
+
+`FERMATA_E2E_APP` names the platform **under test**, which is not the test's
+own when the app runs elsewhere; `TestExclusionsFollowThePlatform` needs it.
+
+A test skips when nothing answers, and `TestBreakWindowIsReadable` skips until
+a break window exists (start one with `Fermata mini` on the app's machine).
+Tray menus, notifications and the global end-break shortcut are out of the
+protocol's reach; they stay in [platform acceptance](platform-acceptance.md).
+
+`tools/e2e` is the same protocol as a command, for looking at what a platform
+shows while debugging it:
+
+```sh
+go run ./tools/e2e windows
+go run ./tools/e2e tree -window 1
+go run ./tools/e2e shotall -out build/e2e
+```
+
 ## Code conventions
 
 - Comments and identifiers in English; comments explain **why**, briefly.

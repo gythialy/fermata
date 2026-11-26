@@ -16,6 +16,10 @@ import (
 	_ "github.com/gythialy/fermata/locales"
 )
 
+// appName is what the app calls itself, which also keys its instance lock: the
+// e2e build takes a name of its own so that it runs beside an installed copy.
+var appName = "Fermata"
+
 // version, build and commit are the app's identity; a release build can set
 // them with -ldflags "-X main.version=…".
 var (
@@ -25,7 +29,7 @@ var (
 )
 
 func main() {
-	mygo.App.SetName("Fermata")
+	mygo.App.SetName(appName)
 	mygo.App.SetActivationPolicy(mygo.ActivationPolicyAccessory)
 	if runtime.GOOS == "darwin" {
 		// A menu bar app needs no About item: the About page lives in
