@@ -1,8 +1,7 @@
 # Fermata product document
 
 - **Version** 1.0, as built (v1.0.0)
-- **Platform** macOS 13+ ships; Windows 11 and Linux are designed and build from
-  the same code
+- **Platform** macOS 13+, Windows 11 and Linux ship from the same code
 - **Foundation** MyGo 0.10.0, Go 1.27, single process, no webview
 - **Companions** [functional-spec.md](functional-spec.md) owns behaviour,
   [design-system.md](design-system.md) owns visuals,

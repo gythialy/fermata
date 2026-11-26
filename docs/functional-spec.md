@@ -3,7 +3,7 @@
 - Version: v1
 - Status: **Normative — v1 as built**
 - Behavior baseline: Stretchly **1.22.1** (commit `6278f00`, 2026-11-23)
-- Platforms: macOS 13+ (shipping in v1); Windows 11 and Linux (designed; not shipped in v1). Development machine: macOS 27.2.1
+- Platforms: macOS 13+, Windows 11 and Linux (shipping since v1.1.0). Development machine: macOS 27.2.1
 - Document nature: normative. Implementation, tests and acceptance follow this document; where it conflicts with an older description of this behavior, this document wins.
 - Priority: **P0** = required for v1; **P1** = the first round after v1
 - Related documents: [product](product.md), [architecture](architecture.md), [design system](design-system.md), [development](development.md)

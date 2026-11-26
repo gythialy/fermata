@@ -1,9 +1,9 @@
 # Fermata design system v2 · Held Note (cross-platform)
 
 - **Version:** v2.0 (2026-11-25)
-- **Status:** Design baseline v2 — implemented on macOS; Windows/Linux design ready
+- **Status:** Design baseline v2 — implemented on macOS, Windows and Linux
 - **Product:** **Fermata** (停琴) — a break reminder that lives in the menu bar or the system tray
-- **Platforms:** macOS 13+, Windows 11, Linux (GNOME / KDE). v1 ships macOS; the same MyGo codebase covers all three, with Windows and Linux as platform-adaptation and on-device acceptance milestones
+- **Platforms:** macOS 13+, Windows 11, Linux (GNOME / KDE). The same MyGo codebase covers all three since v1.1.0; the shell differences each keeps are recorded in [platform acceptance](platform-acceptance.md)
 - **Documents:** [product](product.md) · [functional spec](functional-spec.md) · [architecture](architecture.md) · [visual canvas](product.md#11-visual-canvas) · [development](development.md)
 
 Precedence: **behavior** follows the functional spec; **visuals, sizes, controls and the platform shell** follow this document; **code structure** follows architecture. Any conflict is corrected in the documents first, then in the code.

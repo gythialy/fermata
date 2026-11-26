@@ -1,6 +1,6 @@
 # Fermata (停琴) — software architecture
 
-**Status:** As built — v1.0.0 · MyGo 0.10.0 · Go 1.27 · macOS 13+ · one process, no cgo.
+**Status:** As built — v1.1.0 · MyGo 0.10.0 · Go 1.27 · macOS 13+, Windows 11, Linux · one process, no cgo.
 
 This document describes the code in this repository, not a plan for it. It answers: where
 the code lives, who owns each piece of state, which thread does what, how it is tested, and
@@ -39,8 +39,8 @@ which behaviour still needs a real Mac to confirm. Everything after this line is
 
 ### 1.2 Non-goals
 
-- **Windows and Linux release.** The code builds and branches on `runtime.GOOS`, but only
-  macOS has been run. Platform adaptation is post-v0.1.0 work (§22).
+- **Identical shells.** Each system keeps its own: the menu bar on macOS, the
+  tray on Windows and Linux, with what each can offer hiding the rest (§22).
 - **Accounts, sync, telemetry, automatic update install.** The update check reports a newer
   release; installing it stays a manual download.
 - **A web frontend, plugins, scripting.** No WebView, no TypeScript, no UI build step.
