@@ -1,6 +1,6 @@
 # Fermata (停琴) — software architecture
 
-**Status:** As built — v1.1.0 · MyGo 0.10.0 · Go 1.27 · macOS 13+, Windows 11, Linux · one process, no cgo.
+**Status:** As built — v1.1.1 · MyGo 0.10.0 · Go 1.27 · macOS 13+, Windows 11, Linux · one process, no cgo.
 
 This document describes the code in this repository, not a plan for it. It answers: where
 the code lives, who owns each piece of state, which thread does what, how it is tested, and
@@ -1167,7 +1167,7 @@ fermata version | help
   still ahead, else tomorrow). The arithmetic lives in `cli`, the pause and its refusal in the
   app, because they need settings.
 - `help` and `version` are answered before the instance lock, so they work whether or not
-  Fermata runs; `version` prints `Fermata 1.1.0` or `Fermata 1.1.0 (commit)`.
+  Fermata runs; `version` prints `Fermata 1.1.1` or `Fermata 1.1.1 (commit)`.
 
 ```go
 if !mygo.App.RequestSingleInstanceLock() { fmt.Println("Forwarded to Fermata."); return }
@@ -1350,7 +1350,7 @@ locally, and `go tool mygo build` is the packaging smoke test.
 - **CI and release.** `.github/workflows/ci.yml` runs `make check` and a universal build on
   pushes and pull requests. `.github/workflows/release.yml` runs on a `v*` tag: it writes the
   tag's version and commit into `main.go` and `mygo.json`, runs the checks, builds the ad-hoc
-  DMG, and publishes `Fermata-<version>.dmg`, a rolling `Fermata.dmg` and `SHA256SUMS`.
+  DMG, the Windows installers and the Linux packages, and publishes them with `SHA256SUMS`.
   The [Homebrew tap](https://github.com/gythialy/homebrew-tap) updates its casks from the
   latest stable releases on a schedule; it also carries an exDesktop cask.
 - **Dependencies.** `github.com/egoist/mygo v0.10.0` and `github.com/ebitengine/purego
