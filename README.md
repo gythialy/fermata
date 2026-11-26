@@ -6,8 +6,9 @@
 
 # Fermata · 停琴
 
-**A menu bar break reminder for macOS.** Short and long breaks arrive on their
-own schedule, take the screen for a few minutes, and then get out of the way.
+**A break reminder for macOS, Windows and Linux.** It lives in the menu bar or
+the system tray; short and long breaks arrive on their own schedule, take the
+screen for a few minutes, and then get out of the way.
 Inspired by [Stretchly](https://github.com/hovancik/stretchly), written in Go
 with [MyGo](https://github.com/egoist/mygo): one process, a native menu bar
 item, no webview.
@@ -17,7 +18,7 @@ English · [简体中文](README.zh-Hans.md)
 [![Go 1.27](https://img.shields.io/badge/go-1.27-00ADD8?logo=go&logoColor=white)](https://github.com/gythialy/fermata/blob/main/go.mod)
 [![CI](https://github.com/gythialy/fermata/actions/workflows/ci.yml/badge.svg)](https://github.com/gythialy/fermata/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-3E5F4E.svg)](https://github.com/gythialy/fermata/blob/main/LICENSE)
-[![macOS 13+](https://img.shields.io/badge/macOS-13%2B-171A17?logo=apple&logoColor=white)](https://github.com/gythialy/fermata/blob/main/docs/development.md#requirements)
+[![macOS 13+ · Windows 11 · Linux](https://img.shields.io/badge/macOS%2013%2B%20%C2%B7%20Windows%2011%20%C2%B7%20Linux-171A17)](https://github.com/gythialy/fermata/blob/main/docs/development.md#requirements)
 [![Nightly](https://github.com/gythialy/fermata/actions/workflows/nightly.yml/badge.svg)](https://github.com/gythialy/fermata/actions/workflows/nightly.yml)
 
 ## What it does
@@ -88,6 +89,8 @@ by the app itself, frame by frame; click it for a still at full size.
 
 ## Install
 
+### macOS
+
 macOS 13 or later, via [Homebrew](https://brew.sh):
 
 ```sh
@@ -98,8 +101,45 @@ brew install --cask fermata
 The cask lives in [gythialy/homebrew-tap](https://github.com/gythialy/homebrew-tap).
 Fermata is ad-hoc signed and not notarized; the cask clears the download
 quarantine, and if macOS still blocks the first launch, right-click the app and
-choose **Open**. Update with `brew upgrade --cask fermata`. Building from source
-is described in the [development guide](https://github.com/gythialy/fermata/blob/main/docs/development.md).
+choose **Open**. Update with `brew upgrade --cask fermata`.
+
+### Windows
+
+From the [releases page](https://github.com/gythialy/fermata/releases/latest),
+for x64 or ARM64:
+
+- `fermata-setup-<version>-amd64.exe` (or `-arm64.exe`) installs for the current
+  user into `%LOCALAPPDATA%\Programs\Fermata`, with a Start menu shortcut and an
+  uninstaller.
+- `Fermata-<version>-windows-<arch>-portable.zip` runs from any folder.
+
+The Windows builds are not code signed yet, so SmartScreen warns on the first
+run: choose **More info → Run anyway**. The tray has no title there, so the icon
+shows the mark or the ring rather than a countdown.
+
+### Linux
+
+Packages for x86-64 and ARM64, from the same page:
+
+- `fermata_<version>_<arch>.deb` for Debian and Ubuntu
+- `fermata-<version>-1.<arch>.rpm` for Fedora, RHEL and openSUSE
+- `fermata-<version>-linux-<arch>.tar.gz` with `install.sh`, which installs under
+  `~/.local` without root
+- `PKGBUILD-<arch>` for Arch Linux (`makepkg -si`)
+
+They need GTK 3, and AppIndicator (`libayatana-appindicator3`) for the tray icon.
+The tray shows menus only, so the popover opens from a menu item.
+
+### Platform differences
+
+- Holding breaks while a fullscreen app runs, and reading Focus or Do Not
+  Disturb, are macOS only; the settings hide what a system cannot do.
+- App exclusion rules need a process list: they are offered on macOS and Linux,
+  not on Windows.
+- The end-break shortcut is ⌘X on macOS, Ctrl+X elsewhere.
+
+Building from source is described in the
+[development guide](https://github.com/gythialy/fermata/blob/main/docs/development.md).
 
 ### Nightly
 

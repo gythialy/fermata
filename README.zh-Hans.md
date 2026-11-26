@@ -6,8 +6,8 @@
 
 # Fermata · 停琴
 
-**菜单栏里的休息提醒。** 短休息和长休息按自己的节奏到来，占用几分钟屏幕，
-然后安静地退回去。灵感来自 [Stretchly](https://github.com/hovancik/stretchly)，
+**macOS、Windows、Linux 上的休息提醒。** 它待在菜单栏或系统托盘里；短休息和
+长休息按自己的节奏到来，占用几分钟屏幕，然后安静地退回去。灵感来自 [Stretchly](https://github.com/hovancik/stretchly)，
 用 Go 与 [MyGo](https://github.com/egoist/mygo) 写成：单进程、原生菜单栏、没有 WebView。
 
 [English](README.md) · 简体中文
@@ -15,7 +15,7 @@
 [![Go 1.27](https://img.shields.io/badge/go-1.27-00ADD8?logo=go&logoColor=white)](https://github.com/gythialy/fermata/blob/main/go.mod)
 [![CI](https://github.com/gythialy/fermata/actions/workflows/ci.yml/badge.svg)](https://github.com/gythialy/fermata/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-3E5F4E.svg)](https://github.com/gythialy/fermata/blob/main/LICENSE)
-[![macOS 13+](https://img.shields.io/badge/macOS-13%2B-171A17?logo=apple&logoColor=white)](https://github.com/gythialy/fermata/blob/main/docs/development.md#requirements)
+[![macOS 13+ · Windows 11 · Linux](https://img.shields.io/badge/macOS%2013%2B%20%C2%B7%20Windows%2011%20%C2%B7%20Linux-171A17)](https://github.com/gythialy/fermata/blob/main/docs/development.md#requirements)
 [![Nightly](https://github.com/gythialy/fermata/actions/workflows/nightly.yml/badge.svg)](https://github.com/gythialy/fermata/actions/workflows/nightly.yml)
 
 ## 它能做什么
@@ -76,6 +76,8 @@
 
 ## 安装
 
+### macOS
+
 macOS 13 或更新，通过 [Homebrew](https://brew.sh)：
 
 ```sh
@@ -85,8 +87,40 @@ brew install --cask fermata
 
 cask 位于 [gythialy/homebrew-tap](https://github.com/gythialy/homebrew-tap)。
 Fermata 为 ad-hoc 签名、未公证；cask 会清除下载隔离，若首次启动仍被 macOS
-拦截，右键应用选择「打开」。更新用 `brew upgrade --cask fermata`。从源码构建见
-[开发指南](https://github.com/gythialy/fermata/blob/main/docs/development.md)。
+拦截，右键应用选择「打开」。更新用 `brew upgrade --cask fermata`。
+
+### Windows
+
+从 [Releases 页面](https://github.com/gythialy/fermata/releases/latest)下载，
+x64 与 ARM64 各有：
+
+- `fermata-setup-<版本>-amd64.exe`（或 `-arm64.exe`）：为当前用户安装到
+  `%LOCALAPPDATA%\Programs\Fermata`，带开始菜单快捷方式与卸载项。
+- `Fermata-<版本>-windows-<架构>-portable.zip`：解压即用，不写注册表安装信息。
+
+Windows 版本尚未代码签名，首次运行 SmartScreen 会拦：选「更多信息 → 仍要运行」。
+Windows 的托盘没有标题，所以图标只能显示记号或圆环，不显示倒计时。
+
+### Linux
+
+同一页面提供 x86-64 与 ARM64 的包：
+
+- `fermata_<版本>_<架构>.deb`：Debian、Ubuntu
+- `fermata-<版本>-1.<架构>.rpm`：Fedora、RHEL、openSUSE
+- `fermata-<版本>-linux-<架构>.tar.gz` 与 `install.sh`：装到 `~/.local`，不需要 root
+- `PKGBUILD-<架构>`：Arch Linux（`makepkg -si`）
+
+需要 GTK 3；托盘图标还需要 AppIndicator（`libayatana-appindicator3`）。Linux 的
+托盘只支持菜单，所以浮层从菜单项打开。
+
+### 平台差异
+
+- 全屏应用运行时暂缓休息、读取专注/勿扰状态，仅 macOS 支持；系统做不到的设置项
+  会直接隐藏。
+- 应用排除规则需要进程列表：macOS 与 Linux 提供，Windows 不提供。
+- 结束休息的快捷键：macOS 是 ⌘X，其余平台是 Ctrl+X。
+
+从源码构建见 [开发指南](https://github.com/gythialy/fermata/blob/main/docs/development.md)。
 
 ### Nightly（每夜构建）
 

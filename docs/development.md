@@ -8,14 +8,16 @@ are in [functional-spec.md](functional-spec.md).
 
 | Tool | Version | Needed for |
 |---|---|---|
-| macOS | 13+ | Everything (the only shipping platform) |
+| macOS 13+, Windows 11, Linux | — | The three platforms the app ships on |
 | Go | 1.27+ | Build, test, tools |
+| NSIS | any recent | The Windows installer, when building off Windows |
 | Xcode | 26+ | `make icons` (`actool` compiles the app icon) |
 | `rsvg-convert` | any recent | `make assets` (`brew install librsvg`) |
 | Python + fontTools | 3.11+ | Rebuilding the bundled serif subsets |
 
-The MyGo toolchain is a Go tool dependency in `go.mod`; there is nothing to
-install separately:
+The app needs no cgo, so any machine builds for all three platforms; only the
+tools of a platform sign and package their own artifacts. The MyGo toolchain is
+a Go tool dependency in `go.mod`; there is nothing to install separately:
 
 ```sh
 go tool mygo version
