@@ -194,7 +194,7 @@ func (w *Window) content(c *ui.Context, t *ui.Theme, s *settings.Settings) {
 			ui.Text(c, locales.SettingsOpenAtLogin()).FontSize(theme.Px(c, 12)).FixedLineHeight(theme.Px(c, 18)).
 				TextColor(t.TextMuted).Grow(1)
 			on := s.General.OpenAtLogin
-			sw := ui.Switch(c, &on)
+			sw := ui.Switch(c, &on).Label(locales.SettingsOpenAtLogin())
 			if sw.Changed() {
 				s.General.OpenAtLogin = on
 				w.opts.Touched()

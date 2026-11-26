@@ -250,21 +250,22 @@ func (a *App) buildBreakWindows() {
 // buildSettingsWindow prepares the settings window.
 func (a *App) buildSettingsWindow() {
 	a.prefs = prefs.New(prefs.Options{
-		Settings:       func() *settings.Settings { return a.store.Get() },
-		Touched:        func() { a.store.Touched() },
-		Reset:          a.resetSettings,
-		PreviewSound:   func(name string) { a.playNamed(name) },
-		Dark:           func() bool { return mygo.Theme.IsDark() },
-		Clock:          a.clock,
-		Displays:       func() []mygo.Display { return mygo.Screen.Displays() },
-		FocusAvailable: func() bool { return a.focusReadable },
-		Version:        func() (string, string) { return a.opts.Version, a.opts.Build },
-		Update:         func() (string, string) { return a.updateVersion, a.updateURL },
-		Website:        websiteURL,
-		Source:         sourceURL,
-		Issues:         issuesURL,
-		PreviewText:    func() string { return a.previewIdea.Text },
-		Log:            a.log,
+		Settings:          func() *settings.Settings { return a.store.Get() },
+		Touched:           func() { a.store.Touched() },
+		Reset:             a.resetSettings,
+		PreviewSound:      func(name string) { a.playNamed(name) },
+		Dark:              func() bool { return mygo.Theme.IsDark() },
+		Clock:             a.clock,
+		Displays:          func() []mygo.Display { return mygo.Screen.Displays() },
+		FocusAvailable:    func() bool { return a.focusReadable },
+		ProcessesReadable: presence.ProcessesReadable,
+		Version:           func() (string, string) { return a.opts.Version, a.opts.Build },
+		Update:            func() (string, string) { return a.updateVersion, a.updateURL },
+		Website:           websiteURL,
+		Source:            sourceURL,
+		Issues:            issuesURL,
+		PreviewText:       func() string { return a.previewIdea.Text },
+		Log:               a.log,
 	})
 }
 

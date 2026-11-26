@@ -253,21 +253,22 @@ func TestNewerVersionIsReadNotMigrated(t *testing.T) {
 }
 
 func TestWriteFailureIsReported(t *testing.T) {
-	if os.Geteuid() == 0 {
-		t.Skip("running as root: a read-only directory is writable")
-	}
+	// A directory where the settings go: every system refuses to write that,
+	// where a read-only directory only does on Unix.
 	dir := t.TempDir()
 	path := filepath.Join(dir, FileName)
 	st := load(t, path)
 	var reported error
 	st.OnWriteError(func(err error) { reported = err })
-	if err := os.Chmod(dir, 0o500); err != nil {
+	if err := os.Remove(path); err != nil {
 		t.Fatal(err)
 	}
-	t.Cleanup(func() { _ = os.Chmod(dir, 0o700) })
+	if err := os.Mkdir(path, 0o755); err != nil {
+		t.Fatal(err)
+	}
 	st.Update(func(s *Settings) { s.General.MenuBarStyle = StyleTime })
 	if err := st.Flush(); err == nil {
-		t.Error("flush succeeded in a read-only directory")
+		t.Error("flush succeeded although the settings path is a directory")
 	}
 	if reported == nil {
 		t.Error("the write error listener did not hear about it")

@@ -34,3 +34,7 @@ func RunningProcesses(needles []string) (bool, error) {
 	}
 	return false, nil
 }
+
+// ProcessesReadable reports whether the app can list running processes, which
+// is what app exclusion rules match.
+func ProcessesReadable() bool { return true }
