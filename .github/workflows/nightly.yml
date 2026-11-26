@@ -13,12 +13,63 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  nightly:
+  # One rolling release, one tag that keeps moving to main's head: the
+  # download links stay the same whatever tonight's commit is.
+  prepare:
     if: github.ref == 'refs/heads/main'
-    runs-on: macos-15
-    timeout-minutes: 45
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
     steps:
       - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - id: version
+        run: |
+          set -eu
+          version="$(python3 -c 'import json;print(json.load(open("mygo.json"))["version"])')-nightly.$(date -u +%Y%m%d).$(git rev-parse --short=7 HEAD)"
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+
+      - name: Move the tag and open the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -eu
+          if ! gh api -X PATCH "repos/$GITHUB_REPOSITORY/git/refs/tags/nightly" \
+              -f sha="$GITHUB_SHA" -F force=true >/dev/null 2>&1; then
+            gh api -X POST "repos/$GITHUB_REPOSITORY/git/refs" \
+              -f ref="refs/tags/nightly" -f sha="$GITHUB_SHA" >/dev/null
+          fi
+          if ! gh release view nightly >/dev/null 2>&1; then
+            notes="$(mktemp)"
+            printf 'Nightly build of `main`. This is an unsigned, ad-hoc build for testing. It may be broken.\n' > "$notes"
+            gh release create nightly --prerelease --target "$GITHUB_SHA" \
+              --title "Fermata nightly" --notes-file "$notes"
+          fi
+
+  build:
+    needs: prepare
+    name: ${{ matrix.name }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: macOS
+            os: macos-15
+            platform: darwin/universal
+          - name: Windows
+            os: windows-latest
+            platform: windows/amd64,windows/arm64
+          - name: Linux
+            os: ubuntu-latest
+            platform: linux/amd64,linux/arm64
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
 
       - uses: actions/setup-go@v7
         with:
@@ -26,48 +77,115 @@ jobs:
           cache: true
 
       - name: Version the build
-        run: |
-          set -eu
-          VERSION="$(python3 -c 'import json; print(json.load(open("mygo.json"))["version"])')-nightly.$(date -u +%Y%m%d).$(git rev-parse --short=7 HEAD)"
-          echo "VERSION=$VERSION" >> "$GITHUB_ENV"
-
-          python3 -c 'import json,sys; p="mygo.json"; d=json.load(open(p)); d["version"]=sys.argv[1]; json.dump(d, open(p,"w"), indent=2, ensure_ascii=False); open(p,"a").write("\n")' "$VERSION"
-          perl -0pi -e "s/version = \"[^\"]*\"/version = \"$VERSION\"/; s/build   = \"[^\"]*\"/build   = \"$GITHUB_RUN_NUMBER\"/; s/commit  = \"[^\"]*\"/commit  = \"$(git rev-parse --short HEAD)\"/" main.go
+        shell: bash
+        env:
+          VERSION: ${{ needs.prepare.outputs.version }}
+        run: ./tools/version.sh
 
       - name: Check
+        if: matrix.name == 'macOS'
         run: make check
 
-      - name: Build the disk image
-        run: make dmg
+      - name: Cache NSIS
+        if: runner.os == 'Windows'
+        uses: actions/cache@v6
+        with:
+          path: ~\AppData\Local\mygo\nsis-*
+          key: nsis-${{ hashFiles('go.sum') }}
 
-      - name: Package
+      - name: Build
+        shell: bash
+        run: go tool mygo build -platform "${{ matrix.platform }}" -sign -
+
+      - name: Collect the macOS files
+        if: matrix.name == 'macOS'
+        shell: bash
         run: |
           set -eu
-          DMG="$(find build -type f -name '*.dmg' | head -n 1)"
-          test -n "$DMG"
+          dmg="$(find build -type f -name '*.dmg' | head -n 1)"
+          test -n "$dmg"
           mkdir -p dist
-          cp "$DMG" dist/Fermata-nightly.dmg
-          (cd dist && shasum -a 256 Fermata-nightly.dmg > SHA256SUMS)
+          cp "$dmg" dist/fermata-nightly.dmg
+          (cd dist && shasum -a 256 ./* > SHA256SUMS-macOS)
 
-      # One rolling prerelease named nightly; its tag moves to main's head so
-      # the download links stay stable.
-      - name: Publish the nightly
+      - name: Collect the Windows files
+        if: matrix.name == 'Windows'
+        shell: bash
+        env:
+          VERSION: ${{ needs.prepare.outputs.version }}
+        run: |
+          set -eu
+          mkdir -p dist
+          for arch in amd64 arm64; do
+            go run ./tools/portablezip \
+              -dir "build/windows-$arch" \
+              -out "dist/fermata-nightly-windows-$arch-portable.zip"
+            cp "build/windows-$arch/fermata-setup-$VERSION-$arch.exe" \
+              "dist/fermata-nightly-windows-$arch-setup.exe"
+          done
+          (cd dist && sha256sum ./* > SHA256SUMS-Windows)
+
+      - name: Collect the Linux files
+        if: matrix.name == 'Linux'
+        shell: bash
+        env:
+          VERSION: ${{ needs.prepare.outputs.version }}
+        run: |
+          set -eu
+          mkdir -p dist
+          for arch in amd64 arm64; do
+            dir="build/linux-$arch"
+            cp "$dir"/fermata_*.deb "dist/fermata-nightly-linux-$arch.deb"
+            for f in "$dir"/*.rpm; do cp "$f" "dist/fermata-nightly-linux-$arch.rpm"; done
+            cp "$dir"/*-"linux-$arch".tar.gz "dist/fermata-nightly-linux-$arch.tar.gz"
+            case $arch in
+            amd64) pacman=x86_64 ;;
+            arm64) pacman=aarch64 ;;
+            esac
+            cp "$dir/PKGBUILD" "dist/PKGBUILD-$pacman"
+            if [ "$arch" = amd64 ]; then cp "$dir/install.sh" dist/install.sh; fi
+          done
+          (cd dist && sha256sum ./* > SHA256SUMS-Linux)
+
+      - name: Upload to the nightly release
         env:
           GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: gh release upload nightly dist/* --clobber
+
+  # The notes and one checksum file for the whole rolling release, written
+  # once every platform has uploaded.
+  finish:
+    needs: [prepare, build]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Merge the checksums and update the notes
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ needs.prepare.outputs.version }}
         run: |
           set -eu
-          NOTES="$(mktemp)"
-          printf 'Nightly build of `main` at %s (%s).\n\nThis is an unsigned, ad-hoc build for testing. It may be broken.\n' "$(git rev-parse --short=7 HEAD)" "$(date -u +%Y-%m-%d)" > "$NOTES"
+          mkdir -p sums
+          cd sums
+          gh release download nightly --repo "$GITHUB_REPOSITORY" \
+            --pattern "SHA256SUMS-*" --clobber
+          cat SHA256SUMS-* > SHA256SUMS
+          gh release upload nightly SHA256SUMS --repo "$GITHUB_REPOSITORY" --clobber
 
-          if gh release view nightly >/dev/null 2>&1; then
-            gh api -X PATCH "repos/$GITHUB_REPOSITORY/git/refs/tags/nightly" -f sha="$GITHUB_SHA" -F force=true >/dev/null
-            gh release edit nightly --prerelease --notes-file "$NOTES"
-            gh release upload nightly dist/Fermata-nightly.dmg dist/SHA256SUMS --clobber
-          else
-            gh api -X DELETE "repos/$GITHUB_REPOSITORY/git/refs/tags/nightly" >/dev/null 2>&1 || true
-            gh release create nightly --prerelease --target "$GITHUB_SHA" \
-              --title "Fermata nightly" --notes-file "$NOTES" \
-              dist/Fermata-nightly.dmg dist/SHA256SUMS
-          fi
+          # A rolling release keeps tonight's names only: anything else dates
+          # from an older scheme or an older run.
+          gh release view nightly --repo "$GITHUB_REPOSITORY" --json assets \
+            --jq '.assets[].name' | while read -r name; do
+            case $name in
+            fermata-nightly*|PKGBUILD-*|SHA256SUMS*|install.sh) continue ;;
+            esac
+            gh release delete-asset nightly "$name" --repo "$GITHUB_REPOSITORY" -y
+          done
 
-          rm -f "$NOTES"
+          # No checkout here: the run's own commit is the one to name.
+          notes="$(mktemp)"
+          printf 'Nightly build of `main` at %.7s (%s).\n\n' \
+            "$GITHUB_SHA" "$(date -u +%Y-%m-%d)" > "$notes"
+          printf 'This is an unsigned, ad-hoc build for testing. It may be broken.\n\n' >> "$notes"
+          printf -- '- macOS: `fermata-nightly.dmg`\n- Windows: `fermata-nightly-windows-<arch>-setup.exe`, or the portable zip\n- Linux: `fermata-nightly-linux-<arch>` as .deb, .rpm or tarball, `install.sh`, and a `PKGBUILD`\n' >> "$notes"
+          gh release edit nightly --repo "$GITHUB_REPOSITORY" --prerelease --notes-file "$notes"

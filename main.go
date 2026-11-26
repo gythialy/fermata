@@ -23,7 +23,7 @@ var appName = "Fermata"
 // version, build and commit are the app's identity; a release build can set
 // them with -ldflags "-X main.version=…".
 var (
-	version = "1.1.0"
+	version = "1.1.1"
 	build   = "1"
 	commit  = ""
 )

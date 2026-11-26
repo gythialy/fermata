@@ -3,10 +3,11 @@
 # and main.go, with the run and the commit for the about page.
 #
 #   GITHUB_REF_NAME=v1.1.0 GITHUB_RUN_NUMBER=42 ./tools/version.sh
+#   VERSION=1.1.0-nightly.20261126.abc1234 GITHUB_RUN_NUMBER=42 ./tools/version.sh
 set -eu
 
-tag=${GITHUB_REF_NAME:?a release runs on a tag}
-version=${tag#v}
+# A release stamps the tag's version; a nightly stamps the one it computed.
+version=${VERSION:-${GITHUB_REF_NAME#v}}
 test -n "$version"
 build=${GITHUB_RUN_NUMBER:-0}
 commit=$(git rev-parse --short HEAD)

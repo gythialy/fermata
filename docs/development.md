@@ -310,6 +310,27 @@ The general rule: state lives in plain structs; the view is a pure function of
 state; anything that needs the system goes through a narrow interface with a
 fake in tests.
 
+### Release artifacts
+
+Every platform names its files the same way, in lower case, with the platform
+and the architecture spelled out (Go's `amd64` and `arm64`; a `PKGBUILD` keeps
+the name pacman expects):
+
+```
+fermata-<version>-macos-universal.dmg
+fermata-<version>-windows-amd64-setup.exe | -portable.zip
+fermata-<version>-linux-amd64.deb | .rpm | .tar.gz
+install.sh, PKGBUILD-x86_64, PKGBUILD-aarch64
+```
+
+`fermata.dmg` and `fermata-nightly.dmg` are the rolling names the README and
+the landing page download from; they are copied from the versioned file.
+
+The Homebrew cask in `gythialy/homebrew-tap` builds its URL from the version,
+so a rename reaches it only with a release that already carries the new name:
+update `scripts/update.py` and the cask in the same cycle as that tag, never
+before it.
+
 ### End-to-end tests
 
 The tests above run a view in memory. The end-to-end suite drives the **built
@@ -368,14 +389,14 @@ Two GitHub Actions workflows live in `.github/workflows/`:
 | Workflow | Trigger | What it does |
 |---|---|---|
 | `ci.yml` | Push to `main`, pull requests, manual | `make check`, then a universal `make build` on a macOS runner |
-| `release.yml` | Push a tag matching `v*` | Injects the tag's version and commit into `main.go`/`mygo.json`, runs `make check`, builds the universal ad-hoc DMG, and creates the GitHub release with `Fermata-<version>.dmg`, a rolling `Fermata.dmg` and `SHA256SUMS` |
-| `nightly.yml` | Daily at 17:00 UTC, manual | Injects `<version>-nightly.<date>.<sha>` into `main.go`/`mygo.json`, runs `make check`, builds the universal ad-hoc DMG, and refreshes the rolling `nightly` prerelease with `Fermata-nightly.dmg` and `SHA256SUMS` |
+| `release.yml` | Push a tag matching `v*` | Opens a draft release, then builds the universal ad-hoc DMG, the Windows installers and portable archives, and the Linux packages on their own runners; merges the per-platform checksums and publishes |
+| `nightly.yml` | Daily at 17:00 UTC, manual | Stamps `<version>-nightly.<date>.<sha>`, builds the same three platforms and refreshes the rolling `nightly` prerelease, keeping only the names it still ships |
 
 The release is ad-hoc signed: no Apple certificate, no notarization. CI has no
 secrets to configure.
 
 The nightly is one rolling prerelease: its tag moves to the head of `main`, so
-`releases/download/nightly/Fermata-nightly.dmg` always points at the latest
+`releases/download/nightly/fermata-nightly.dmg` always points at the latest
 build. It is unsigned and may be broken; it never replaces a stable release.
 
 Dependabot checks Go modules and GitHub Actions weekly (`.github/dependabot.yml`):
@@ -394,9 +415,11 @@ once the first release exists.
 2. `make screenshots` and `make assets` are current if a surface changed.
 3. Bump the version in `main.go` and `mygo.json` so a local build reports the
    same number; the release workflow overrides them from the tag.
-4. Tag and push: `git tag vX.Y.Z && git push origin vX.Y.Z`. The workflow builds,
-   tests and publishes the DMG and checksums.
+4. Tag and push: `git tag vX.Y.Z && git push origin vX.Y.Z`. The workflow builds
+   every platform, merges the checksums and publishes the release.
 5. Install from the published DMG on a clean account once: first run,
    notification permission, login item, a break on each display.
 6. Check the tap: `brew upgrade --cask fermata`, or run the tap's update
-   workflow manually.
+   workflow manually. When the artifact names changed, update the tap's
+   `scripts/update.py` and the cask after the release exists, never before:
+   the cask builds its URL from the version.

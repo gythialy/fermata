@@ -92,8 +92,9 @@ jobs:
           dmg="$(find build -type f -name '*.dmg' | head -n 1)"
           test -n "$dmg"
           mkdir -p dist
-          cp "$dmg" "dist/Fermata-$version.dmg"
-          cp "$dmg" dist/Fermata.dmg
+          cp "$dmg" "dist/fermata-$version-macos-universal.dmg"
+          # The rolling name the landing page and the README point at.
+          cp "$dmg" dist/fermata.dmg
           (cd dist && shasum -a 256 ./* > SHA256SUMS-macOS)
 
       - name: Collect the Windows files
@@ -106,8 +107,9 @@ jobs:
           for arch in amd64 arm64; do
             go run ./tools/portablezip \
               -dir "build/windows-$arch" \
-              -out "dist/Fermata-$version-windows-$arch-portable.zip"
-            cp "build/windows-$arch/fermata-setup-$version-$arch.exe" dist/
+              -out "dist/fermata-$version-windows-$arch-portable.zip"
+            cp "build/windows-$arch/fermata-setup-$version-$arch.exe" \
+              "dist/fermata-$version-windows-$arch-setup.exe"
           done
           (cd dist && sha256sum ./* > SHA256SUMS-Windows)
 
@@ -117,9 +119,12 @@ jobs:
         run: |
           set -eu
           mkdir -p dist
+          version="$(python3 -c 'import json;print(json.load(open("mygo.json"))["version"])')"
           for arch in amd64 arm64; do
             dir="build/linux-$arch"
-            cp "$dir"/fermata_*.deb "$dir"/*.rpm "$dir"/*-"linux-$arch".tar.gz dist/
+            cp "$dir"/fermata_*.deb "dist/fermata-$version-linux-$arch.deb"
+            for f in "$dir"/*.rpm; do cp "$f" "dist/fermata-$version-linux-$arch.rpm"; done
+            cp "$dir"/*-"linux-$arch".tar.gz "dist/fermata-$version-linux-$arch.tar.gz"
             case $arch in
             amd64) pacman=x86_64 ;;
             arm64) pacman=aarch64 ;;

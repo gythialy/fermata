@@ -94,9 +94,9 @@ Fermata 为 ad-hoc 签名、未公证；cask 会清除下载隔离，若首次�
 从 [Releases 页面](https://github.com/gythialy/fermata/releases/latest)下载，
 x64 与 ARM64 各有：
 
-- `fermata-setup-<版本>-amd64.exe`（或 `-arm64.exe`）：为当前用户安装到
+- `fermata-<版本>-windows-<架构>-setup.exe`：为当前用户安装到
   `%LOCALAPPDATA%\Programs\Fermata`，带开始菜单快捷方式与卸载项。
-- `Fermata-<版本>-windows-<架构>-portable.zip`：解压即用，不写注册表安装信息。
+- `fermata-<版本>-windows-<架构>-portable.zip`：解压即用，不写注册表安装信息。
 
 Windows 版本尚未代码签名，首次运行 SmartScreen 会拦：选「更多信息 → 仍要运行」。
 Windows 的托盘没有标题，所以图标只能显示记号或圆环，不显示倒计时。
@@ -105,8 +105,8 @@ Windows 的托盘没有标题，所以图标只能显示记号或圆环，不显
 
 同一页面提供 x86-64 与 ARM64 的包：
 
-- `fermata_<版本>_<架构>.deb`：Debian、Ubuntu
-- `fermata-<版本>-1.<架构>.rpm`：Fedora、RHEL、openSUSE
+- `fermata-<版本>-linux-<架构>.deb`：Debian、Ubuntu
+- `fermata-<版本>-linux-<架构>.rpm`：Fedora、RHEL、openSUSE
 - `fermata-<版本>-linux-<架构>.tar.gz` 与 `install.sh`：装到 `~/.local`，不需要 root
 - `PKGBUILD-<架构>`：Arch Linux（`makepkg -si`）
 
@@ -125,7 +125,7 @@ Windows 的托盘没有标题，所以图标只能显示记号或圆环，不显
 ### Nightly（每夜构建）
 
 每晚从 `main` 构建一个 DMG：未签名、未公证，可能随时是坏的。
-[下载 Fermata-nightly.dmg](https://github.com/gythialy/fermata/releases/download/nightly/Fermata-nightly.dmg)。
+[下载 fermata-nightly.dmg](https://github.com/gythialy/fermata/releases/download/nightly/fermata-nightly.dmg)。
 
 ## 名字的由来
 

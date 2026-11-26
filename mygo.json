@@ -2,7 +2,7 @@
   "name": "Fermata",
   "slug": "fermata",
   "identifier": "dev.gythialy.fermata",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "copyright": "© 2026 gythialy",
   "icon": "resources/icon.png",
   "out": "build",

@@ -108,10 +108,10 @@ choose **Open**. Update with `brew upgrade --cask fermata`.
 From the [releases page](https://github.com/gythialy/fermata/releases/latest),
 for x64 or ARM64:
 
-- `fermata-setup-<version>-amd64.exe` (or `-arm64.exe`) installs for the current
+- `fermata-<version>-windows-<arch>-setup.exe` installs for the current
   user into `%LOCALAPPDATA%\Programs\Fermata`, with a Start menu shortcut and an
   uninstaller.
-- `Fermata-<version>-windows-<arch>-portable.zip` runs from any folder.
+- `fermata-<version>-windows-<arch>-portable.zip` runs from any folder.
 
 The Windows builds are not code signed yet, so SmartScreen warns on the first
 run: choose **More info → Run anyway**. The tray has no title there, so the icon
@@ -121,8 +121,8 @@ shows the mark or the ring rather than a countdown.
 
 Packages for x86-64 and ARM64, from the same page:
 
-- `fermata_<version>_<arch>.deb` for Debian and Ubuntu
-- `fermata-<version>-1.<arch>.rpm` for Fedora, RHEL and openSUSE
+- `fermata-<version>-linux-<arch>.deb` for Debian and Ubuntu
+- `fermata-<version>-linux-<arch>.rpm` for Fedora, RHEL and openSUSE
 - `fermata-<version>-linux-<arch>.tar.gz` with `install.sh`, which installs under
   `~/.local` without root
 - `PKGBUILD-<arch>` for Arch Linux (`makepkg -si`)
@@ -144,7 +144,7 @@ Building from source is described in the
 ### Nightly
 
 Every night a DMG is built from `main`: unsigned, not notarized, and possibly
-broken. [Download Fermata-nightly.dmg](https://github.com/gythialy/fermata/releases/download/nightly/Fermata-nightly.dmg).
+broken. [Download fermata-nightly.dmg](https://github.com/gythialy/fermata/releases/download/nightly/fermata-nightly.dmg).
 
 ## The name
 
