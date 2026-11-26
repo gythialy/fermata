@@ -224,6 +224,53 @@ the app's views — not mockups: when a surface changes, re-run the target so th
 README and the docs do not drift. The test files are excluded from normal runs
 by the build tag.
 
+The break window's two stills are written with the field's rounded corners
+transparent, so they sit on GitHub's light and dark themes without a white
+halo. The headless renderer starts from a white canvas, which its anti-aliased
+corner is blended with; the test un-blends that white out of each corner and
+writes the field's colour at the coverage the renderer drew, so the shape is the
+renderer's own and not a guessed radius.
+
+## Animation
+
+```sh
+make animation
+```
+
+`TestAnimation` in `internal/breakwin` draws the break window's first seconds
+frame by frame: the content settles, the hairline fills with the break, the
+countdown steps down, and the exit changes from `Postpone` to `Skip` once thirty
+percent of the break has passed. Time comes from `ui.Tester.Advance`, so the
+clip is the same on every run and nothing is recorded from a screen.
+
+The frames land in `build/screens/break-loop/<locale>/`, which git ignores, and
+`tools/screens/animate.sh` encodes them with `ffmpeg`:
+
+| File | Use |
+|---|---|
+| `break-loop.png` | The README's loop: an animated PNG, 1680×1120, 24 frames a second, with the field's corners transparent |
+| `break-loop.webm`, `break-loop.mp4` | The hero of `docs/index.html`, played once and resting on its last frame |
+
+The loop is an APNG that keeps its `.png` name: GitHub plays an animated PNG
+with that extension, and unlike a GIF it holds 8-bit alpha for the corners at a
+quarter of the bytes. A client that does not animate it shows the first frame,
+which is the same field the stills show.
+
+The video is H.264 and VP9, neither of which carries alpha through a plain
+RGBA-to-YUV conversion (the corners would come out black), so `animate.sh`
+mattes each frame on the field's own colour, sampled from its left edge.
+
+Each file exists in both folders, like the stills. Two rules come from the
+design system: the mark never moves, and motion only carries a state change —
+no pulses, no loops for their own sake. The window's own fade-in and closing
+belong to the window layer, not to the view, so the clip starts with the content
+rising and ends on the field.
+
+`ffmpeg` is the only extra tool (`brew install ffmpeg`), and only `make
+animation` needs it; `make screenshots` and `make check` are unchanged. The
+encode is pinned to one thread and bit-exact output, so an unchanged view gives
+byte-identical files on a re-run.
+
 ## GitHub assets
 
 ```sh
@@ -234,7 +281,7 @@ make assets
 `.github/assets/banner.png` (2560×1280) and `social-preview.png` (1280×640). It
 points `fontconfig` at `internal/fonts/assets` so the wordmark is set in
 Spectral and 停琴 in Noto Serif SC, the same faces the break window uses.
-`rsvg-convert` is the only extra tool.
+`rsvg-convert` is the only extra tool here.
 
 The repository page uses these files as follows:
 

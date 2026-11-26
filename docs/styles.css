@@ -406,6 +406,30 @@ h3 {
   background: var(--paper-2);
 }
 
+.frame video,
+.frame img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* The hero's loop plays once and rests on its last frame, so nothing keeps
+   moving while the page is read; the still stands in when the reader asks for
+   less motion. */
+.frame .still {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .frame .loop {
+    display: none;
+  }
+
+  .frame .still {
+    display: block;
+  }
+}
+
 figure {
   margin: 0;
 }

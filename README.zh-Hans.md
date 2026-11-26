@@ -43,27 +43,36 @@
 
 ## 截图
 
-<p align="center"><img src="docs/images/zh-Hans/break-mini.png" width="840" alt="休息窗：深绿色的场、延长记号、一条建议、发丝线与倒计时"></p>
+<p align="center">
+  <a href="docs/images/zh-Hans/break-mini.png"><img src="docs/images/zh-Hans/break-loop.png" width="840" alt="休息窗动图：内容落定，发丝线随休息推进，倒计时逐秒减少，出口从「延迟」变为「跳过」"></a>
+</p>
 
-长休息：一个标题、一块更深的场、十五分钟。
+占屏幕 85% 的休息场：延长记号、一条建议、一条随休息推进的发丝线、倒计时，
+以及同一时刻唯一的出口。动图由应用自己逐帧渲染，点击可看全尺寸静止图。
 
-<p align="center"><img src="docs/images/zh-Hans/break-long.png" width="840" alt="长休息窗：标题、正文、更长的发丝线与十五分钟"></p>
+| 短休息 | 长休息 |
+|:-:|:-:|
+| <a href="docs/images/zh-Hans/break-mini.png"><img src="docs/images/zh-Hans/break-mini.png" width="400" alt="短休息：深绿色的场、延长记号、一条建议、发丝线与倒计时"></a> | <a href="docs/images/zh-Hans/break-long.png"><img src="docs/images/zh-Hans/break-long.png" width="400" alt="长休息：标题、正文、更长的发丝线与十五分钟"></a> |
+| 每 25 分钟五分钟。 | 四次短休息后十五分钟。 |
 
 ### 应用各处
 
 | 状态弹窗 | 首次启动 |
 |:-:|:-:|
-| <img src="docs/images/zh-Hans/popover.png" width="320" alt="带倒计时和快捷操作的状态弹窗"> | <img src="docs/images/zh-Hans/welcome.png" width="480" alt="带实时休息预览的欢迎窗"> |
+| <a href="docs/images/zh-Hans/popover.png"><img src="docs/images/zh-Hans/popover.png" width="270" alt="状态弹窗：倒计时、刻度尺和快捷操作"></a> | <a href="docs/images/zh-Hans/welcome.png"><img src="docs/images/zh-Hans/welcome.png" width="450" alt="欢迎窗，带一份休息的真实预览"></a> |
+| 菜单栏里的倒计时与快捷操作。 | 第一次休息之前，先看一份真实预览。 |
 
 ### 设置
 
 | 通用 | 日程 |
 |:-:|:-:|
-| <img src="docs/images/zh-Hans/settings-general.png" width="400" alt="通用设置"> | <img src="docs/images/zh-Hans/settings-schedule.png" width="400" alt="日程设置"> |
+| <a href="docs/images/zh-Hans/settings-general.png"><img src="docs/images/zh-Hans/settings-general.png" width="400" alt="通用设置：登录时启动、语言、菜单栏样式与自动暂停"></a> | <a href="docs/images/zh-Hans/settings-schedule.png"><img src="docs/images/zh-Hans/settings-schedule.png" width="400" alt="日程设置：长短休息时长、延迟与跳过"></a> |
+| 登录时启动、语言、菜单栏样式、自动暂停。 | 长短休息时长、延迟与跳过。 |
 
 | 外观 | 关于 |
 |:-:|:-:|
-| <img src="docs/images/zh-Hans/settings-appearance.png" width="400" alt="外观设置"> | <img src="docs/images/zh-Hans/settings-about.png" width="400" alt="关于设置"> |
+| <a href="docs/images/zh-Hans/settings-appearance.png"><img src="docs/images/zh-Hans/settings-appearance.png" width="400" alt="外观设置：休息场颜色与不透明度、声音与音量"></a> | <a href="docs/images/zh-Hans/settings-about.png"><img src="docs/images/zh-Hans/settings-about.png" width="400" alt="关于：版本、更新与 MIT 许可"></a> |
+| 休息场颜色与不透明度、声音与音量。 | 版本、更新与许可。 |
 
 ## 安装
 

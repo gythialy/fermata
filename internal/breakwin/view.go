@@ -11,6 +11,11 @@ import (
 	"github.com/gythialy/fermata/internal/theme"
 )
 
+// fieldRadius rounds the break field when it does not fill the screen. The
+// screenshot tests cut the same corners out of their images, so the stills and
+// the loop carry the window's shape instead of the renderer's white canvas.
+const fieldRadius float32 = 20
+
 // view draws one break window. It reads the manager's snapshot and never
 // starts or ends a break itself.
 func (m *Manager) view(c *ui.Context, content bool) {
@@ -21,7 +26,7 @@ func (m *Manager) view(c *ui.Context, content bool) {
 	}
 	root := ui.Box(c).Fill().Background(bg)
 	if !m.bw.FillScreen {
-		root.Radius(20)
+		root.Radius(fieldRadius)
 	}
 	if m.health > 2 && content && (m.phase == planner.Breaking || m.phase == planner.ManualAwait) {
 		// The break health counter's warning: a vermilion edge, deeper as the

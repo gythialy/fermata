@@ -54,27 +54,37 @@ English · [简体中文](README.zh-Hans.md)
 
 ## Screenshots
 
-<p align="center"><img src="docs/images/break-mini.png" width="840" alt="The break window: a deep green field, the fermata, one suggestion, a hairline and the countdown"></p>
+<p align="center">
+  <a href="docs/images/break-mini.png"><img src="docs/images/break-loop.png" width="840" alt="The break window in motion: the content settles, the hairline fills with the break, the countdown steps down, and the exit changes from Postpone to Skip"></a>
+</p>
 
-The long break: a title, a longer field and fifteen minutes.
+The break field, 85% of the screen: the fermata, one suggestion, a hairline that
+fills with the break, the countdown, and one exit at a time. The loop is drawn
+by the app itself, frame by frame; click it for a still at full size.
 
-<p align="center"><img src="docs/images/break-long.png" width="840" alt="The long break window: a title, a sentence, a longer hairline and fifteen minutes"></p>
+| Short break | Long break |
+|:-:|:-:|
+| <a href="docs/images/break-mini.png"><img src="docs/images/break-mini.png" width="400" alt="The short break: a deep pine field, the fermata, one suggestion, a hairline and the countdown"></a> | <a href="docs/images/break-long.png"><img src="docs/images/break-long.png" width="400" alt="The long break: a title, a sentence, a longer hairline and fifteen minutes"></a> |
+| Five minutes, every twenty-five. | Fifteen minutes, after four mini breaks. |
 
 ### Around the app
 
 | Status popover | First run |
 |:-:|:-:|
-| <img src="docs/images/popover.png" width="320" alt="Status popover with the countdown and quick actions"> | <img src="docs/images/welcome.png" width="480" alt="Welcome window with a live preview of the break"> |
+| <a href="docs/images/popover.png"><img src="docs/images/popover.png" width="270" alt="Status popover with the countdown, the ruler and quick actions"></a> | <a href="docs/images/welcome.png"><img src="docs/images/welcome.png" width="450" alt="Welcome window with a live preview of the break"></a> |
+| The countdown and the quick actions, from the menu bar. | A preview of the break, before the first one arrives. |
 
 ### Settings
 
 | General | Schedule |
 |:-:|:-:|
-| <img src="docs/images/settings-general.png" width="400" alt="General settings"> | <img src="docs/images/settings-schedule.png" width="400" alt="Schedule settings"> |
+| <a href="docs/images/settings-general.png"><img src="docs/images/settings-general.png" width="400" alt="General settings: start at login, language, menu bar style and the presence pauses"></a> | <a href="docs/images/settings-schedule.png"><img src="docs/images/settings-schedule.png" width="400" alt="Schedule settings: mini and long break lengths, postpone and skip"></a> |
+| Start at login, language, menu bar style, the pauses. | Break lengths, postpone and skip. |
 
 | Appearance | About |
 |:-:|:-:|
-| <img src="docs/images/settings-appearance.png" width="400" alt="Appearance settings"> | <img src="docs/images/settings-about.png" width="400" alt="About settings"> |
+| <a href="docs/images/settings-appearance.png"><img src="docs/images/settings-appearance.png" width="400" alt="Appearance settings: break field colour and opacity, sounds and volume"></a> | <a href="docs/images/settings-about.png"><img src="docs/images/settings-about.png" width="400" alt="About: version, updates and the MIT licence"></a> |
+| Break field colour and opacity, sounds and volume. | Version, updates and the licence. |
 
 ## Install
 

@@ -3,6 +3,9 @@
 package breakwin
 
 import (
+	"image"
+	"image/color"
+	"image/draw"
 	"image/png"
 	"os"
 	"path/filepath"
@@ -122,12 +125,18 @@ func actionLabel(a Action) string {
 	}
 }
 
-// writePNG renders the tester at 2x and writes it to path.
+// writePNG renders the tester at 2x, cuts the field's corners out of it and
+// writes it to path.
 func writePNG(t *testing.T, tt *ui.Tester, path string) {
 	t.Helper()
 	tt.SetScale(2)
 	tt.Frame()
-	img := tt.Image()
+	writeImage(t, cutCorners(tt.Image(), 2), path)
+}
+
+// writeImage encodes img into a PNG at path.
+func writeImage(t *testing.T, img image.Image, path string) {
+	t.Helper()
 	file, err := os.Create(path)
 	if err != nil {
 		t.Fatal(err)
@@ -139,4 +148,62 @@ func writePNG(t *testing.T, tt *ui.Tester, path string) {
 	if err := file.Close(); err != nil {
 		t.Fatal(err)
 	}
+}
+
+// cutCorners turns the field's rounded corners transparent, so the stills and
+// the loop keep the window's shape and sit on GitHub's light and dark themes
+// alike instead of showing the white canvas the headless renderer starts from.
+//
+// The renderer blends its anti-aliased corner with that white canvas. Rather
+// than guess the curve, every pixel in a corner box is un-blended: p = field·a
+// + white·(1−a), so a falls out of the channel that differs most from white,
+// and the pixel is written back as the field's colour at that alpha. Pixels
+// outside the curve come out fully transparent, and the window edge's own
+// anti-aliasing is kept exactly.
+//
+// Content never reaches a corner box, which is the radius plus room for the
+// renderer's soft corner.
+func cutCorners(img *image.RGBA, scale float32) *image.NRGBA {
+	out := image.NewNRGBA(img.Bounds())
+	draw.Draw(out, out.Bounds(), img, img.Bounds().Min, draw.Src)
+	radius := int(fieldRadius * scale)
+	if radius < 1 {
+		return out
+	}
+	bounds := out.Bounds()
+	size := radius + 24
+	if size*2 > bounds.Dx() || size*2 > bounds.Dy() {
+		return out
+	}
+	// A point inside the field, clear of both the corner and the content.
+	fill := out.NRGBAAt(bounds.Min.X+size-4, bounds.Min.Y+size-4)
+	channel, span := 0, 255-float64(fill.R)
+	for i, value := range []uint8{fill.R, fill.G, fill.B} {
+		if d := 255 - float64(value); d > span {
+			channel, span = i, d
+		}
+	}
+	if span == 0 {
+		return out
+	}
+	origins := [4][2]int{
+		{0, 0},
+		{bounds.Dx() - size, 0},
+		{0, bounds.Dy() - size},
+		{bounds.Dx() - size, bounds.Dy() - size},
+	}
+	for _, origin := range origins {
+		for y := origin[1]; y < origin[1]+size; y++ {
+			for x := origin[0]; x < origin[0]+size; x++ {
+				at := out.PixOffset(bounds.Min.X+x, bounds.Min.Y+y)
+				a := (255 - float64(out.Pix[at+channel])) / span
+				a = min(max(a, 0), 1)
+				out.SetNRGBA(bounds.Min.X+x, bounds.Min.Y+y, color.NRGBA{
+					R: fill.R, G: fill.G, B: fill.B,
+					A: uint8(a*255 + 0.5),
+				})
+			}
+		}
+	}
+	return out
 }

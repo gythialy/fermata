@@ -7,6 +7,7 @@
 #   make run      run from source
 #   make icons    redraw the app and menu bar icons (needs Xcode)
 #   make screenshots  render the README screenshots into docs/images
+#   make animation  render the README's loop and the landing page's video (needs ffmpeg)
 #   make assets   redraw the GitHub banner and social preview (needs librsvg)
 
 GO      ?= go
@@ -16,12 +17,12 @@ GOFLAGS ?=
 PLATFORM ?= darwin/universal
 SIGN    ?= -
 
-.PHONY: all build app dmg run test test-race vet fmt fmt-check check icons screenshots assets clean help
+.PHONY: all build app dmg run test test-race vet fmt fmt-check check icons screenshots animation assets clean help
 
 all: check build
 
 help:
-	@sed -n '2,11p' Makefile
+	@sed -n '2,12p' Makefile
 
 build:
 	$(MYGO) build -skip-dmg -platform $(PLATFORM) -sign $(SIGN)
@@ -56,6 +57,10 @@ icons:
 
 screenshots:
 	$(GO) test -tags screenshots -run TestScreenshots ./internal/breakwin ./internal/prefs ./internal/welcome ./internal/popover
+
+animation:
+	$(GO) test -tags screenshots -run TestAnimation ./internal/breakwin
+	./tools/screens/animate.sh
 
 assets:
 	./tools/banner/render.sh
