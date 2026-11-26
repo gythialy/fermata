@@ -8,8 +8,49 @@ permissions:
   contents: write
 
 jobs:
-  release:
-    runs-on: macos-15
+  # The draft comes first: each platform uploads to the same release, and a
+  # failure in one leaves the others' files in it rather than a release with
+  # half the platforms.
+  draft:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Create the draft release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -eu
+          if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
+            echo "$GITHUB_REF_NAME already has a release"
+            exit 0
+          fi
+          gh release create "$GITHUB_REF_NAME" \
+            --draft \
+            --verify-tag \
+            --title "Fermata ${GITHUB_REF_NAME#v}" \
+            --generate-notes
+
+  build:
+    needs: draft
+    name: ${{ matrix.name }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: macOS
+            os: macos-15
+            platform: darwin/universal
+          - name: Windows
+            os: windows-latest
+            platform: windows/amd64,windows/arm64
+          - name: Linux
+            os: ubuntu-latest
+            platform: linux/amd64,linux/arm64
     steps:
       - uses: actions/checkout@v7
         with:
@@ -21,39 +62,93 @@ jobs:
           cache: true
 
       - name: Version the build
-        run: |
-          set -eu
-          VERSION="${GITHUB_REF_NAME#v}"
-          test -n "$VERSION"
-          echo "VERSION=$VERSION" >> "$GITHUB_ENV"
+        shell: bash
+        run: ./tools/version.sh
 
-          python3 -c 'import json,sys; p="mygo.json"; d=json.load(open(p)); d["version"]=sys.argv[1]; json.dump(d, open(p,"w"), indent=2, ensure_ascii=False); open(p,"a").write("\n")' "$VERSION"
-
-          COMMIT="$(git rev-parse --short HEAD)"
-          perl -0pi -e "s/version = \"[^\"]*\"/version = \"$VERSION\"/; s/build   = \"[^\"]*\"/build   = \"${GITHUB_RUN_NUMBER}\"/; s/commit  = \"[^\"]*\"/commit  = \"$COMMIT\"/" main.go
-
+      # The other platforms ran their checks in CI when the release was
+      # merged; this one signs and packages the disk image.
       - name: Check
+        if: matrix.name == 'macOS'
         run: make check
 
-      - name: Build the disk image
-        run: make dmg
+      # mygo build downloads NSIS on Windows; keep it between runs.
+      - name: Cache NSIS
+        if: runner.os == 'Windows'
+        uses: actions/cache@v6
+        with:
+          path: ~\AppData\Local\mygo\nsis-*
+          key: nsis-${{ hashFiles('go.sum') }}
 
-      - name: Package the release
+      - name: Build
+        shell: bash
+        run: go tool mygo build -platform "${{ matrix.platform }}" -sign -
+
+      - name: Collect the macOS files
+        if: matrix.name == 'macOS'
+        shell: bash
         run: |
           set -eu
-          DMG="$(find build -type f -name '*.dmg' | head -n 1)"
-          test -n "$DMG"
+          version="$(python3 -c 'import json;print(json.load(open("mygo.json"))["version"])')"
+          dmg="$(find build -type f -name '*.dmg' | head -n 1)"
+          test -n "$dmg"
           mkdir -p dist
-          cp "$DMG" "dist/Fermata-${VERSION}.dmg"
-          cp "$DMG" "dist/Fermata.dmg"
-          (cd dist && shasum -a 256 Fermata-*.dmg Fermata.dmg > SHA256SUMS)
+          cp "$dmg" "dist/Fermata-$version.dmg"
+          cp "$dmg" dist/Fermata.dmg
+          (cd dist && shasum -a 256 ./* > SHA256SUMS-macOS)
 
-      - name: Create the release
+      - name: Collect the Windows files
+        if: matrix.name == 'Windows'
+        shell: bash
+        run: |
+          set -eu
+          version="$(python3 -c 'import json;print(json.load(open("mygo.json"))["version"])')"
+          mkdir -p dist
+          for arch in amd64 arm64; do
+            go run ./tools/portablezip \
+              -dir "build/windows-$arch" \
+              -out "dist/Fermata-$version-windows-$arch-portable.zip"
+            cp "build/windows-$arch/fermata-setup-$version-$arch.exe" dist/
+          done
+          (cd dist && sha256sum ./* > SHA256SUMS-Windows)
+
+      - name: Collect the Linux files
+        if: matrix.name == 'Linux'
+        shell: bash
+        run: |
+          set -eu
+          mkdir -p dist
+          for arch in amd64 arm64; do
+            dir="build/linux-$arch"
+            cp "$dir"/fermata_*.deb "$dir"/*.rpm "$dir"/*-"linux-$arch".tar.gz dist/
+            case $arch in
+            amd64) pacman=x86_64 ;;
+            arm64) pacman=aarch64 ;;
+            esac
+            cp "$dir/PKGBUILD" "dist/PKGBUILD-$pacman"
+            if [ "$arch" = amd64 ]; then cp "$dir/install.sh" dist/install.sh; fi
+          done
+          (cd dist && sha256sum ./* > SHA256SUMS-Linux)
+
+      - name: Upload to the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: gh release upload "$GITHUB_REF_NAME" dist/* --clobber
+
+  # One checksum file for the whole release, then the draft becomes the
+  # release people download: nothing is public until every platform is in.
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Merge the checksums and publish
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -eu
-          gh release create "v$VERSION" dist/* \
-            --verify-tag \
-            --title "Fermata $VERSION" \
-            --generate-notes
+          mkdir -p sums
+          cd sums
+          gh release download "$GITHUB_REF_NAME" --pattern "SHA256SUMS-*" --clobber
+          cat SHA256SUMS-* > SHA256SUMS
+          gh release upload "$GITHUB_REF_NAME" SHA256SUMS --clobber
+          gh release edit "$GITHUB_REF_NAME" --draft=false
