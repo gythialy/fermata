@@ -19,7 +19,7 @@ import (
 // version, build and commit are the app's identity; a release build can set
 // them with -ldflags "-X main.version=…".
 var (
-	version = "0.1.0"
+	version = "1.0.0"
 	build   = "1"
 	commit  = ""
 )

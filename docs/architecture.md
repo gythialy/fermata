@@ -1,6 +1,6 @@
 # Fermata (停琴) — software architecture
 
-**Status:** As built — v0.1.0 · MyGo 0.10.0 · Go 1.27 · macOS 13+ · one process, no cgo.
+**Status:** As built — v1.0.0 · MyGo 0.10.0 · Go 1.27 · macOS 13+ · one process, no cgo.
 
 This document describes the code in this repository, not a plan for it. It answers: where
 the code lives, who owns each piece of state, which thread does what, how it is tested, and
@@ -1167,7 +1167,7 @@ fermata version | help
   still ahead, else tomorrow). The arithmetic lives in `cli`, the pause and its refusal in the
   app, because they need settings.
 - `help` and `version` are answered before the instance lock, so they work whether or not
-  Fermata runs; `version` prints `Fermata 0.1.0` or `Fermata 0.1.0 (commit)`.
+  Fermata runs; `version` prints `Fermata 1.0.0` or `Fermata 1.0.0 (commit)`.
 
 ```go
 if !mygo.App.RequestSingleInstanceLock() { fmt.Println("Forwarded to Fermata."); return }
