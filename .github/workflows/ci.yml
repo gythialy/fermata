@@ -10,6 +10,7 @@ permissions:
   contents: read
 
 jobs:
+  # The platform the app ships from today: its tests, and the universal app.
   check:
     runs-on: macos-15
     steps:
@@ -25,3 +26,97 @@ jobs:
 
       - name: Build the universal app
         run: make build
+
+  # The other two: their own tests, and the packages they install from. A
+  # failure here means main no longer builds for that platform.
+  cross:
+    name: ${{ matrix.name }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: Windows
+            os: windows-latest
+            platform: windows/amd64,windows/arm64
+          - name: Linux
+            os: ubuntu-latest
+            platform: linux/amd64,linux/arm64
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-go@v7
+        with:
+          go-version-file: go.mod
+          cache: true
+
+      # The tray and menu tests build MyGo's native menus, which need GTK and,
+      # with no session on the runner, a display and a software GL of their own.
+      - name: Install the desktop libraries
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y xvfb xauth x11-utils libgl1-mesa-dri libayatana-appindicator3-1
+          sudo apt-get install -y libgtk-3-0t64 || sudo apt-get install -y libgtk-3-0
+
+      - name: Format, vet and test
+        shell: bash
+        run: |
+          set -euo pipefail
+          files="$(gofmt -l .)"
+          if [ -n "$files" ]; then echo "gofmt needed:"; echo "$files"; exit 1; fi
+          go vet ./...
+          if [ "$RUNNER_OS" = "Linux" ]; then
+            xvfb-run -a go test ./...
+          else
+            go test ./...
+          fi
+
+      # mygo build downloads NSIS on Windows; keep it between runs.
+      - name: Cache NSIS
+        if: runner.os == 'Windows'
+        uses: actions/cache@v6
+        with:
+          path: ~\AppData\Local\mygo\nsis-*
+          key: nsis-${{ hashFiles('go.sum') }}
+
+      - name: Build
+        shell: bash
+        run: go tool mygo build -platform "${{ matrix.platform }}"
+
+      # The other way to run the Windows app: no installer, just the folder.
+      - name: Package the portable archives
+        if: runner.os == 'Windows'
+        shell: bash
+        run: |
+          set -euo pipefail
+          version="$(python3 -c 'import json;print(json.load(open("mygo.json"))["version"])')"
+          for arch in amd64 arm64; do
+            go run ./tools/portablezip \
+              -dir "build/windows-$arch" \
+              -out "build/Fermata-$version-windows-$arch-portable.zip"
+          done
+
+      # The files people install: keep them from every run, so a broken
+      # package shows up next to a green build.
+      - uses: actions/upload-artifact@v7
+        if: runner.os == 'Windows'
+        with:
+          name: Windows
+          path: |
+            build/*/*.exe
+            build/*-portable.zip
+          if-no-files-found: error
+
+      - uses: actions/upload-artifact@v7
+        if: runner.os == 'Linux'
+        with:
+          name: Linux
+          path: |
+            build/*/*.deb
+            build/*/*.rpm
+            build/*/*.tar.gz
+            build/*/PKGBUILD
+            build/*/install.sh
+          if-no-files-found: error
