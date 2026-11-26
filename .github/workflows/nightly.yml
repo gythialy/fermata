@@ -105,7 +105,7 @@ jobs:
           dmg="$(find build -type f -name '*.dmg' | head -n 1)"
           test -n "$dmg"
           mkdir -p dist
-          cp "$dmg" dist/fermata-nightly.dmg
+          cp "$dmg" dist/fermata-nightly-macos-universal.dmg
           (cd dist && shasum -a 256 ./* > SHA256SUMS-macOS)
 
       - name: Collect the Windows files
@@ -187,5 +187,5 @@ jobs:
           printf 'Nightly build of `main` at %.7s (%s).\n\n' \
             "$GITHUB_SHA" "$(date -u +%Y-%m-%d)" > "$notes"
           printf 'This is an unsigned, ad-hoc build for testing. It may be broken.\n\n' >> "$notes"
-          printf -- '- macOS: `fermata-nightly.dmg`\n- Windows: `fermata-nightly-windows-<arch>-setup.exe`, or the portable zip\n- Linux: `fermata-nightly-linux-<arch>` as .deb, .rpm or tarball, `install.sh`, and a `PKGBUILD`\n' >> "$notes"
+          printf -- '- macOS: `fermata-nightly-macos-universal.dmg`\n- Windows: `fermata-nightly-windows-<arch>-setup.exe`, or the portable zip\n- Linux: `fermata-nightly-linux-<arch>` as .deb, .rpm or tarball, `install.sh`, and a `PKGBUILD`\n' >> "$notes"
           gh release edit nightly --repo "$GITHUB_REPOSITORY" --prerelease --notes-file "$notes"

@@ -144,7 +144,7 @@ Building from source is described in the
 ### Nightly
 
 Every night a DMG is built from `main`: unsigned, not notarized, and possibly
-broken. [Download fermata-nightly.dmg](https://github.com/gythialy/fermata/releases/download/nightly/fermata-nightly.dmg).
+broken. [Download fermata-nightly-macos-universal.dmg](https://github.com/gythialy/fermata/releases/download/nightly/fermata-nightly-macos-universal.dmg).
 
 ## The name
 

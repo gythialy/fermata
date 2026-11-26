@@ -323,8 +323,9 @@ fermata-<version>-linux-amd64.deb | .rpm | .tar.gz
 install.sh, PKGBUILD-x86_64, PKGBUILD-aarch64
 ```
 
-`fermata.dmg` and `fermata-nightly.dmg` are the rolling names the README and
-the landing page download from; they are copied from the versioned file.
+Nothing on a release is unversioned: the landing page links to the release
+page, which lists the files of that tag. The nightly keeps stable names
+because it is one rolling release, with the date and commit in its notes.
 
 The Homebrew cask in `gythialy/homebrew-tap` builds its URL from the version,
 so a rename reaches it only with a release that already carries the new name:
@@ -396,7 +397,7 @@ The release is ad-hoc signed: no Apple certificate, no notarization. CI has no
 secrets to configure.
 
 The nightly is one rolling prerelease: its tag moves to the head of `main`, so
-`releases/download/nightly/fermata-nightly.dmg` always points at the latest
+`releases/download/nightly/fermata-nightly-macos-universal.dmg` always points at the latest
 build. It is unsigned and may be broken; it never replaces a stable release.
 
 Dependabot checks Go modules and GitHub Actions weekly (`.github/dependabot.yml`):

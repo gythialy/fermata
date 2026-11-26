@@ -93,8 +93,6 @@ jobs:
           test -n "$dmg"
           mkdir -p dist
           cp "$dmg" "dist/fermata-$version-macos-universal.dmg"
-          # The rolling name the landing page and the README point at.
-          cp "$dmg" dist/fermata.dmg
           (cd dist && shasum -a 256 ./* > SHA256SUMS-macOS)
 
       - name: Collect the Windows files
