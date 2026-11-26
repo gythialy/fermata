@@ -1167,7 +1167,7 @@ fermata version | help
   still ahead, else tomorrow). The arithmetic lives in `cli`, the pause and its refusal in the
   app, because they need settings.
 - `help` and `version` are answered before the instance lock, so they work whether or not
-  Fermata runs; `version` prints `Fermata 1.0.0` or `Fermata 1.0.0 (commit)`.
+  Fermata runs; `version` prints `Fermata 1.1.0` or `Fermata 1.1.0 (commit)`.
 
 ```go
 if !mygo.App.RequestSingleInstanceLock() { fmt.Println("Forwarded to Fermata."); return }
