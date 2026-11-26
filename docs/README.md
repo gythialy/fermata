@@ -27,7 +27,7 @@ The documentation is in English. The user-facing README is bilingual:
 | [functional-spec.md](functional-spec.md) | **Normative** | Scheduling, state machine, break and pause rules, settings fields, notifications, CLI, i18n, acceptance cases |
 | [design-system.md](design-system.md) | **Normative** | Direction, the mark, design tokens, components, surfaces, cross-platform stance, accessibility, copy |
 | [architecture.md](architecture.md) | As built | Package structure, data flow, state ownership, concurrency, tests, build and release |
-| [development.md](development.md) | Guide | Prerequisites, make targets, i18n, fonts, icons, sounds, screenshots, GitHub assets, CI and releases |
+| [development.md](development.md) | Guide | Prerequisites, make targets, i18n, fonts, icons, sounds, screenshots, animation, GitHub assets, CI and releases |
 
 ## Precedence
 
@@ -46,7 +46,7 @@ The rule is: change the document first, then the code, then the canvas.
 
 | Path | What it is |
 |---|---|
-| [`images/`](images/) | Real screenshots, rendered from the app's own views by `make screenshots`; English, with the Chinese set in [`images/zh-Hans/`](images/zh-Hans/) |
+| [`images/`](images/) | Real screenshots and the break window's loop, rendered from the app's own views by `make screenshots` and `make animation`; English, with the Chinese set in [`images/zh-Hans/`](images/zh-Hans/) |
 | [`../.github/assets/`](../.github/assets/) | Banner, social preview, mark and icon for the repository |
 | [`../artifacts/fermata-ui-ux-design/`](../artifacts/) | The Open Artifact canvas indexed in [product.md §11](product.md#11-visual-canvas) |
 
