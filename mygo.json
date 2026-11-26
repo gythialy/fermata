@@ -13,6 +13,26 @@
     },
     "icon": "icons/AppIcon.car"
   },
+  "linux": {
+    "webview": false,
+    "maintainer": "Goren G <gythialy.koo+github@gmail.com>",
+    "comment": "A break reminder that lives in the system tray",
+    "categories": [
+      "Utility"
+    ],
+    "command": "fermata",
+    "depends": {
+      "deb": [
+        "libayatana-appindicator3-1"
+      ],
+      "rpm": [
+        "libayatana-appindicator-gtk3"
+      ],
+      "arch": [
+        "libayatana-appindicator"
+      ]
+    }
+  },
   "i18n": {
     "dir": "locales",
     "source": "en"
