@@ -41,7 +41,10 @@ type Options struct {
 	// FocusAvailable reports whether the system exposes Focus without extra
 	// access, which decides whether the Focus row is shown at all.
 	FocusAvailable func() bool
-	Language       func(string)
+	// ProcessesReadable reports whether the system lists running processes,
+	// which decides whether app exclusion rules are offered at all.
+	ProcessesReadable func() bool
+	Language          func(string)
 	// Version returns the app's version and build.
 	Version func() (version, build string)
 	// Update returns a newer version and its page, or empty strings.

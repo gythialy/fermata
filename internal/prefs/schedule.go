@@ -44,7 +44,7 @@ func (w *Window) breakColumn(c *ui.Context, t *ui.Theme, s *settings.Settings, m
 	ui.Row(c).MinHeight(36).AlignItems(ui.Center).Children(func() {
 		ui.Text(c, label).FontSize(theme.Px(c, 13)).FixedLineHeight(theme.Px(c, 19)).Bold().Grow(1)
 		on := enabled
-		sw := ui.Switch(c, &on)
+		sw := ui.Switch(c, &on).Label(label)
 		if sw.Changed() {
 			w.setBreakEnabled(s, mini, on)
 		}
@@ -199,7 +199,7 @@ func (w *Window) notifyRow(c *ui.Context, t *ui.Theme, s *settings.Settings, ena
 	}
 	columnRow(c, t, enabled, locales.SettingsNotifyBefore(), locales.DurationSeconds(lead/1000), func() {
 		on := notify
-		sw := ui.Switch(c, &on)
+		sw := ui.Switch(c, &on).Label(locales.SettingsNotifyBefore())
 		sw.Disabled(!enabled)
 		if sw.Changed() {
 			if mini {
@@ -227,7 +227,7 @@ func (w *Window) postponeRow(c *ui.Context, t *ui.Theme, s *settings.Settings, e
 	}
 	columnRow(c, t, enabled, locales.SettingsAllowPostpone(), desc, func() {
 		on := postpone.Enabled
-		sw := ui.Switch(c, &on)
+		sw := ui.Switch(c, &on).Label(locales.SettingsAllowPostpone())
 		sw.Disabled(!enabled || strict)
 		if sw.Changed() {
 			if mini {
@@ -246,7 +246,7 @@ func (w *Window) waitFinishRow(c *ui.Context, t *ui.Theme, s *settings.Settings,
 		if !mini {
 			on = s.Schedule.Long.ManualFinish
 		}
-		sw := ui.Switch(c, &on)
+		sw := ui.Switch(c, &on).Label(locales.SettingsWaitFinish())
 		sw.Disabled(!enabled)
 		if sw.Changed() {
 			if mini {
@@ -286,7 +286,7 @@ func (w *Window) strictSwitch(c *ui.Context, t *ui.Theme, s *settings.Settings, 
 			on = s.Schedule.Long.Strict
 		}
 		ui.Text(c, label).FontSize(theme.Px(c, 11)).FixedLineHeight(theme.Px(c, 16)).TextColor(t.TextMuted)
-		sw := ui.Switch(c, &on)
+		sw := ui.Switch(c, &on).Label(label)
 		if sw.Changed() {
 			if mini {
 				s.Schedule.Mini.Strict = on
@@ -304,7 +304,7 @@ func (w *Window) healthRow(c *ui.Context, t *ui.Theme, s *settings.Settings) {
 		BorderWidth(1, 0, 0, 0).BorderColor(t.Border).Children(func() {
 		row(c, t, locales.SettingsHealth(), locales.SettingsHealthHelp(), func() {
 			on := s.Health.Mode
-			sw := ui.Switch(c, &on)
+			sw := ui.Switch(c, &on).Label(locales.SettingsHealth())
 			if sw.Changed() {
 				s.Health.Mode = on
 				w.opts.Touched()

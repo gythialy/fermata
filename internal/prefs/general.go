@@ -19,7 +19,7 @@ func (w *Window) generalPage(c *ui.Context, t *ui.Theme) {
 
 	row(c, t, locales.SettingsOpenAtLogin(), "", func() {
 		on := s.General.OpenAtLogin
-		sw := ui.Switch(c, &on)
+		sw := ui.Switch(c, &on).Label(locales.SettingsOpenAtLogin())
 		if sw.Changed() {
 			s.General.OpenAtLogin = on
 			w.opts.Touched()
@@ -65,7 +65,7 @@ func (w *Window) generalPage(c *ui.Context, t *ui.Theme) {
 
 	row(c, t, locales.SettingsPauseAway(), "", func() {
 		on := s.Presence.Idle.Enabled
-		sw := ui.Switch(c, &on)
+		sw := ui.Switch(c, &on).Label(locales.SettingsPauseAway())
 		if sw.Changed() {
 			s.Presence.Idle.Enabled = on
 			w.opts.Touched()
@@ -85,7 +85,7 @@ func (w *Window) generalPage(c *ui.Context, t *ui.Theme) {
 	if runtime.GOOS == "darwin" && w.focusAvailable() {
 		row(c, t, locales.SettingsPauseFocus(), "", func() {
 			on := s.Presence.DND.Enabled
-			sw := ui.Switch(c, &on)
+			sw := ui.Switch(c, &on).Label(locales.SettingsPauseFocus())
 			if sw.Changed() {
 				s.Presence.DND.Enabled = on
 				w.opts.Touched()
@@ -95,7 +95,7 @@ func (w *Window) generalPage(c *ui.Context, t *ui.Theme) {
 
 	row(c, t, locales.SettingsPauseLock(), "", func() {
 		on := s.Presence.PauseOnLock
-		sw := ui.Switch(c, &on)
+		sw := ui.Switch(c, &on).Label(locales.SettingsPauseLock())
 		if sw.Changed() {
 			s.Presence.PauseOnLock = on
 			w.opts.Touched()
@@ -104,7 +104,7 @@ func (w *Window) generalPage(c *ui.Context, t *ui.Theme) {
 
 	row(c, t, locales.SettingsWaitTyping(), locales.SettingsWaitTypingHelp(), func() {
 		on := s.Presence.WaitWhileTyping
-		sw := ui.Switch(c, &on)
+		sw := ui.Switch(c, &on).Label(locales.SettingsWaitTyping())
 		if sw.Changed() {
 			s.Presence.WaitWhileTyping = on
 			w.opts.Touched()
@@ -114,7 +114,7 @@ func (w *Window) generalPage(c *ui.Context, t *ui.Theme) {
 	if runtime.GOOS == "darwin" {
 		row(c, t, locales.SettingsWaitFullscreen(), locales.SettingsWaitFullscreenHelp(), func() {
 			on := s.Presence.Fullscreen
-			sw := ui.Switch(c, &on)
+			sw := ui.Switch(c, &on).Label(locales.SettingsWaitFullscreen())
 			if sw.Changed() {
 				s.Presence.Fullscreen = on
 				w.opts.Touched()
@@ -126,7 +126,7 @@ func (w *Window) generalPage(c *ui.Context, t *ui.Theme) {
 
 	row(c, t, locales.SettingsAllDisplays(), "", func() {
 		on := s.BreakWindow.AllScreens
-		sw := ui.Switch(c, &on)
+		sw := ui.Switch(c, &on).Label(locales.SettingsAllDisplays())
 		if sw.Changed() {
 			s.BreakWindow.AllScreens = on
 			w.opts.Touched()
@@ -153,14 +153,22 @@ func (w *Window) generalPage(c *ui.Context, t *ui.Theme) {
 
 	row(c, t, locales.SettingsFillScreen(), "", func() {
 		on := s.BreakWindow.FillScreen
-		sw := ui.Switch(c, &on)
+		sw := ui.Switch(c, &on).Label(locales.SettingsFillScreen())
 		if sw.Changed() {
 			s.BreakWindow.FillScreen = on
 			w.opts.Touched()
 		}
 	})
 
-	w.exclusionsSection(c, t, s)
+	if w.processesReadable() {
+		w.exclusionsSection(c, t, s)
+	}
+}
+
+// processesReadable reports whether app exclusion rules are offered: they
+// need the system's list of running processes to match against.
+func (w *Window) processesReadable() bool {
+	return w.opts.ProcessesReadable != nil && w.opts.ProcessesReadable()
 }
 
 // focusAvailable reports whether the Focus row is offered.
@@ -284,7 +292,7 @@ func (w *Window) exclusionsSection(c *ui.Context, t *ui.Theme, s *settings.Setti
 					w.opts.Touched()
 				}
 				on := rule.Active
-				sw := ui.Switch(c, &on)
+				sw := ui.Switch(c, &on).Label(rule.Name)
 				if sw.Changed() {
 					rule.Active = on
 					w.opts.Touched()

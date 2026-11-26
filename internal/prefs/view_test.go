@@ -1,6 +1,7 @@
 package prefs
 
 import (
+	"runtime"
 	"sort"
 	"strings"
 	"testing"
@@ -20,19 +21,20 @@ func newWindow(t *testing.T) (*Window, *fake) {
 	t.Helper()
 	f := &fake{settings: func() *settings.Settings { s := settings.Default(); s.FirstRun = false; return &s }()}
 	w := New(Options{
-		Settings:       func() *settings.Settings { return f.settings },
-		Touched:        func() { f.touched++ },
-		Reset:          func() { f.resets++ },
-		PreviewSound:   func(string) {},
-		Dark:           func() bool { return false },
-		Clock:          func(time.Time) string { return "14:32" },
-		FocusAvailable: func() bool { return true },
-		Version:        func() (string, string) { return "0.1.0", "1" },
-		Update:         func() (string, string) { return "", "" },
-		Website:        "https://example.com",
-		Source:         "https://example.com",
-		Issues:         "https://example.com",
-		PreviewText:    func() string { return "Look out a window until your eyes relax." },
+		Settings:          func() *settings.Settings { return f.settings },
+		Touched:           func() { f.touched++ },
+		Reset:             func() { f.resets++ },
+		PreviewSound:      func(string) {},
+		Dark:              func() bool { return false },
+		Clock:             func(time.Time) string { return "14:32" },
+		FocusAvailable:    func() bool { return true },
+		ProcessesReadable: func() bool { return true },
+		Version:           func() (string, string) { return "0.1.0", "1" },
+		Update:            func() (string, string) { return "", "" },
+		Website:           "https://example.com",
+		Source:            "https://example.com",
+		Issues:            "https://example.com",
+		PreviewText:       func() string { return "Look out a window until your eyes relax." },
 	})
 	return w, f
 }
@@ -54,16 +56,57 @@ func TestGeneralPage(t *testing.T) {
 	w, f := newWindow(t)
 	tt := ui.NewTester(w.view, 800, 720)
 	tt.Frame()
-	for _, text := range []string{
-		"General", "Start at login", "Language", "Menu bar",
-		"Pause when away", "Wait while typing", "Wait for fullscreen apps",
+	want := []string{
+		"General", "Start at login", "Language",
+		"Pause when away", "Wait while typing",
 		"Show on all displays", "Fill the screen", "App exclusions",
-	} {
+	}
+	// The tray offers no title on Windows, and the row says so.
+	if runtime.GOOS == "windows" {
+		want = append(want, "Tray icon")
+	} else {
+		want = append(want, "Menu bar")
+	}
+	if runtime.GOOS == "darwin" {
+		// Only macOS reads the foreground window's bounds.
+		want = append(want, "Wait for fullscreen apps")
+	}
+	for _, text := range want {
 		if !tt.HasText(text) {
 			t.Errorf("missing %q in %v", text, tt.Texts())
 		}
 	}
 	_ = f
+}
+
+// TestEverySwitchIsNamed: assistive technology announces a switch by its
+// name; unnamed, it reads "switch" with no subject, and automation has
+// nothing to address but an ID that changes with the frame.
+func TestEverySwitchIsNamed(t *testing.T) {
+	for _, section := range []string{SectionGeneral, SectionSchedule, SectionAppearance, SectionAbout} {
+		w, _ := newWindow(t)
+		w.section = section
+		tt := ui.NewTester(w.view, 800, 720)
+		tt.Frame()
+		for _, a := range tt.AccessAll() {
+			if a.Role == ui.RoleSwitch && a.Name == "" {
+				t.Errorf("%s: a switch at %v has no name", section, a.Bounds)
+			}
+		}
+	}
+}
+
+// TestExclusionsHiddenWhenProcessesUnreadable: a rule that can never match is
+// worse than no rule, so the section goes away where the app cannot list
+// processes.
+func TestExclusionsHiddenWhenProcessesUnreadable(t *testing.T) {
+	w, _ := newWindow(t)
+	w.opts.ProcessesReadable = func() bool { return false }
+	tt := ui.NewTester(w.view, 800, 720)
+	tt.Frame()
+	if tt.HasText("App exclusions") {
+		t.Errorf("exclusions are offered although processes cannot be listed: %v", tt.Texts())
+	}
 }
 
 func TestFocusRowIsHiddenWhenUnreadable(t *testing.T) {

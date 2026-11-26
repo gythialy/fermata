@@ -37,6 +37,28 @@ func newWindow(t *testing.T, started *[]bool) *Window {
 	return w
 }
 
+// TestSwitchesAreNamed: the welcome window's one switch announces the row it
+// belongs to, not "switch".
+func TestSwitchesAreNamed(t *testing.T) {
+	started := []bool{}
+	w := newWindow(t, &started)
+	tt := ui.NewTester(w.view, 720, 560)
+	tt.Frame()
+	switches := 0
+	for _, a := range tt.AccessAll() {
+		if a.Role != ui.RoleSwitch {
+			continue
+		}
+		switches++
+		if a.Name == "" {
+			t.Errorf("a switch at %v has no name", a.Bounds)
+		}
+	}
+	if switches == 0 {
+		t.Error("the welcome window should offer the login switch")
+	}
+}
+
 func TestWelcomeShowsTheDecision(t *testing.T) {
 	var started []bool
 	w := newWindow(t, &started)

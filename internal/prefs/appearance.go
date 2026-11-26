@@ -70,7 +70,7 @@ func (w *Window) appearancePage(c *ui.Context, t *ui.Theme) {
 
 	row(c, t, locales.SettingsShowTime(), "", func() {
 		on := s.BreakWindow.ShowCurrentTime
-		sw := ui.Switch(c, &on)
+		sw := ui.Switch(c, &on).Label(locales.SettingsShowTime())
 		if sw.Changed() {
 			s.BreakWindow.ShowCurrentTime = on
 			w.opts.Touched()
@@ -120,7 +120,7 @@ func (w *Window) appearancePage(c *ui.Context, t *ui.Theme) {
 	})
 	row(c, t, locales.SettingsMute(), "", func() {
 		on := s.Sound.Muted
-		sw := ui.Switch(c, &on)
+		sw := ui.Switch(c, &on).Label(locales.SettingsMute())
 		if sw.Changed() {
 			s.Sound.Muted = on
 			w.opts.Touched()
