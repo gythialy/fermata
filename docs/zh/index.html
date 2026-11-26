@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Fermata 停琴 — macOS 菜单栏休息提醒</title>
-<meta name="description" content="Fermata（停琴）是一款 macOS 菜单栏休息提醒。短休息与长休息按自己的节奏到来，占据屏幕几分钟，然后离开。一个进程，没有 webview，自由与开源。">
+<title>Fermata 停琴 — macOS / Windows / Linux 休息提醒</title>
+<meta name="description" content="Fermata（停琴）是一款 macOS、Windows 与 Linux 上的休息提醒。短休息与长休息按自己的节奏到来，占据屏幕几分钟，然后离开。一个进程，没有 webview，自由与开源。">
 <link rel="canonical" href="https://gythialy.github.io/fermata/zh/">
 <link rel="alternate" hreflang="en" href="https://gythialy.github.io/fermata/">
 <link rel="alternate" hreflang="zh-Hans" href="https://gythialy.github.io/fermata/zh/">
@@ -12,7 +12,7 @@
 <meta name="theme-color" content="#121513" media="(prefers-color-scheme: dark)">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Fermata 停琴 — 一次休息，被拉长">
-<meta property="og:description" content="macOS 菜单栏休息提醒：短休息与长休息按自己的节奏到来，一片场、一句建议、一个出口。">
+<meta property="og:description" content="菜单栏与系统托盘里的休息提醒：短休息与长休息按自己的节奏到来，一片场、一句建议、一个出口，macOS、Windows、Linux 通用。">
 <meta property="og:url" content="https://gythialy.github.io/fermata/zh/">
 <meta property="og:image" content="https://raw.githubusercontent.com/gythialy/fermata/main/.github/assets/social-preview.png">
 <meta name="twitter:card" content="summary_large_image">
@@ -39,7 +39,7 @@
   "name": "Fermata",
   "alternateName": "停琴",
   "applicationCategory": "ProductivityApplication",
-  "operatingSystem": "macOS 13+",
+  "operatingSystem": "macOS 13+, Windows 11, Linux",
   "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
   "license": "https://opensource.org/licenses/MIT",
   "url": "https://gythialy.github.io/fermata/zh/",
@@ -91,7 +91,7 @@
   <div class="wrap">
     <section class="hero">
       <div class="hero-copy">
-        <p class="eyebrow">macOS 菜单栏休息提醒</p>
+        <p class="eyebrow">菜单栏与系统托盘里的休息提醒</p>
         <h1 class="display">一次休息，<br>被拉长<span class="dot">。</span></h1>
         <p class="lede">
           短休息与长休息按自己的节奏到来，占据屏幕几分钟，然后离开。一个进程，一个原生菜单栏图标，没有 webview。
@@ -110,6 +110,7 @@
           </div>
           <div class="link-row">
             <a href="https://github.com/gythialy/fermata/releases/latest/download/Fermata.dmg">下载 .dmg</a>
+            <a href="https://github.com/gythialy/fermata/releases/latest">Windows 与 Linux</a>
             <span>自由与开源 · MIT</span>
           </div>
         </div>
@@ -266,13 +267,13 @@
     <div class="wrap install-sec">
       <div>
         <div class="caption">安装</div>
-        <h2>一行命令，一个 DMG。</h2>
+        <h2>macOS 上一行命令，<br>其余系统一个包。</h2>
         <p class="lede-wide">
-          用 Homebrew，或者从 GitHub Releases 拿磁盘映像。Fermata 是 ad-hoc 签名、未公证；cask 会清掉下载隔离，macOS 仍可能要求你第一次右键 → 打开。
+          macOS 用 Homebrew 或磁盘映像；Windows 用安装器或免安装 zip；Linux 用 .deb、.rpm、带 <code>install.sh</code> 的 tarball 或 PKGBUILD。macOS 版是 ad-hoc 签名、未公证，Windows 版尚未签名，首次运行 SmartScreen 会问一次。
         </p>
         <div class="meta" style="margin-top:28px;border-top:0;padding-top:0">
-          <span>macOS 13 或更新</span>
-          <span>通用二进制</span>
+          <span>macOS 13+ · Windows 11 · Linux</span>
+          <span>macOS 通用二进制</span>
           <span>MIT</span>
         </div>
       </div>
@@ -288,8 +289,10 @@
         </div>
         <div class="link-row">
           <a href="https://github.com/gythialy/fermata/releases/latest/download/Fermata.dmg">下载 .dmg</a>
+          <a href="https://github.com/gythialy/fermata/releases/latest">Windows 与 Linux</a>
           <a href="https://github.com/gythialy/fermata/releases">GitHub Releases</a>
         </div>
+        <p class="small-note">Windows：<code>fermata-setup-…-amd64.exe</code>，或免安装 zip；首次运行选「更多信息 → 仍要运行」。Linux：.deb、.rpm、带 <code>install.sh</code> 的 tarball，或 PKGBUILD；需要 GTK 3 与 AppIndicator。</p>
         <p class="small-note">更新：<code>brew upgrade --cask fermata</code>。</p>
       </div>
     </div>

@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Fermata — a menu bar break reminder for macOS</title>
-<meta name="description" content="Fermata is a menu bar break reminder for macOS. Short breaks and long ones arrive on their own schedule, take the screen for a few minutes, and get out of the way. One process, no webview. Free and open source.">
+<title>Fermata — a break reminder for macOS, Windows and Linux</title>
+<meta name="description" content="Fermata is a break reminder for macOS, Windows and Linux. Short breaks and long ones arrive on their own schedule, take the screen for a few minutes, and get out of the way. One process, no webview. Free and open source.">
 <link rel="canonical" href="https://gythialy.github.io/fermata/">
 <link rel="alternate" hreflang="en" href="https://gythialy.github.io/fermata/">
 <link rel="alternate" hreflang="zh-Hans" href="https://gythialy.github.io/fermata/zh/">
@@ -12,7 +12,7 @@
 <meta name="theme-color" content="#121513" media="(prefers-color-scheme: dark)">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Fermata — a break, held">
-<meta property="og:description" content="A menu bar break reminder for macOS: breaks on their own rhythm, one field per display, strict mode, and no webview.">
+<meta property="og:description" content="A menu bar and tray break reminder: breaks on their own rhythm, one field per display, strict mode, and no webview, on macOS, Windows and Linux.">
 <meta property="og:url" content="https://gythialy.github.io/fermata/">
 <meta property="og:image" content="https://raw.githubusercontent.com/gythialy/fermata/main/.github/assets/social-preview.png">
 <meta name="twitter:card" content="summary_large_image">
@@ -39,7 +39,7 @@
   "name": "Fermata",
   "alternateName": "停琴",
   "applicationCategory": "ProductivityApplication",
-  "operatingSystem": "macOS 13+",
+  "operatingSystem": "macOS 13+, Windows 11, Linux",
   "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
   "license": "https://opensource.org/licenses/MIT",
   "url": "https://gythialy.github.io/fermata/",
@@ -91,10 +91,10 @@
   <div class="wrap">
     <section class="hero">
       <div class="hero-copy">
-        <p class="eyebrow">Menu bar break reminder for macOS</p>
+        <p class="eyebrow">Break reminder for the menu bar and the tray</p>
         <h1 class="display">A break,<br>held<span class="dot">.</span></h1>
         <p class="lede">
-          Short breaks and long ones arrive on their own schedule, take the screen for a few minutes, and get out of the way. One process, a native menu bar item, no webview.
+          Short breaks and long ones arrive on their own schedule, take the screen for a few minutes, and get out of the way. One process, a native menu bar item or tray icon, no webview — on macOS, Windows and Linux.
         </p>
 
         <div class="install">
@@ -110,12 +110,13 @@
           </div>
           <div class="link-row">
             <a href="https://github.com/gythialy/fermata/releases/latest/download/Fermata.dmg">Download the .dmg</a>
+            <a href="https://github.com/gythialy/fermata/releases/latest">Windows and Linux</a>
             <span>Free and open source · MIT</span>
           </div>
         </div>
 
         <div class="meta">
-          <span>macOS 13 or later</span>
+          <span>macOS 13+ · Windows 11 · Linux</span>
           <span>1 process, no webview</span>
           <span>English · 简体中文</span>
         </div>
@@ -266,13 +267,13 @@
     <div class="wrap install-sec">
       <div>
         <div class="caption">Install</div>
-        <h2>One line, one DMG.</h2>
+        <h2>One line on macOS.<br>A package everywhere else.</h2>
         <p class="lede-wide">
-          Via Homebrew, or take the disk image from GitHub Releases. Fermata is ad-hoc signed and not notarized; the cask clears the download quarantine, and macOS may still ask you to right-click → Open the first time.
+          Homebrew or the disk image on macOS; an installer or a portable zip on Windows; a .deb, an .rpm, a tarball with <code>install.sh</code> or a PKGBUILD on Linux. The macOS build is ad-hoc signed and not notarized, and the Windows build is not signed yet, so SmartScreen asks once.
         </p>
         <div class="meta" style="margin-top:28px;border-top:0;padding-top:0">
-          <span>macOS 13 or later</span>
-          <span>Universal</span>
+          <span>macOS 13+ · Windows 11 · Linux</span>
+          <span>Universal on macOS</span>
           <span>MIT</span>
         </div>
       </div>
@@ -288,8 +289,10 @@
         </div>
         <div class="link-row">
           <a href="https://github.com/gythialy/fermata/releases/latest/download/Fermata.dmg">Download .dmg</a>
+          <a href="https://github.com/gythialy/fermata/releases/latest">Windows and Linux</a>
           <a href="https://github.com/gythialy/fermata/releases">Releases on GitHub</a>
         </div>
+        <p class="small-note">Windows: <code>fermata-setup-…-amd64.exe</code>, or the portable zip; choose <em>More info → Run anyway</em> on the first run. Linux: .deb, .rpm, tarball with <code>install.sh</code>, or PKGBUILD; GTK 3 and AppIndicator.</p>
         <p class="small-note">Update with <code>brew upgrade --cask fermata</code>.</p>
       </div>
     </div>
