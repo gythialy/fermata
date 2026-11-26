@@ -125,7 +125,7 @@ Windows 的托盘没有标题，所以图标只能显示记号或圆环，不显
 ### Nightly（每夜构建）
 
 每晚从 `main` 构建一个 DMG：未签名、未公证，可能随时是坏的。
-[下载 fermata-nightly.dmg](https://github.com/gythialy/fermata/releases/download/nightly/fermata-nightly.dmg)。
+[下载 fermata-nightly-macos-universal.dmg](https://github.com/gythialy/fermata/releases/download/nightly/fermata-nightly-macos-universal.dmg)。
 
 ## 名字的由来
 
