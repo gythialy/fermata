@@ -18,6 +18,7 @@ English · [简体中文](README.zh-Hans.md)
 [![CI](https://github.com/gythialy/fermata/actions/workflows/ci.yml/badge.svg)](https://github.com/gythialy/fermata/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-3E5F4E.svg)](https://github.com/gythialy/fermata/blob/main/LICENSE)
 [![macOS 13+](https://img.shields.io/badge/macOS-13%2B-171A17?logo=apple&logoColor=white)](https://github.com/gythialy/fermata/blob/main/docs/development.md#requirements)
+[![Nightly](https://github.com/gythialy/fermata/actions/workflows/nightly.yml/badge.svg)](https://github.com/gythialy/fermata/actions/workflows/nightly.yml)
 
 ## What it does
 
@@ -53,27 +54,27 @@ English · [简体中文](README.zh-Hans.md)
 
 ## Screenshots
 
-![The break window: a deep green field, the fermata, one suggestion, a hairline and the countdown](docs/images/break-mini.png)
+<p align="center"><img src="docs/images/break-mini.png" width="840" alt="The break window: a deep green field, the fermata, one suggestion, a hairline and the countdown"></p>
 
 The long break: a title, a longer field and fifteen minutes.
 
-![The long break window: a title, a sentence, a longer hairline and fifteen minutes](docs/images/break-long.png)
+<p align="center"><img src="docs/images/break-long.png" width="840" alt="The long break window: a title, a sentence, a longer hairline and fifteen minutes"></p>
 
 ### Around the app
 
 | Status popover | First run |
 |:-:|:-:|
-| ![Status popover with the countdown and quick actions](docs/images/popover.png) | ![Welcome window with a live preview of the break](docs/images/welcome.png) |
+| <img src="docs/images/popover.png" width="320" alt="Status popover with the countdown and quick actions"> | <img src="docs/images/welcome.png" width="480" alt="Welcome window with a live preview of the break"> |
 
 ### Settings
 
 | General | Schedule |
 |:-:|:-:|
-| ![General settings](docs/images/settings-general.png) | ![Schedule settings](docs/images/settings-schedule.png) |
+| <img src="docs/images/settings-general.png" width="400" alt="General settings"> | <img src="docs/images/settings-schedule.png" width="400" alt="Schedule settings"> |
 
 | Appearance | About |
 |:-:|:-:|
-| ![Appearance settings](docs/images/settings-appearance.png) | ![About settings](docs/images/settings-about.png) |
+| <img src="docs/images/settings-appearance.png" width="400" alt="Appearance settings"> | <img src="docs/images/settings-about.png" width="400" alt="About settings"> |
 
 ## Install
 
@@ -89,6 +90,11 @@ Fermata is ad-hoc signed and not notarized; the cask clears the download
 quarantine, and if macOS still blocks the first launch, right-click the app and
 choose **Open**. Update with `brew upgrade --cask fermata`. Building from source
 is described in the [development guide](https://github.com/gythialy/fermata/blob/main/docs/development.md).
+
+### Nightly
+
+Every night a DMG is built from `main`: unsigned, not notarized, and possibly
+broken. [Download Fermata-nightly.dmg](https://github.com/gythialy/fermata/releases/download/nightly/Fermata-nightly.dmg).
 
 ## The name
 
