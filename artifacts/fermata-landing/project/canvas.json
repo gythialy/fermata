@@ -1,0 +1,77 @@
+{
+  "v": 3,
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-11-26T02:45:00Z"
+  },
+  "title": "Fermata Landing",
+  "launch": {
+    "view": "canvas"
+  },
+  "pages": [
+    {
+      "id": "landing",
+      "name": "01 Landing"
+    }
+  ],
+  "boards": {
+    "Main.dc.html": {
+      "x": 0,
+      "y": 0,
+      "w": 1440,
+      "h": 4600,
+      "title": "Landing · desktop (EN)",
+      "page": "landing",
+      "expand": "fill"
+    },
+    "zh-Hans.dc.html": {
+      "x": 1520,
+      "y": 0,
+      "w": 1440,
+      "h": 976,
+      "title": "Landing · 中文首屏",
+      "page": "landing",
+      "expand": "fill"
+    },
+    "phone/Home.dc.html": {
+      "x": 0,
+      "y": 4720,
+      "w": 390,
+      "h": 844,
+      "title": "Phone · 390",
+      "page": "landing"
+    },
+    "dark/Hero.dc.html": {
+      "x": 470,
+      "y": 4720,
+      "w": 1440,
+      "h": 900,
+      "title": "Hero · dark",
+      "page": "landing",
+      "expand": "fill"
+    }
+  },
+  "order": [
+    "Main.dc.html",
+    "zh-Hans.dc.html",
+    "phone/Home.dc.html",
+    "dark/Hero.dc.html"
+  ],
+  "notes": {
+    "title": {
+      "x": 0,
+      "y": -300,
+      "text": "Fermata Landing — one layout, two languages, light and dark",
+      "kind": "title1",
+      "maxW": 2960
+    },
+    "deploy": {
+      "x": 1990,
+      "y": 4720,
+      "w": 480,
+      "text": "Shipped page: docs/index.html (EN) and docs/zh/index.html (ZH), served by GitHub Pages from main /docs. This canvas is the design record; the site keeps the same markup and adds the theme toggle, the language switch and the copy button.",
+      "page": "landing"
+    }
+  },
+  "designSystems": []
+}

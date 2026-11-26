@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fermata 停琴 — macOS 菜单栏休息提醒</title>
+<meta name="description" content="Fermata（停琴）是一款 macOS 菜单栏休息提醒。短休息与长休息按自己的节奏到来，占据屏幕几分钟，然后离开。一个进程，没有 webview，自由与开源。">
+<link rel="canonical" href="https://gythialy.github.io/fermata/zh/">
+<link rel="alternate" hreflang="en" href="https://gythialy.github.io/fermata/">
+<link rel="alternate" hreflang="zh-Hans" href="https://gythialy.github.io/fermata/zh/">
+<meta name="theme-color" content="#f6f4ed" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#121513" media="(prefers-color-scheme: dark)">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Fermata 停琴 — 一次休息，被拉长">
+<meta property="og:description" content="macOS 菜单栏休息提醒：短休息与长休息按自己的节奏到来，一片场、一句建议、一个出口。">
+<meta property="og:url" content="https://gythialy.github.io/fermata/zh/">
+<meta property="og:image" content="https://raw.githubusercontent.com/gythialy/fermata/main/.github/assets/social-preview.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../styles.css">
+<script>
+  (function () {
+    try {
+      var theme = localStorage.getItem("theme");
+      if (theme !== "dark" && theme !== "light") {
+        theme = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+      }
+      document.documentElement.dataset.theme = theme;
+    } catch (error) {
+      document.documentElement.dataset.theme = "light";
+    }
+  })();
+</script>
+<script src="../app.js" defer></script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Fermata",
+  "alternateName": "停琴",
+  "applicationCategory": "ProductivityApplication",
+  "operatingSystem": "macOS 13+",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "license": "https://opensource.org/licenses/MIT",
+  "url": "https://gythialy.github.io/fermata/zh/",
+  "downloadUrl": "https://github.com/gythialy/fermata/releases/latest",
+  "author": { "@type": "Person", "name": "gythialy" }
+}
+</script>
+</head>
+<body>
+<a class="skip" href="#main">跳到正文</a>
+<span id="copied-live" class="sr-only" aria-live="polite"></span>
+
+<header class="site-header">
+  <div class="nav">
+    <a class="brand" href="../">
+      <svg width="24" height="24" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+        <path d="M6 18C8 8.5 24 8.5 26 18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"></path>
+        <circle cx="16" cy="25" r="2.6" style="fill:var(--accent)"></circle>
+      </svg>
+      <span class="word">Fermata</span>
+      <span class="cn">停琴</span>
+    </a>
+    <nav class="nav-links" aria-label="主导航">
+      <a class="link" href="#rhythm">怎么用</a>
+      <a class="link" href="#screenshots">截图</a>
+      <a class="link" href="#install">安装</a>
+      <a class="link" href="https://github.com/gythialy/fermata/blob/main/docs/README.md">文档</a>
+      <span class="nav-sep" aria-hidden="true"></span>
+      <a href="../" hreflang="en" lang="en">EN</a>
+      <button type="button" class="icon-btn theme" data-theme-toggle data-label-dark="切换到暗色外观" data-label-light="切换到亮色外观">
+        <svg class="moon" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true" focusable="false">
+          <path d="M13.5 9.2A6 6 0 0 1 6.8 2.5 6 6 0 1 0 13.5 9.2Z"></path>
+        </svg>
+        <svg class="sun" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true" focusable="false">
+          <circle cx="8" cy="8" r="3"></circle>
+          <path d="M8 1.5v1.4M8 13.1v1.4M1.5 8h1.4M13.1 8h1.4M3.4 3.4l1 1M11.6 11.6l1 1M12.6 3.4l-1 1M4.4 11.6l-1 1"></path>
+        </svg>
+      </button>
+      <a href="https://github.com/gythialy/fermata" aria-label="Fermata 的 GitHub 仓库">
+        <svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" focusable="false">
+          <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"></path>
+        </svg>
+      </a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <div class="wrap">
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">macOS 菜单栏休息提醒</p>
+        <h1 class="display">一次休息，<br>被拉长<span class="dot">。</span></h1>
+        <p class="lede">
+          短休息与长休息按自己的节奏到来，占据屏幕几分钟，然后离开。一个进程，一个原生菜单栏图标，没有 webview。
+        </p>
+
+        <div class="install">
+          <div class="caption">安装</div>
+          <div class="codebox">
+            <code>brew install --cask fermata</code>
+            <button type="button" class="copy" data-copy="brew install --cask fermata" data-copied-label="已复制" aria-label="复制安装命令">
+              <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true" focusable="false">
+                <rect x="5.5" y="5.5" width="8" height="8" rx="1.5"></rect>
+                <path d="M10.5 5.5V3.5a1 1 0 0 0-1-1h-6a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2"></path>
+              </svg>
+            </button>
+          </div>
+          <div class="link-row">
+            <a href="https://github.com/gythialy/fermata/releases/latest/download/Fermata.dmg">下载 .dmg</a>
+            <span>自由与开源 · MIT</span>
+          </div>
+        </div>
+
+        <div class="meta">
+          <span>macOS 13 或更新</span>
+          <span>一个进程，无 webview</span>
+          <span>English · 简体中文</span>
+        </div>
+      </div>
+
+      <figure>
+        <div class="frame">
+          <img src="../images/break-mini.png" width="2400" height="1600" alt="短休息窗口：一片深松绿的场、延长记号、一句建议、一条细线和倒计时">
+        </div>
+        <figcaption>短休息，由应用渲染：一片场、一句建议、一个出口。</figcaption>
+      </figure>
+    </section>
+  </div>
+
+  <section class="section rule" id="name">
+    <div class="wrap name">
+      <div>
+        <div class="caption">名字</div>
+        <svg class="mark-lg" width="108" height="108" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+          <path d="M6 18C8 8.5 24 8.5 26 18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
+          <circle cx="16" cy="25" r="1.9" style="fill:var(--accent)"></circle>
+        </svg>
+      </div>
+      <div>
+        <h2>一个被延长的音符。</h2>
+        <p class="lede-wide">
+          Fermata 是乐谱上让一个音延续得比记谱更长的记号：乐队等着，然后继续。停琴，来自南朝诗人谢朓的一句诗。两个名字说的是同一个动作，记号也带着它：弧线是延长记号，下面的一点是按在弦上的指。
+        </p>
+        <blockquote>
+          <div class="quote">「停琴伫凉月，灭烛听归鸿」</div>
+          <div class="tr">停下手里的琴，站在凉月里，吹灭蜡烛，听归来的雁。</div>
+          <div class="src">谢朓 《移病还园示亲属诗》</div>
+        </blockquote>
+      </div>
+    </div>
+  </section>
+
+  <section class="field">
+    <div class="wrap">
+      <div class="caption">休息窗</div>
+      <p class="field-quote">望向窗外，直到眼睛放松。</p>
+      <div class="progress">
+        <div class="track"><div class="used"></div></div>
+        <div class="count-row">
+          <span class="num">04:12</span>
+          <span class="kind">短休息 · 5 分钟</span>
+        </div>
+      </div>
+      <div class="field-foot">
+        <span class="exit">推迟 <span class="key">⌘X</span></span>
+        <span class="field-note">每块屏幕一个窗口，占屏幕 85%。可以推迟、跳过，或者等它结束。</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="rhythm">
+    <div class="wrap">
+      <div class="caption">节奏</div>
+      <h2>25 / 5，四次之后 15。</h2>
+      <p class="lede-wide">
+        默认番茄钟：每 25 分钟一次 5 分钟短休息，每四次短休息之后一次 15 分钟长休息。两种都可以调整，至少保留一种。
+      </p>
+      <div class="timeline">
+        <div class="tl" role="img" aria-label="时间线：四段 25 分钟的工作，每段之后一次 5 分钟短休息，最后是一次 15 分钟长休息">
+          <div class="seg work" style="flex:25 1 0"><span class="n">25</span><span class="l">工作</span></div>
+          <div class="seg break" style="flex:5 1 0"><span class="n">5</span><span class="l">休息</span></div>
+          <div class="seg work" style="flex:25 1 0"><span class="n">25</span><span class="l">工作</span></div>
+          <div class="seg break" style="flex:5 1 0"><span class="n">5</span><span class="l">休息</span></div>
+          <div class="seg work" style="flex:25 1 0"><span class="n">25</span><span class="l">工作</span></div>
+          <div class="seg break" style="flex:5 1 0"><span class="n">5</span><span class="l">休息</span></div>
+          <div class="seg work" style="flex:25 1 0"><span class="n">25</span><span class="l">工作</span></div>
+          <div class="seg long" style="flex:15 1 0"><span class="n">15</span><span class="l">长休</span></div>
+        </div>
+        <div class="tl-note">四次短休息之后是一次长休息；两种时长都能调整。</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section rule" id="features">
+    <div class="wrap">
+      <div class="caption">它做什么</div>
+      <h2>安静，但不缺席。</h2>
+      <div class="features">
+        <article class="feature">
+          <div class="idx">01</div>
+          <h3>一片场，不是对话框</h3>
+          <p>每块屏幕一个窗口，占 85%：延长记号、一句建议、一条随休息推进的细线，和一个出口。</p>
+        </article>
+        <article class="feature">
+          <div class="idx">02</div>
+          <h3>认真起来，就有严格模式</h3>
+          <p>不能推迟、不能跳过、不能关掉窗口；休息结束前应用拒绝退出。锁屏也会结束这次休息。</p>
+        </article>
+        <article class="feature">
+          <div class="idx">03</div>
+          <h3>会看时机的暂停</h3>
+          <p>30 分钟、1 小时、到明早，或者一直暂停。也会自己暂停：离开、专注模式、锁屏，以及你排除的应用。</p>
+        </article>
+        <article class="feature">
+          <div class="idx">04</div>
+          <h3>到点的休息会等</h3>
+          <p>全屏应用最多让它等一小时；打字最多等 30 秒。开始后仍是完整的时长。</p>
+        </article>
+        <article class="feature">
+          <div class="idx">05</div>
+          <h3>安静地待在设置里</h3>
+          <p>通用、日程、外观、关于。中文或 English、登录时启动、菜单栏样式、场的颜色、声音、排除的应用。</p>
+        </article>
+        <article class="feature">
+          <div class="idx">06</div>
+          <h3>对机器很轻</h3>
+          <p>一个 Go 进程、一个原生菜单栏图标，没有 webview。空闲 CPU 接近零，也不常驻内存。</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section rule tint" id="screenshots">
+    <div class="wrap">
+      <div class="caption">应用里的样子</div>
+      <h2>每一面，同一只手。</h2>
+      <div class="gallery">
+        <figure class="shot">
+          <div class="mat"><img src="../images/popover.png" width="640" height="720" loading="lazy" alt="状态弹窗：下一次休息的倒计时和快捷操作"></div>
+          <figcaption>状态弹窗：倒计时与快捷操作。</figcaption>
+        </figure>
+        <figure class="shot">
+          <div class="mat"><img src="../images/welcome.png" width="1600" height="1080" loading="lazy" alt="首次启动窗口，带一份休息的真实预览"></div>
+          <figcaption>首次启动：一个决定，一份真实预览。</figcaption>
+        </figure>
+        <figure class="shot">
+          <div class="mat"><img src="../images/settings-general.png" width="1600" height="1440" loading="lazy" alt="通用设置：日程、登录时启动和语言"></div>
+          <figcaption>通用设置，桌面密度。</figcaption>
+        </figure>
+        <figure class="shot">
+          <div class="mat"><img src="../images/settings-appearance.png" width="1600" height="1440" loading="lazy" alt="外观设置：场的颜色、透明度和菜单栏样式"></div>
+          <figcaption>外观：场的颜色与菜单栏样式。</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="section rule" id="install">
+    <div class="wrap install-sec">
+      <div>
+        <div class="caption">安装</div>
+        <h2>一行命令，一个 DMG。</h2>
+        <p class="lede-wide">
+          用 Homebrew，或者从 GitHub Releases 拿磁盘映像。Fermata 是 ad-hoc 签名、未公证；cask 会清掉下载隔离，macOS 仍可能要求你第一次右键 → 打开。
+        </p>
+        <div class="meta" style="margin-top:28px;border-top:0;padding-top:0">
+          <span>macOS 13 或更新</span>
+          <span>通用二进制</span>
+          <span>MIT</span>
+        </div>
+      </div>
+      <div>
+        <div class="codeblock">
+          <code>brew tap gythialy/tap<br>brew install --cask fermata</code>
+          <button type="button" class="copy" data-copy="brew tap gythialy/tap&#10;brew install --cask fermata" data-copied-label="已复制" aria-label="复制安装命令">
+            <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true" focusable="false">
+              <rect x="5.5" y="5.5" width="8" height="8" rx="1.5"></rect>
+              <path d="M10.5 5.5V3.5a1 1 0 0 0-1-1h-6a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2"></path>
+            </svg>
+          </button>
+        </div>
+        <div class="link-row">
+          <a href="https://github.com/gythialy/fermata/releases/latest/download/Fermata.dmg">下载 .dmg</a>
+          <a href="https://github.com/gythialy/fermata/releases">GitHub Releases</a>
+        </div>
+        <p class="small-note">更新：<code>brew upgrade --cask fermata</code>。</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer" id="docs">
+  <div class="footer-top">
+    <div class="footer-brand">
+      <svg width="28" height="28" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+        <path d="M6 18C8 8.5 24 8.5 26 18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"></path>
+        <circle cx="16" cy="25" r="2.4" style="fill:var(--accent)"></circle>
+      </svg>
+      <div>
+        <div class="word">Fermata <span class="cn">停琴</span></div>
+        <div class="lic">MIT © 2026 gythialy</div>
+      </div>
+    </div>
+    <nav class="footer-links" aria-label="页脚">
+      <a href="https://github.com/gythialy/fermata">GitHub</a>
+      <a href="https://github.com/gythialy/fermata/releases">版本发布</a>
+      <a href="https://github.com/gythialy/fermata/blob/main/docs/README.md">文档</a>
+      <a href="https://github.com/gythialy/fermata/blob/main/LICENSE">许可证</a>
+      <a href="https://github.com/hovancik/stretchly">Stretchly</a>
+    </nav>
+  </div>
+  <div class="footer-note">用 Go 和 MyGo 写成。没有 webview，没有账号，没有统计。</div>
+</footer>
+</body>
+</html>
