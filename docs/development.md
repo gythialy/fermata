@@ -363,6 +363,19 @@ a break window exists (start one with `Fermata mini` on the app's machine).
 Tray menus, notifications and the global end-break shortcut are out of the
 protocol's reach; they stay in [platform acceptance](platform-acceptance.md).
 
+The status popover is the exception that the runner covers: its tray icon
+cannot be clicked over the protocol, so an e2e build accepts one command a
+release build does not, and `run.sh` passes the binary to the suite as
+`FERMATA_E2E_BIN`:
+
+```sh
+FERMATA_E2E_DATA=<the run's directory> Fermata popover show|hide|toggle
+```
+
+`TestPopover` opens the popover that way, captures it, and closes it with its
+close button. The click outside it that dismisses it, and the right click that
+opens the menu, still need a person.
+
 `tools/e2e` is the same protocol as a command, for looking at what a platform
 shows while debugging it:
 

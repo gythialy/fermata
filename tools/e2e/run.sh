@@ -46,4 +46,7 @@ until nc -z "$host" "$port" 2>/dev/null; do
 	sleep 0.1
 done
 
-FERMATA_E2E_ADDR=$addr FERMATA_E2E_APP=${platform%%/*} go test -tags e2e ./internal/e2e -v
+# The suite runs in its own directory: give it the app by its full path.
+app=$(cd "$(dirname "$app")" && pwd)/$(basename "$app")
+FERMATA_E2E_ADDR=$addr FERMATA_E2E_APP=${platform%%/*} FERMATA_E2E_BIN=$app FERMATA_E2E_DATA=$data \
+	go test -tags e2e ./internal/e2e -v

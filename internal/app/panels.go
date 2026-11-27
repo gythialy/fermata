@@ -45,17 +45,30 @@ func (a *App) togglePopover() {
 		// The panel is as tall as what it shows: the action rows come and
 		// go with the state, and MyGo lays the content out again as the
 		// window takes the measured size.
-		FitContent:   true,
-		MinWidth:     popoverWidth,
-		MaxWidth:     popoverWidth,
-		MaxHeight:    560,
-		Focusable:    false,
+		FitContent: true,
+		MinWidth:   popoverWidth,
+		MaxWidth:   popoverWidth,
+		MaxHeight:  560,
+		// On macOS a focusable flyout is a transient popover: a click
+		// elsewhere, another app coming to the front or Escape closes it, as
+		// it closes the system's own menu bar popovers. Windows keeps the
+		// panel that never took the keyboard, until its clicks are checked
+		// there.
+		Focusable:    runtime.GOOS == "darwin",
 		Popover:      runtime.GOOS == "darwin",
 		Shadow:       true,
 		CornerRadius: 14,
 		Content:      ui.View(a.popoverView),
 	})
-	a.popover.OnClosed(func() { a.popover = nil })
+	a.popover.OnClosed(func() {
+		// A popover dismissed by the system, as a click elsewhere does, stops
+		// its countdown here: hidePopover is not the only way out.
+		if a.popoverTimer != nil {
+			a.popoverTimer.Stop()
+			a.popoverTimer = nil
+		}
+		a.popover = nil
+	})
 	a.popover.Show()
 	a.popover.Invalidate()
 	a.tickPopover()

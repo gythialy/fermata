@@ -452,9 +452,10 @@ As long as any reason remains the pause holds; it resumes when the last reason c
 
 ### 6.10 Status popover (P1)
 
-- Left-click on the tray icon: open/close the popover; right-click or Control-click: the native menu (the popover is a non-focus panel and does not swallow clicks on the status item). The popover also has `⋯` (menu) and `×` (close) at its top right. Linux keeps the menu and offers no popover.
+- Left-click on the tray icon: open/close the popover; right-click or Control-click: the native menu. The popover takes the keyboard while it shows, as the system's own menu bar popovers do, and dismisses as they do. The popover also has `⋯` (menu) and `×` (close) at its top right. Linux's tray reports no clicks, so the menu is its icon's only target there; `Skip to` and a click on a notice open the same popover, in the middle of the primary display's work area.
+- The icon carries a menu only while the menu shows. A menu left on it would turn every click, a left click included, into the menu; so changing settings or the language never puts one there.
 - Content: two status lines (the same as the tray), the remaining time in large type, a hairline progress bar (no ring); the actions change with the state: while waiting `Take a break now` and `Pause 30 minutes`; while notified `Start now` / `Push 5 minutes` / `Pause 30 minutes`; while paused `Resume breaks`; `Settings…` is always there.
-- It closes on a second left-click, on `×`, when an action runs, when a break starts, or when a right-click opens the menu; once the waiting/paused state ends the buttons change with it.
+- It closes on a second left-click, on a click outside it, on `Esc`, when another app comes to the front, on `×`, when an action runs, when a break starts, or when a right-click opens the menu; once the waiting/paused state ends the buttons change with it.
 
 ### 6.11 Restart continuity (P1)
 
@@ -921,10 +922,11 @@ Time is 0 at the launch `T0`; default settings; the assertions cover the tray co
 | T31 | Fullscreen hold | A fullscreen app in front when due: no window, status "Break held — fullscreen app"; leaving fullscreen shows the whole break at once; after 1 hour it appears as usual |
 | T32 | Typing hold | Typing when due: waits at most 30 seconds; appears as soon as typing stops; if it never stops, appears after 30 seconds |
 | T33 | Notification and popover | The notice is only a notification; clicking it opens the popover; `Start now` starts at once; `Push 5 minutes` moves it 5 minutes later |
-| T34 | Status popover | Left-click opens it, right-click shows the menu; while waiting "Take a break now" starts early; while paused it shows "Resume breaks"; an outside click closes it |
+| T34 | Status popover | Left-click opens it, right-click shows the menu; while waiting "Take a break now" starts early; while paused it shows "Resume breaks"; a click outside it, `Esc` or another app closes it |
 | T35 | Restart continuity | Restart after 5 minutes: the countdown continues; restart during a break: not restored; restart after 12 minutes: schedules anew |
 | T36 | Notification and hold | The notification closes while a fullscreen hold is on; the break appears as soon as fullscreen ends |
 | T37 | `fillScreen` on macOS | The field reaches every screen edge, the menu bar and the Dock covered; both come back when the break ends; the app is not activated and the exit still works |
+| T38 | Click after a settings change | A left click still opens the popover and a right click still shows the menu, on every display |
 
 ---
 
@@ -950,4 +952,4 @@ The items that were open have been decided in the v1 implementation; only platfo
 - The `defaults` key-name differences for Do Not Disturb on macOS 13–26; without permission it is already treated as unavailable.
 - The width of the `99m` menu bar title on a notched, narrow menu bar.
 - A real positive case for the fullscreen hold (an ordinary test window cannot cover the menu bar; a fullscreen video is needed).
-- How the status popover behaves on Windows and Linux tray hosts (Linux keeps only the menu).
+- How the status popover behaves on Windows and Linux tray hosts (Linux reports no icon clicks: the menu is its only icon target, and the popover opens mid-screen from `Skip to` or a notice).

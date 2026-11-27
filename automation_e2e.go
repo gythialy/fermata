@@ -12,6 +12,8 @@ import (
 	"github.com/egoist/mygo"
 
 	_ "github.com/egoist/mygo/plugins/automation"
+
+	"github.com/gythialy/fermata/internal/cli"
 )
 
 // FERMATA_E2E_DATA names a directory for the run's settings, logs and cache,
@@ -19,6 +21,9 @@ import (
 // installed Fermata — nor is forwarded to it and quits before the test finds
 // it.
 func init() {
+	// The commands a test drives the app with, which a release build reports
+	// as unknown.
+	cli.Debug = true
 	dir := os.Getenv("FERMATA_E2E_DATA")
 	if dir == "" {
 		return

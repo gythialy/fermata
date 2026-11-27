@@ -992,8 +992,11 @@ Right-click still opens the classic menu.
 
 - The window belongs to the app (`app/panels.go`): `mygo.NewFlyout` anchored to the tray,
   `PlacementBottom`, 4 DIP gap, 320 DIP wide (minimum and maximum), `FitContent` so the panel
-  is as tall as the state's buttons, maximum 560 DIP, 14 DIP corners, system shadow, and
-  `Focusable: false` so opening it does not steal the keyboard. On macOS it is a popover
+  is as tall as the state's buttons, maximum 560 DIP, 14 DIP corners, system shadow.
+  `Focusable` on macOS, where a focusable flyout is a transient popover: it takes the keyboard
+  while it shows and closes on a click elsewhere, on another app coming to the front, on
+  Escape or on its icon, as the system's menu bar popovers do; Windows keeps
+  `Focusable: false` until its clicks are checked there. On macOS it is also a popover
   (system material and opening animation); elsewhere a plain flyout. Linux has no icon
   geometry, so the same flyout opens from a menu item in the middle of the primary work area.
 - The view is `internal/popover`, and it draws no background where the material shows. It
@@ -1014,8 +1017,8 @@ Right-click still opens the classic menu.
 - The header carries the mark, the state's name in small caps (`MINI BREAK · IN PROGRESS`,
   `STRICT · MINI BREAK`, `PAUSED`) and two icon buttons: menu (opens the tray menu where a
   right click may not reach the icon) and close. Icon buttons are 22 DIP with 12 DIP glyphs
-  and real labels and tooltips, because a non-focusable panel is otherwise invisible to a
-  screen reader.
+  and real labels and tooltips, because a panel that never takes the keyboard is otherwise
+  invisible to a screen reader.
 - The countdown label is `Nm` while waiting, `Ns` during the notice, `m:ss` during a break or
   a timed pause, and an em dash for an indefinite pause.
 
@@ -1045,6 +1048,12 @@ detail line.
 
 The menu is built once with fixed IDs; each update shows, hides and relabels items in place,
 so an open menu neither flickers nor closes.
+
+The icon carries the menu only while it shows. `tray.popUp` sets it, pops it and clears it,
+for the right click and for the popover's `⋯`; `Relabel` touches no menu. mygo sends `OnClick`
+only to an icon without a menu, and AppKit shows an attached one on any click, so a menu left
+behind turns every click into the menu (T38). Linux is the exception: AppIndicator shows
+menus only, so its menu is set once in `New`.
 
 | Item | Shown when | Notes |
 |---|---|---|
@@ -1376,7 +1385,7 @@ locally, and `go tool mygo build` is the packaging smoke test.
 
 | # | Risk | Handled now by | Still needs a device |
 |---|---|---|---|
-| S1 | A panel that steals focus would interrupt the user it helps | `Panel` + `ShowInactive`, never `Focus()`; `Focusable: false` on the flyout | Click and keyboard behaviour on each supported macOS |
+| S1 | A panel that steals focus would interrupt the user it helps | `Panel` + `ShowInactive`, never `Focus()`; the status popover is focusable on macOS only, where it dismisses as the system's popovers do, and stays non-focus on Windows | Click and keyboard behaviour on each supported macOS |
 | S2 | Focus / Do Not Disturb keys differ per version | Assertions file first, `defaults` fallback, one-shot `Unavailable`, row hidden when unreadable | The key each version writes, with and without Full Disk Access |
 | S3 | A template mark may vanish in a crowded menu bar | Bolder 18 pt variant, separate arc/dot alphas, runtime raster | Legibility at 1×/2× in both appearances |
 | S4 | A monospaced `99m` title may reach the notch | Title capped 0–99 minutes, minutes only, monospaced digits | Width against the notch and neighbours |
@@ -1413,7 +1422,8 @@ locally, and `go tool mygo build` is the packaging smoke test.
   display rebuild skips it.
 - **Status popover.** The draft had only the tray menu. The build adds a flyout on left click
   (and notification click) with the countdown, a ruler and the actions that fit the state;
-  right click keeps the menu, which is all Linux can show.
+  right click keeps the menu. Linux's icon reports no clicks, so there the menu is its click
+  target and the same flyout opens mid-screen from `Skip to` or a notice.
 - **Quick resume.** `schedule.json` keeps the next break for ten minutes across a restart; a
   break in progress or a pause is deliberately not resumed.
 - **Fullscreen hold.** The draft listed it as a later probe; it ships on macOS, reading window
