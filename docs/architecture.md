@@ -177,6 +177,7 @@ fermata/
     ├── settings/      config.json: settings, store, validate, migrate
     ├── presence/      presence, source, dnd_darwin/dnd_other, ps_unix/ps_other
     ├── fullscreen/    fullscreen (pure decision), fullscreen_darwin (CGWindowList)
+    ├── overlay/       cover_darwin: a break field over the menu bar and the Dock
     ├── breakwin/      manager, view
     ├── prefs/         window, rows, general, schedule, appearance, about
     ├── welcome/       window (one page, one decision)
@@ -845,6 +846,16 @@ Space, out of the Dock and app switcher, impossible to minimize, and on macOS gi
 keyboard without activating Fermata. `ShowInactive` keeps the keyboard where it was, and
 closing is prevented at the window level as well as in the app, so `⌘W` cannot dismiss a
 break.
+
+**Over the menu bar and the Dock.** A window the size of its display must reach every edge,
+and macOS gives a titled panel neither edge: AppKit keeps a window with a title bar below the
+menu bar, and the menu bar (window level 24) and the Dock (20) draw over a floating panel
+(3). A field the size of the display therefore arrives below the menu bar, so
+`internal/overlay` takes its `NSWindow` (`Window.NativeHandle`) on the main thread and sets
+`NSWindowStyleMaskNonactivatingPanel` alone (borderless, still not activating the app),
+`NSStatusWindowLevel` (25: over the menu bar and the Dock, under menus and alerts) and the
+frame again in AppKit's coordinates. A window smaller than the display keeps mygo's floating
+panel.
 
 **Entrance.** A new break fades in: the window is created at opacity 0, `fadeIn` eases it to
 `bw.Opacity` over 180 ms off the main thread (`SetOpacity` marshals itself), and the view

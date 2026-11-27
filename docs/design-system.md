@@ -217,7 +217,7 @@ Type rules:
 - Desktop density: controls 32 high; rows 44 (50–56 with a description); compact rows 38; key action hit areas ≥ 44×28.
 - Settings window: one size, **800×720** (all four pages share the height); minimum 760×560; sidebar **208**; content padding 32; content maximum width 528; content scrolls instead of shrinking type.
 - Welcome window: **800×540**; left preview 320, right content 480.
-- Break panel: **85%×85%** of the screen bounds, centered; radius 20; full-bleed with radius 0 when `fillScreen`; padding 48 (56 at a screen edge); the exit sits 64 above the panel's bottom edge.
+- Break panel: **85%×85%** of the screen bounds, centered; radius 20; full-bleed with radius 0 when `fillScreen`, the menu bar and the Dock included; padding 48 (56 at a screen edge); the exit sits 64 above the panel's bottom edge.
 - Break panel text: a mini suggestion caps at 780, a long break title at 820 and its body at 680; the progress line is 280 (360 for a long break), 40 below the suggestion, and the countdown 16 below the line.
 - Scaling: 100–150% text scaling changes no layout structure (rows grow, pages scroll); type is never shrunk to force a fit.
 
@@ -361,7 +361,7 @@ The product has one small-icon language, all drawn by the app (`internal/icons`,
 - 85%×85% centered by default; radius 20; on top of full-screen apps and every Space; showing it neither activates the app nor takes keyboard focus.
 - The window swallows clicks that land on it (so the desktop is not clicked by accident); only the action responds.
 - The window cannot be dragged or resized.
-- `fillScreen`: the full screen bounds, radius 0; never kiosk mode.
+- `fillScreen`: the full screen bounds, radius 0, over the menu bar and the Dock; never kiosk mode.
 - Multiple displays: one field per screen; `contentScreen` decides which screen carries content; the others show only the plain field — no text, no line, no button.
 
 #### Content order

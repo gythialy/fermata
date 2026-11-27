@@ -10,6 +10,7 @@ import (
 	"github.com/egoist/mygo"
 	"github.com/egoist/mygo/ui"
 	"github.com/gythialy/fermata/internal/ideas"
+	"github.com/gythialy/fermata/internal/overlay"
 	"github.com/gythialy/fermata/internal/planner"
 	"github.com/gythialy/fermata/internal/settings"
 	"github.com/gythialy/fermata/internal/theme"
@@ -243,10 +244,25 @@ func (m *Manager) open(d mygo.Display, content bool, animate bool) *window {
 	win := mygo.NewWindow(opts)
 	win.OnClose(func(e *mygo.CloseEvent) { e.PreventDefault() })
 	win.ShowInactive()
+	if coversDisplay(d, width, height) {
+		// A field the size of the display reaches its edges: the desktop's own
+		// bars must not sit on top of it. It is placed again after showing,
+		// when AppKit has already pinned it below the menu bar.
+		r := mygo.Rectangle{X: x, Y: y, Width: width, Height: height}
+		if err := overlay.Cover(win, r); err != nil {
+			m.opts.Log.Warn("break window could not cover the screen's own bars", "error", err)
+		}
+	}
 	if animate {
 		go fadeIn(win, base)
 	}
 	return &window{win: win, content: content}
+}
+
+// coversDisplay reports whether a break window of width × height fills its
+// display: only then do the menu bar and the Dock have to make way for it.
+func coversDisplay(d mygo.Display, width, height int) bool {
+	return width >= d.Bounds.Width && height >= d.Bounds.Height
 }
 
 // entranceFade is how long the panel takes to arrive. The content rises for a
