@@ -117,7 +117,7 @@ Core invariants:
 | `breakWindow.allScreens` | `true` | A mask on every display |
 | `breakWindow.screen` | `"primary"` | The target display when a single display is used |
 | `breakWindow.contentScreen` | `"all"` | Which displays show the content |
-| `breakWindow.fillScreen` | `false` | Fill the workspace (otherwise 85%) |
+| `breakWindow.fillScreen` | `false` | Fill the display, the menu bar and the Dock included (otherwise 85%) |
 | `breakWindow.widthRatio` | `0.85` | Window width as a share of the display |
 | `breakWindow.heightRatio` | `0.85` | Window height as a share of the display |
 | `breakWindow.field` | `"pine"` | The break window's field preset |
@@ -472,6 +472,7 @@ As long as any reason remains the pause holds; it resumes when the last reason c
 - One window per target display; no title bar, no zoom/minimize/close button, never in the Dock or the app switcher.
 - The default size is the display bounds' `widthRatio × heightRatio` (0.85 × 0.85), centered inside the display bounds.
 - The window's corner radius is 20 pt; when `fillScreen` is true it fills the display bounds and the radius becomes 0.
+- A window the size of the display covers the menu bar and the Dock as well; a smaller one stays below them. No Space is taken and no kiosk mode is entered.
 - Always on top, above every Space / fullscreen app; showing it does not activate the app and does not take keyboard focus.
 - The window swallows mouse clicks that land on it (so the desktop is not clicked by accident), but only the action button responds.
 - The user cannot drag or resize the window.
@@ -867,7 +868,7 @@ These are **deliberate** product decisions, not omissions; implementation and te
 | D3 | Strict mode still allows CLI pause/skip | During a strict break the CLI refuses pause/toggle/reset/skip/postpone/mini/long/preferences | Same as above |
 | D4 | After sleep, an overdue break fires at once | Not shown late; `n++`; reschedule from the wake | Being covered by a full-screen mask the moment you wake is bad |
 | D5 | Manual finish mode lets `Cmd+X` bypass the wait | After zero, `Cmd+X` = Finish; it does not bypass | Consistency |
-| D6 | The break window has square corners and can go kiosk fullscreen | A 20 pt rounded floating layer; `fillScreen` fills the workspace, not kiosk | No Space takeover; quitting is more predictable |
+| D6 | The break window has square corners and can go kiosk fullscreen | A 20 pt rounded floating layer; `fillScreen` covers the display, the menu bar and the Dock included, without kiosk | No Space takeover; quitting is more predictable |
 | D7 | The break window shows Postpone and Skip together | Only one exit at a time | Less decision noise; the two are mutually exclusive in meaning |
 | D8 | The first run starts scheduling at once | Scheduling starts when the welcome window closes or Start is pressed | The user reads first |
 | D9 | 54 languages | `en` + `zh-Hans` | Quality first; the catalog can grow |
@@ -923,6 +924,7 @@ Time is 0 at the launch `T0`; default settings; the assertions cover the tray co
 | T34 | Status popover | Left-click opens it, right-click shows the menu; while waiting "Take a break now" starts early; while paused it shows "Resume breaks"; an outside click closes it |
 | T35 | Restart continuity | Restart after 5 minutes: the countdown continues; restart during a break: not restored; restart after 12 minutes: schedules anew |
 | T36 | Notification and hold | The notification closes while a fullscreen hold is on; the break appears as soon as fullscreen ends |
+| T37 | `fillScreen` on macOS | The field reaches every screen edge, the menu bar and the Dock covered; both come back when the break ends; the app is not activated and the exit still works |
 
 ---
 
