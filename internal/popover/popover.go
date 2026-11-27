@@ -139,9 +139,9 @@ func actions(c *ui.Context, t *ui.Theme, list []Action) {
 	})
 }
 
-// iconButton draws a 22 DIP ghost button with a 12 DIP glyph. The flyout is
-// not focusable, so its name and tooltip are the only way a screen reader
-// reaches it.
+// iconButton draws a 22 DIP ghost button with a 12 DIP glyph. The glyph alone
+// says nothing, so its name and tooltip are how a screen reader, and a reader
+// of the window on Windows, find it.
 func iconButton(c *ui.Context, t *ui.Theme, name string, glyph func(*ui.Painter, ui.Rect, ui.Color), run func()) {
 	if run == nil {
 		return

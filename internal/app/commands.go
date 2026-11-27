@@ -74,6 +74,12 @@ func (a *App) HandleCommand(cmd cli.Command) int {
 		return a.commandBreak(cmd, planner.Long)
 	case cli.CmdLast:
 		return a.commandLast()
+	case cli.CmdPopover:
+		if !cli.Debug {
+			return a.refuse("popover")
+		}
+		a.commandPopover(cmd)
+		return 0
 	case cli.CmdPreferences:
 		if a.strictRunning() {
 			return a.refuse("preferences")
@@ -126,6 +132,19 @@ func (a *App) commandBreak(cmd cli.Command, kind planner.Kind) int {
 	}
 	a.step(planner.SkipTo{Now: now, Kind: kind, Delay: cmd.Wait, Title: cmd.Title, Text: cmd.Text})
 	return 0
+}
+
+// commandPopover opens or closes the popover as a test asks, which cannot
+// click the tray icon over the automation protocol.
+func (a *App) commandPopover(cmd cli.Command) {
+	switch cmd.Popover {
+	case "show":
+		a.showPopover()
+	case "hide":
+		a.hidePopover()
+	default:
+		a.togglePopover()
+	}
 }
 
 // commandLast starts the last break's idea again.

@@ -299,7 +299,9 @@ func (a *App) watchAppEvents() {
 	mygo.App.OnBeforeQuit(a.onBeforeQuit)
 	mygo.App.OnNotificationClick(func(id string) {
 		if strings.HasPrefix(id, "break-") {
-			mygo.RunOnMain(a.togglePopover)
+			// The notice opens the popover (spec 6.9): a popover already open
+			// is refreshed, not toggled shut.
+			mygo.RunOnMain(a.showPopover)
 		}
 	})
 	mygo.Screen.OnDisplaysChanged(a.onDisplaysChanged)

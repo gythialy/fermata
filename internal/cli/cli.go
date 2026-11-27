@@ -29,7 +29,15 @@ const (
 	CmdLong        = "long"
 	CmdLast        = "last"
 	CmdPreferences = "preferences"
+	// CmdPopover opens or closes the status popover, which the e2e build
+	// alone accepts (Debug): a test cannot click the tray icon.
+	CmdPopover = "popover"
 )
+
+// Debug lets a build accept the commands a test drives the app with, which a
+// release build reports as unknown. The e2e build sets it (see
+// automation_e2e.go).
+var Debug bool
 
 // Command is one parsed command line.
 type Command struct {
@@ -46,6 +54,8 @@ type Command struct {
 	NoSkip bool
 	// Wait delays starting the break.
 	Wait time.Duration
+	// Popover is what CmdPopover asks: "show", "hide" or "toggle".
+	Popover string
 }
 
 // Parse turns the arguments after the program name into a command.
@@ -74,9 +84,30 @@ func Parse(args []string) (Command, error) {
 		return cmd, nil
 	case CmdMini, CmdLong:
 		return parseBreak(cmd, rest)
+	case CmdPopover:
+		if !Debug {
+			return Command{}, usagef("unknown command %q", name)
+		}
+		return parsePopover(cmd, rest)
 	default:
 		return Command{}, usagef("unknown command %q", name)
 	}
+}
+
+func parsePopover(cmd Command, args []string) (Command, error) {
+	if len(args) > 1 {
+		return Command{}, usagef("popover takes one of show, hide or toggle")
+	}
+	cmd.Popover = "toggle"
+	if len(args) == 1 {
+		switch args[0] {
+		case "show", "hide", "toggle":
+			cmd.Popover = args[0]
+		default:
+			return Command{}, usagef("popover does not take %q", args[0])
+		}
+	}
+	return cmd, nil
 }
 
 func parsePause(args []string) (Command, error) {

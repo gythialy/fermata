@@ -100,7 +100,8 @@ func New(icon []byte, actions Actions, labels Labels) (*Controller, error) {
 	}
 	c.tray = t
 	if runtime.GOOS == "linux" {
-		// AppIndicator only shows menus, and tells nothing of clicks.
+		// AppIndicator only shows menus, and tells nothing of clicks: the
+		// menu is the icon's own, set once.
 		t.SetMenu(c.menu)
 	} else {
 		if actions.TogglePopover != nil {
@@ -110,22 +111,32 @@ func New(icon []byte, actions Actions, labels Labels) (*Controller, error) {
 			if actions.HidePopover != nil {
 				actions.HidePopover()
 			}
-			// The menu for this popup only, so that a left click keeps
-			// opening the popover.
-			t.SetMenu(c.menu)
-			defer t.SetMenu(nil)
-			t.PopUpMenu()
+			popUp(t, c.menu)
 		})
 	}
 	return c, nil
 }
 
+// menuIcon is the part of a tray icon a menu needs, so that a test can hold it.
+type menuIcon interface {
+	SetMenu(*mygo.Menu)
+	PopUpMenu()
+}
+
+// popUp shows menu from icon, attached only while it shows. mygo hands the
+// icon's clicks to OnClick only while it has no menu, and AppKit shows an
+// attached one on any click, a left click included: a menu left on the icon
+// turns every click into the menu.
+func popUp(icon menuIcon, menu *mygo.Menu) {
+	icon.SetMenu(menu)
+	defer icon.SetMenu(nil)
+	icon.PopUpMenu()
+}
+
 // ShowMenu opens the tray menu programmatically, as the popover's menu
 // button does where a right click may not reach the icon.
 func (c *Controller) ShowMenu() {
-	c.tray.SetMenu(c.menu)
-	defer c.tray.SetMenu(nil)
-	c.tray.PopUpMenu()
+	popUp(c.tray, c.menu)
 }
 
 // Native returns the mygo tray, which a flyout anchors to.
@@ -148,7 +159,8 @@ func (c *Controller) Relabel(l Labels) {
 	c.setLabel(idMorning, l.Morning)
 	c.setLabel(idForever, l.Indefinitely)
 	c.setPauses(c.durations)
-	c.tray.SetMenu(c.menu)
+	// The icon carries no menu between popups (popUp): a change of labels
+	// reaches the next popup, which builds the native menu again.
 	c.lastSignature = ""
 }
 
