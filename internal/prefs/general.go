@@ -298,7 +298,7 @@ func (w *Window) exclusionsSection(c *ui.Context, t *ui.Theme, s *settings.Setti
 					w.opts.Touched()
 				}
 				ui.Text(c, locales.SettingsRuleActive()).FontSize(theme.Px(c, 11)).FixedLineHeight(theme.Px(c, 16)).TextColor(t.TextMuted)
-				ui.Text(c, locales.SettingsRuleProcessesHint()).FontSize(theme.Px(c, 10)).FixedLineHeight(theme.Px(c, 14)).
+				ui.Text(c, locales.SettingsRuleProcessesHint()).FontSize(theme.Px(c, 11)).FixedLineHeight(theme.Px(c, 16)).
 					TextColor(t.TextMuted).Grow(1).TextAlign(ui.End)
 			})
 		})

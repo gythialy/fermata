@@ -256,6 +256,7 @@ func (a *App) buildSettingsWindow() {
 		PreviewSound:      func(name string) { a.playNamed(name) },
 		Dark:              func() bool { return mygo.Theme.IsDark() },
 		Clock:             a.clock,
+		Now:               time.Now,
 		Displays:          func() []mygo.Display { return mygo.Screen.Displays() },
 		FocusAvailable:    func() bool { return a.focusReadable },
 		ProcessesReadable: presence.ProcessesReadable,

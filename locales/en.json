@@ -539,5 +539,173 @@
         "example": "25 min"
       }
     }
+  },
+  "settingsSkipPeriods": "Skip periods",
+  "@settingsSkipPeriods": {
+    "description": "The skip period group on the schedule page."
+  },
+  "settingsSkipPeriodsHelp": "Breaks pause during these periods and restart afterwards.",
+  "@settingsSkipPeriodsHelp": {
+    "description": "What a skip period does."
+  },
+  "settingsSkipEnable": "Enable",
+  "@settingsSkipEnable": {
+    "description": "Visible label beside the master switch."
+  },
+  "settingsSkipEnablePeriods": "Enable skip periods",
+  "@settingsSkipEnablePeriods": {
+    "description": "Accessible name of the skip period master switch."
+  },
+  "settingsSkipAdd": "+ Add period",
+  "@settingsSkipAdd": {
+    "description": "Action that adds one period."
+  },
+  "settingsSkipRemove": "Remove",
+  "@settingsSkipRemove": {
+    "description": "Visible label of the delete action on a period."
+  },
+  "settingsSkipRemovePeriod": "Remove {start} to {end} period",
+  "@settingsSkipRemovePeriod": {
+    "description": "Accessible description of the delete action on a period.",
+    "placeholders": {
+      "start": {
+        "type": "String",
+        "example": "09:00"
+      },
+      "end": {
+        "type": "String",
+        "example": "10:00"
+      }
+    }
+  },
+  "settingsSkipPeriodSwitch": "Enable {start} to {end} period",
+  "@settingsSkipPeriodSwitch": {
+    "description": "Accessible name of one period switch.",
+    "placeholders": {
+      "start": {
+        "type": "String",
+        "example": "09:00"
+      },
+      "end": {
+        "type": "String",
+        "example": "10:00"
+      }
+    }
+  },
+  "settingsSkipStart": "Start time",
+  "@settingsSkipStart": {
+    "description": "Accessible name of a period start field."
+  },
+  "settingsSkipEnd": "End time",
+  "@settingsSkipEnd": {
+    "description": "Accessible name of a period end field."
+  },
+  "settingsSkipClockHint": "HH:MM",
+  "@settingsSkipClockHint": {
+    "description": "Placeholder of a period time field."
+  },
+  "settingsSkipEveryDay": "Every day",
+  "@settingsSkipEveryDay": {
+    "description": "Day label for a period with an empty day list."
+  },
+  "settingsSkipDayMon": "Mon",
+  "@settingsSkipDayMon": {
+    "description": "Monday dot of the weekday picker."
+  },
+  "settingsSkipDayTue": "Tue",
+  "@settingsSkipDayTue": {
+    "description": "Tuesday dot of the weekday picker."
+  },
+  "settingsSkipDayWed": "Wed",
+  "@settingsSkipDayWed": {
+    "description": "Wednesday dot of the weekday picker."
+  },
+  "settingsSkipDayThu": "Thu",
+  "@settingsSkipDayThu": {
+    "description": "Thursday dot of the weekday picker."
+  },
+  "settingsSkipDayFri": "Fri",
+  "@settingsSkipDayFri": {
+    "description": "Friday dot of the weekday picker."
+  },
+  "settingsSkipDaySat": "Sat",
+  "@settingsSkipDaySat": {
+    "description": "Saturday dot of the weekday picker."
+  },
+  "settingsSkipDaySun": "Sun",
+  "@settingsSkipDaySun": {
+    "description": "Sunday dot of the weekday picker."
+  },
+  "settingsSkipDaySeparator": ", ",
+  "@settingsSkipDaySeparator": {
+    "description": "Separator between weekday names."
+  },
+  "settingsSkipOvernight": "From {start} on the start day · until {end} the next day",
+  "@settingsSkipOvernight": {
+    "description": "Day label of a period that ends the next day.",
+    "placeholders": {
+      "start": {
+        "type": "String",
+        "example": "22:00"
+      },
+      "end": {
+        "type": "String",
+        "example": "08:00"
+      }
+    }
+  },
+  "settingsSkipStatusOff": "Skip periods are off",
+  "@settingsSkipStatusOff": {
+    "description": "Status line when the master switch is off."
+  },
+  "settingsSkipStatusOffHint": "Your settings are kept and apply when enabled",
+  "@settingsSkipStatusOffHint": {
+    "description": "Status hint when the master switch is off."
+  },
+  "settingsSkipStatusEmpty": "No enabled skip periods",
+  "@settingsSkipStatusEmpty": {
+    "description": "Status line with no enabled periods."
+  },
+  "settingsSkipStatusEmptyHint": "Add a period to turn this on",
+  "@settingsSkipStatusEmptyHint": {
+    "description": "Status hint with no enabled periods."
+  },
+  "settingsSkipStatusActive": "Skipping now · until {time}",
+  "@settingsSkipStatusActive": {
+    "description": "Status line while a period is active.",
+    "placeholders": {
+      "time": {
+        "type": "String",
+        "example": "10:00"
+      }
+    }
+  },
+  "settingsSkipStatusActiveHint": "Breaks restart afterwards",
+  "@settingsSkipStatusActiveHint": {
+    "description": "Status hint while a period is active."
+  },
+  "settingsSkipStatusNext": "Next skip {time}",
+  "@settingsSkipStatusNext": {
+    "description": "Status line before the next period.",
+    "placeholders": {
+      "time": {
+        "type": "String",
+        "example": "12:00"
+      }
+    }
+  },
+  "settingsSkipStatusNextHint": "Until {time}",
+  "@settingsSkipStatusNextHint": {
+    "description": "Status hint before the next period.",
+    "placeholders": {
+      "time": {
+        "type": "String",
+        "example": "13:00"
+      }
+    }
+  },
+  "settingsSkipNoTime": "--:--",
+  "@settingsSkipNoTime": {
+    "description": "Shown when skiptime has no boundary."
   }
 }

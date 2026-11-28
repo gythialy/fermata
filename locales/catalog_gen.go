@@ -2193,3 +2193,435 @@ func WelcomeEvery(interval string) string { return In(i18n.Locale()).WelcomeEver
 func (msgs Messages) WelcomeEvery(interval string) string {
 	return Catalog.Format(msgs.locale, "welcomeEvery", map[string]any{"interval": interval})
 }
+
+// SettingsSkipPeriods says "Skip periods"
+// in the language the app shows.
+//
+// The skip period group on the schedule page.
+func SettingsSkipPeriods() string { return In(i18n.Locale()).SettingsSkipPeriods() }
+
+// SettingsSkipPeriods says "Skip periods"
+// in the language of msgs.
+//
+// The skip period group on the schedule page.
+func (msgs Messages) SettingsSkipPeriods() string {
+	return Catalog.Format(msgs.locale, "settingsSkipPeriods", nil)
+}
+
+// SettingsSkipPeriodsHelp says "Breaks pause during these periods and restart afterwards."
+// in the language the app shows.
+//
+// What a skip period does.
+func SettingsSkipPeriodsHelp() string { return In(i18n.Locale()).SettingsSkipPeriodsHelp() }
+
+// SettingsSkipPeriodsHelp says "Breaks pause during these periods and restart afterwards."
+// in the language of msgs.
+//
+// What a skip period does.
+func (msgs Messages) SettingsSkipPeriodsHelp() string {
+	return Catalog.Format(msgs.locale, "settingsSkipPeriodsHelp", nil)
+}
+
+// SettingsSkipEnable says "Enable"
+// in the language the app shows.
+//
+// Visible label beside the master switch.
+func SettingsSkipEnable() string { return In(i18n.Locale()).SettingsSkipEnable() }
+
+// SettingsSkipEnable says "Enable"
+// in the language of msgs.
+//
+// Visible label beside the master switch.
+func (msgs Messages) SettingsSkipEnable() string {
+	return Catalog.Format(msgs.locale, "settingsSkipEnable", nil)
+}
+
+// SettingsSkipEnablePeriods says "Enable skip periods"
+// in the language the app shows.
+//
+// Accessible name of the skip period master switch.
+func SettingsSkipEnablePeriods() string { return In(i18n.Locale()).SettingsSkipEnablePeriods() }
+
+// SettingsSkipEnablePeriods says "Enable skip periods"
+// in the language of msgs.
+//
+// Accessible name of the skip period master switch.
+func (msgs Messages) SettingsSkipEnablePeriods() string {
+	return Catalog.Format(msgs.locale, "settingsSkipEnablePeriods", nil)
+}
+
+// SettingsSkipAdd says "+ Add period"
+// in the language the app shows.
+//
+// Action that adds one period.
+func SettingsSkipAdd() string { return In(i18n.Locale()).SettingsSkipAdd() }
+
+// SettingsSkipAdd says "+ Add period"
+// in the language of msgs.
+//
+// Action that adds one period.
+func (msgs Messages) SettingsSkipAdd() string {
+	return Catalog.Format(msgs.locale, "settingsSkipAdd", nil)
+}
+
+// SettingsSkipRemove says "Remove"
+// in the language the app shows.
+//
+// Visible label of the delete action on a period.
+func SettingsSkipRemove() string { return In(i18n.Locale()).SettingsSkipRemove() }
+
+// SettingsSkipRemove says "Remove"
+// in the language of msgs.
+//
+// Visible label of the delete action on a period.
+func (msgs Messages) SettingsSkipRemove() string {
+	return Catalog.Format(msgs.locale, "settingsSkipRemove", nil)
+}
+
+// SettingsSkipRemovePeriod says "Remove {start} to {end} period"
+// in the language the app shows.
+//
+// Accessible description of the delete action on a period.
+func SettingsSkipRemovePeriod(start string, end string) string {
+	return In(i18n.Locale()).SettingsSkipRemovePeriod(start, end)
+}
+
+// SettingsSkipRemovePeriod says "Remove {start} to {end} period"
+// in the language of msgs.
+//
+// Accessible description of the delete action on a period.
+func (msgs Messages) SettingsSkipRemovePeriod(start string, end string) string {
+	return Catalog.Format(msgs.locale, "settingsSkipRemovePeriod", map[string]any{"start": start, "end": end})
+}
+
+// SettingsSkipPeriodSwitch says "Enable {start} to {end} period"
+// in the language the app shows.
+//
+// Accessible name of one period switch.
+func SettingsSkipPeriodSwitch(start string, end string) string {
+	return In(i18n.Locale()).SettingsSkipPeriodSwitch(start, end)
+}
+
+// SettingsSkipPeriodSwitch says "Enable {start} to {end} period"
+// in the language of msgs.
+//
+// Accessible name of one period switch.
+func (msgs Messages) SettingsSkipPeriodSwitch(start string, end string) string {
+	return Catalog.Format(msgs.locale, "settingsSkipPeriodSwitch", map[string]any{"start": start, "end": end})
+}
+
+// SettingsSkipStart says "Start time"
+// in the language the app shows.
+//
+// Accessible name of a period start field.
+func SettingsSkipStart() string { return In(i18n.Locale()).SettingsSkipStart() }
+
+// SettingsSkipStart says "Start time"
+// in the language of msgs.
+//
+// Accessible name of a period start field.
+func (msgs Messages) SettingsSkipStart() string {
+	return Catalog.Format(msgs.locale, "settingsSkipStart", nil)
+}
+
+// SettingsSkipEnd says "End time"
+// in the language the app shows.
+//
+// Accessible name of a period end field.
+func SettingsSkipEnd() string { return In(i18n.Locale()).SettingsSkipEnd() }
+
+// SettingsSkipEnd says "End time"
+// in the language of msgs.
+//
+// Accessible name of a period end field.
+func (msgs Messages) SettingsSkipEnd() string {
+	return Catalog.Format(msgs.locale, "settingsSkipEnd", nil)
+}
+
+// SettingsSkipClockHint says "HH:MM"
+// in the language the app shows.
+//
+// Placeholder of a period time field.
+func SettingsSkipClockHint() string { return In(i18n.Locale()).SettingsSkipClockHint() }
+
+// SettingsSkipClockHint says "HH:MM"
+// in the language of msgs.
+//
+// Placeholder of a period time field.
+func (msgs Messages) SettingsSkipClockHint() string {
+	return Catalog.Format(msgs.locale, "settingsSkipClockHint", nil)
+}
+
+// SettingsSkipEveryDay says "Every day"
+// in the language the app shows.
+//
+// Day label for a period with an empty day list.
+func SettingsSkipEveryDay() string { return In(i18n.Locale()).SettingsSkipEveryDay() }
+
+// SettingsSkipEveryDay says "Every day"
+// in the language of msgs.
+//
+// Day label for a period with an empty day list.
+func (msgs Messages) SettingsSkipEveryDay() string {
+	return Catalog.Format(msgs.locale, "settingsSkipEveryDay", nil)
+}
+
+// SettingsSkipDayMon says "Mon"
+// in the language the app shows.
+//
+// Monday dot of the weekday picker.
+func SettingsSkipDayMon() string { return In(i18n.Locale()).SettingsSkipDayMon() }
+
+// SettingsSkipDayMon says "Mon"
+// in the language of msgs.
+//
+// Monday dot of the weekday picker.
+func (msgs Messages) SettingsSkipDayMon() string {
+	return Catalog.Format(msgs.locale, "settingsSkipDayMon", nil)
+}
+
+// SettingsSkipDayTue says "Tue"
+// in the language the app shows.
+//
+// Tuesday dot of the weekday picker.
+func SettingsSkipDayTue() string { return In(i18n.Locale()).SettingsSkipDayTue() }
+
+// SettingsSkipDayTue says "Tue"
+// in the language of msgs.
+//
+// Tuesday dot of the weekday picker.
+func (msgs Messages) SettingsSkipDayTue() string {
+	return Catalog.Format(msgs.locale, "settingsSkipDayTue", nil)
+}
+
+// SettingsSkipDayWed says "Wed"
+// in the language the app shows.
+//
+// Wednesday dot of the weekday picker.
+func SettingsSkipDayWed() string { return In(i18n.Locale()).SettingsSkipDayWed() }
+
+// SettingsSkipDayWed says "Wed"
+// in the language of msgs.
+//
+// Wednesday dot of the weekday picker.
+func (msgs Messages) SettingsSkipDayWed() string {
+	return Catalog.Format(msgs.locale, "settingsSkipDayWed", nil)
+}
+
+// SettingsSkipDayThu says "Thu"
+// in the language the app shows.
+//
+// Thursday dot of the weekday picker.
+func SettingsSkipDayThu() string { return In(i18n.Locale()).SettingsSkipDayThu() }
+
+// SettingsSkipDayThu says "Thu"
+// in the language of msgs.
+//
+// Thursday dot of the weekday picker.
+func (msgs Messages) SettingsSkipDayThu() string {
+	return Catalog.Format(msgs.locale, "settingsSkipDayThu", nil)
+}
+
+// SettingsSkipDayFri says "Fri"
+// in the language the app shows.
+//
+// Friday dot of the weekday picker.
+func SettingsSkipDayFri() string { return In(i18n.Locale()).SettingsSkipDayFri() }
+
+// SettingsSkipDayFri says "Fri"
+// in the language of msgs.
+//
+// Friday dot of the weekday picker.
+func (msgs Messages) SettingsSkipDayFri() string {
+	return Catalog.Format(msgs.locale, "settingsSkipDayFri", nil)
+}
+
+// SettingsSkipDaySat says "Sat"
+// in the language the app shows.
+//
+// Saturday dot of the weekday picker.
+func SettingsSkipDaySat() string { return In(i18n.Locale()).SettingsSkipDaySat() }
+
+// SettingsSkipDaySat says "Sat"
+// in the language of msgs.
+//
+// Saturday dot of the weekday picker.
+func (msgs Messages) SettingsSkipDaySat() string {
+	return Catalog.Format(msgs.locale, "settingsSkipDaySat", nil)
+}
+
+// SettingsSkipDaySun says "Sun"
+// in the language the app shows.
+//
+// Sunday dot of the weekday picker.
+func SettingsSkipDaySun() string { return In(i18n.Locale()).SettingsSkipDaySun() }
+
+// SettingsSkipDaySun says "Sun"
+// in the language of msgs.
+//
+// Sunday dot of the weekday picker.
+func (msgs Messages) SettingsSkipDaySun() string {
+	return Catalog.Format(msgs.locale, "settingsSkipDaySun", nil)
+}
+
+// SettingsSkipDaySeparator says ", "
+// in the language the app shows.
+//
+// Separator between weekday names.
+func SettingsSkipDaySeparator() string { return In(i18n.Locale()).SettingsSkipDaySeparator() }
+
+// SettingsSkipDaySeparator says ", "
+// in the language of msgs.
+//
+// Separator between weekday names.
+func (msgs Messages) SettingsSkipDaySeparator() string {
+	return Catalog.Format(msgs.locale, "settingsSkipDaySeparator", nil)
+}
+
+// SettingsSkipOvernight says "From {start} on the start day · until {end} the next day"
+// in the language the app shows.
+//
+// Day label of a period that ends the next day.
+func SettingsSkipOvernight(start string, end string) string {
+	return In(i18n.Locale()).SettingsSkipOvernight(start, end)
+}
+
+// SettingsSkipOvernight says "From {start} on the start day · until {end} the next day"
+// in the language of msgs.
+//
+// Day label of a period that ends the next day.
+func (msgs Messages) SettingsSkipOvernight(start string, end string) string {
+	return Catalog.Format(msgs.locale, "settingsSkipOvernight", map[string]any{"start": start, "end": end})
+}
+
+// SettingsSkipStatusOff says "Skip periods are off"
+// in the language the app shows.
+//
+// Status line when the master switch is off.
+func SettingsSkipStatusOff() string { return In(i18n.Locale()).SettingsSkipStatusOff() }
+
+// SettingsSkipStatusOff says "Skip periods are off"
+// in the language of msgs.
+//
+// Status line when the master switch is off.
+func (msgs Messages) SettingsSkipStatusOff() string {
+	return Catalog.Format(msgs.locale, "settingsSkipStatusOff", nil)
+}
+
+// SettingsSkipStatusOffHint says "Your settings are kept and apply when enabled"
+// in the language the app shows.
+//
+// Status hint when the master switch is off.
+func SettingsSkipStatusOffHint() string { return In(i18n.Locale()).SettingsSkipStatusOffHint() }
+
+// SettingsSkipStatusOffHint says "Your settings are kept and apply when enabled"
+// in the language of msgs.
+//
+// Status hint when the master switch is off.
+func (msgs Messages) SettingsSkipStatusOffHint() string {
+	return Catalog.Format(msgs.locale, "settingsSkipStatusOffHint", nil)
+}
+
+// SettingsSkipStatusEmpty says "No enabled skip periods"
+// in the language the app shows.
+//
+// Status line with no enabled periods.
+func SettingsSkipStatusEmpty() string { return In(i18n.Locale()).SettingsSkipStatusEmpty() }
+
+// SettingsSkipStatusEmpty says "No enabled skip periods"
+// in the language of msgs.
+//
+// Status line with no enabled periods.
+func (msgs Messages) SettingsSkipStatusEmpty() string {
+	return Catalog.Format(msgs.locale, "settingsSkipStatusEmpty", nil)
+}
+
+// SettingsSkipStatusEmptyHint says "Add a period to turn this on"
+// in the language the app shows.
+//
+// Status hint with no enabled periods.
+func SettingsSkipStatusEmptyHint() string { return In(i18n.Locale()).SettingsSkipStatusEmptyHint() }
+
+// SettingsSkipStatusEmptyHint says "Add a period to turn this on"
+// in the language of msgs.
+//
+// Status hint with no enabled periods.
+func (msgs Messages) SettingsSkipStatusEmptyHint() string {
+	return Catalog.Format(msgs.locale, "settingsSkipStatusEmptyHint", nil)
+}
+
+// SettingsSkipStatusActive says "Skipping now · until {time}"
+// in the language the app shows.
+//
+// Status line while a period is active.
+func SettingsSkipStatusActive(time_ string) string {
+	return In(i18n.Locale()).SettingsSkipStatusActive(time_)
+}
+
+// SettingsSkipStatusActive says "Skipping now · until {time}"
+// in the language of msgs.
+//
+// Status line while a period is active.
+func (msgs Messages) SettingsSkipStatusActive(time_ string) string {
+	return Catalog.Format(msgs.locale, "settingsSkipStatusActive", map[string]any{"time": time_})
+}
+
+// SettingsSkipStatusActiveHint says "Breaks restart afterwards"
+// in the language the app shows.
+//
+// Status hint while a period is active.
+func SettingsSkipStatusActiveHint() string { return In(i18n.Locale()).SettingsSkipStatusActiveHint() }
+
+// SettingsSkipStatusActiveHint says "Breaks restart afterwards"
+// in the language of msgs.
+//
+// Status hint while a period is active.
+func (msgs Messages) SettingsSkipStatusActiveHint() string {
+	return Catalog.Format(msgs.locale, "settingsSkipStatusActiveHint", nil)
+}
+
+// SettingsSkipStatusNext says "Next skip {time}"
+// in the language the app shows.
+//
+// Status line before the next period.
+func SettingsSkipStatusNext(time_ string) string {
+	return In(i18n.Locale()).SettingsSkipStatusNext(time_)
+}
+
+// SettingsSkipStatusNext says "Next skip {time}"
+// in the language of msgs.
+//
+// Status line before the next period.
+func (msgs Messages) SettingsSkipStatusNext(time_ string) string {
+	return Catalog.Format(msgs.locale, "settingsSkipStatusNext", map[string]any{"time": time_})
+}
+
+// SettingsSkipStatusNextHint says "Until {time}"
+// in the language the app shows.
+//
+// Status hint before the next period.
+func SettingsSkipStatusNextHint(time_ string) string {
+	return In(i18n.Locale()).SettingsSkipStatusNextHint(time_)
+}
+
+// SettingsSkipStatusNextHint says "Until {time}"
+// in the language of msgs.
+//
+// Status hint before the next period.
+func (msgs Messages) SettingsSkipStatusNextHint(time_ string) string {
+	return Catalog.Format(msgs.locale, "settingsSkipStatusNextHint", map[string]any{"time": time_})
+}
+
+// SettingsSkipNoTime says "--:--"
+// in the language the app shows.
+//
+// Shown when skiptime has no boundary.
+func SettingsSkipNoTime() string { return In(i18n.Locale()).SettingsSkipNoTime() }
+
+// SettingsSkipNoTime says "--:--"
+// in the language of msgs.
+//
+// Shown when skiptime has no boundary.
+func (msgs Messages) SettingsSkipNoTime() string {
+	return Catalog.Format(msgs.locale, "settingsSkipNoTime", nil)
+}

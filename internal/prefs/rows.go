@@ -64,7 +64,7 @@ func divider(c *ui.Context, t *ui.Theme) {
 
 const (
 	minRow       = 44
-	subRowHeight = 38
+	subRowHeight = 44
 	controlWidth = 180
 )
 
