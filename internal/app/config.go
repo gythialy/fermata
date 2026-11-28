@@ -37,6 +37,9 @@ func configFromSettings(s *settings.Settings) planner.Config {
 	}
 	periods := make([]skiptime.Period, 0, len(s.Schedule.SkipPeriods))
 	for _, p := range s.Schedule.SkipPeriods {
+		if !p.Enabled {
+			continue
+		}
 		start, ok := clockMinutes(p.Start)
 		if !ok {
 			continue
