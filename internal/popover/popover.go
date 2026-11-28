@@ -13,6 +13,7 @@ package popover
 import (
 	"fmt"
 	"strings"
+	"time"
 
 	"github.com/egoist/mygo/ui"
 
@@ -24,6 +25,9 @@ import (
 // ticks is how many marks the ruler draws; every fifth one is a minute mark.
 // It is a scale, not a clock: the share fills it as the wait passes.
 const ticks = 60
+
+// hoverUnderline is how long the footer's underline fades in and out.
+const hoverUnderline = 120 * time.Millisecond
 
 // An Action is one button of the flyout.
 type Action struct {
@@ -167,8 +171,16 @@ func textButton(c *ui.Context, t *ui.Theme, label string, run func()) {
 	b.Children(func() {
 		text := ui.Text(c, label).FontSize(theme.Px(c, 11)).FixedLineHeight(theme.Px(c, 16)).
 			TextColor(t.TextMuted)
+		target := float32(0)
 		if hovered {
-			text.TextColor(t.Text).Underline().UnderlineOffset(3)
+			text.TextColor(t.Text)
+			target = 1
+		}
+		underline := text.Animate("underline", target, hoverUnderline)
+		if underline > 0 {
+			// Fade the decoration so zero means no line; layout stays put.
+			text.Underline().UnderlineOffset(3).DecorationThickness(1).
+				DecorationColor(t.Text.Alpha(underline))
 		}
 	})
 	b.OnClick(run)

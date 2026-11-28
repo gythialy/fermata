@@ -469,6 +469,7 @@ As long as any reason remains the pause holds; it resumes when the last reason c
 - The icon carries a menu only while the menu shows. A menu left on it would turn every click, a left click included, into the menu; so changing settings or the language never puts one there.
 - Content: two status lines (the same as the tray), the remaining time in large type, a hairline progress bar (no ring); the actions change with the state: while waiting `Take a break now` and `Pause 30 minutes`; while notified `Start now` / `Push 5 minutes` / `Pause 30 minutes`; while paused `Resume breaks`; `Settings…` is always there.
 - It closes on a second left-click, on a click outside it, on `Esc`, when another app comes to the front, on `×`, when an action runs, when a break starts, or when a right-click opens the menu; once the waiting/paused state ends the buttons change with it.
+- Motion: the digits use MyGo's `ContentTransition` (350 ms spring) and the action block resizes with `Transition` (200 ms); values change once per second. Under Reduce Motion the popover does not slide: content still fades across, and the digits arrive at their value at once.
 
 ### 6.12 Restart continuity (P1)
 
@@ -490,7 +491,7 @@ As long as any reason remains the pause holds; it resumes when the last reason c
 - Always on top, above every Space / fullscreen app; showing it does not activate the app and does not take keyboard focus.
 - The window swallows mouse clicks that land on it (so the desktop is not clicked by accident), but only the action button responds.
 - The user cannot drag or resize the window.
-- Showing fades in over 180 ms while the content rises over 220 ms; closing is immediate. Under Reduce Motion both appear at once.
+- Showing fades in over 180 ms while the content rises over 220 ms; closing is immediate. Under Reduce Motion the panel appears at once with no fade and no rise; the progress line may still step once per second.
 
 ### 7.2 Multiple displays
 
@@ -519,7 +520,7 @@ The content display, top to bottom:
 5. **Countdown**: 16 pt below the progress line, `0:14`; 13 pt monospaced digits, paper at 65%, +0.04em tracking.
 6. **Exit**: bottom center of the window, 64 pt from the bottom; at most one at a time:
    - Postpone available: `Postpone · ⌘X`; skip available: `Skip · ⌘X`; manual finish stage: `Finish · ⌘X`; strict and still counting down: none.
-   - 15 pt; paper at 80%; hovering draws a paper underline over 120ms.
+   - 15 pt; paper at 80%; hovering fades a paper underline in over 120 ms.
 7. **Health mode** (P1): a vermilion inner shadow around the window while `danger > 2`; the layout does not change.
 
 Rules:
@@ -535,6 +536,7 @@ Rules:
 - `breakWindow.backgroundImage = true` and the user data directory's `backgrounds/` holds images (png/jpg/jpeg/webp/gif): one image is chosen at random without repeating, with a 60% black scrim; an image that fails to decode is skipped and logged.
 - `transparent = true`: the field's alpha = `opacity` (0.0–1.0, default 0.9); it affects the field only, not the text.
 - Neither appears in the v1 Settings UI; both are accepted from the configuration file only.
+- With Reduce Transparency the panel is opaque whatever these values say, and it skips the entrance fade; the stored settings stay unchanged.
 
 ### 7.5 Shortcuts
 
@@ -652,6 +654,8 @@ Rules:
 ---
 
 ## 10. Settings
+
+Controls are MyGo widgets: `ui.Switch` takes 140 ms (the framework default), other control-state transitions take 120 ms; the app draws no custom switch.
 
 ### 10.1 File
 

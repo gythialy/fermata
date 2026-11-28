@@ -63,8 +63,8 @@ type Manager struct {
 	health    int
 
 	// shownAt and animate drive the entrance: the panel fades in and the
-	// content rises when a break starts, but not when a display change
-	// rebuilds the windows mid-break.
+	// content rises when a break starts, but not on a mid-break rebuild or
+	// when the desktop asks for less motion.
 	shownAt time.Time
 	animate bool
 
@@ -74,6 +74,36 @@ type Manager struct {
 type window struct {
 	win     *mygo.Window
 	content bool
+}
+
+// breakSurface is the window surface for one break, after the desktop's
+// accessibility preferences have been applied over the user's settings.
+type breakSurface struct {
+	transparent bool
+	background  string
+	opacity     float64
+	fade        bool
+}
+
+// breakWindowSurface resolves the user's settings against the desktop's
+// preferences without changing the settings themselves.
+func breakWindowSurface(bw settings.BreakWindow, field ui.Color, animate bool, prefs mygo.ThemePreferences) breakSurface {
+	surface := breakSurface{
+		transparent: bw.Transparent || bw.Opacity < 1,
+		background:  hex(field),
+		opacity:     bw.Opacity,
+		fade:        animate && !prefs.ReduceMotion,
+	}
+	if surface.transparent {
+		surface.background = ""
+	}
+	if prefs.ReduceTransparency {
+		surface.transparent = false
+		surface.background = hex(field)
+		surface.opacity = 1
+		surface.fade = false
+	}
+	return surface
 }
 
 // New returns a manager for the app.
@@ -207,11 +237,7 @@ func (m *Manager) open(d mygo.Display, content bool, animate bool) *window {
 	if m.spec.Kind == planner.Long {
 		bg = theme.Deeper(m.bw.Field, bg)
 	}
-	transparent := m.bw.Transparent || m.bw.Opacity < 1
-	background := hex(bg)
-	if transparent {
-		background = ""
-	}
+	surface := breakWindowSurface(m.bw, bg, animate, mygo.Theme.Preferences())
 	opts := mygo.WindowOptions{
 		Title:             "Fermata",
 		Width:             width,
@@ -230,13 +256,12 @@ func (m *Manager) open(d mygo.Display, content bool, animate bool) *window {
 		DisableFullScreen: true,
 		SkipTaskbar:       true,
 		CornerRadius:      corner,
-		BackgroundColor:   background,
-		Transparent:       transparent,
-		Opacity:           m.bw.Opacity,
+		BackgroundColor:   surface.background,
+		Transparent:       surface.transparent,
+		Opacity:           surface.opacity,
 		Content:           ui.View(func(c *ui.Context) { m.view(c, content) }),
 	}
-	base := m.bw.Opacity
-	if animate {
+	if surface.fade {
 		// The window itself fades in; the view moves the content up over a
 		// slightly longer time, so the field arrives before the words.
 		opts.Opacity = 0
@@ -253,8 +278,8 @@ func (m *Manager) open(d mygo.Display, content bool, animate bool) *window {
 			m.opts.Log.Warn("break window could not cover the screen's own bars", "error", err)
 		}
 	}
-	if animate {
-		go fadeIn(win, base)
+	if surface.fade {
+		go fadeIn(win, surface.opacity)
 	}
 	return &window{win: win, content: content}
 }
