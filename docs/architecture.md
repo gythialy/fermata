@@ -152,11 +152,15 @@ Views never move the schedule. A control reports an intent (`Postpone`, `Skip`, 
 `Pause`, `Advance`, `Defer`, `Reset`, `SkipTo`); the coordinator turns it into an input and
 the new state flows back into the view on the next frame.
 
+Skip periods travel the same way: the app converts the settings into `planner.Config`, every
+`Step` syncs the `skipPeriod` reason, and `withDeadline` may pull the `Arm` forward to the
+next period boundary. The master switch gates both the reason and the extra wake-up.
+
 ---
 
 ## 4. Package structure
 
-Twenty-seven packages under `internal/`, assembled by `main`.
+Twenty-nine packages under `internal/`, assembled by `main`.
 
 ```
 fermata/
@@ -175,6 +179,7 @@ fermata/
     ├── planner/       pure state machine: planner, state, input, effects, config, schedule
     ├── scheduler/     the one deadline timer, generation-guarded
     ├── settings/      config.json: settings, store, validate, migrate
+    ├── skiptime/      pure local-time window matching and next boundary
     ├── presence/      presence, source, dnd_darwin/dnd_other, ps_unix/ps_other
     ├── fullscreen/    fullscreen (pure decision), fullscreen_darwin (CGWindowList)
     ├── overlay/       cover_darwin: a break field over the menu bar and the Dock
@@ -205,11 +210,11 @@ Dependency direction, which the import graph keeps acyclic:
 
 ```
 main        → app, cli, locales, mygo
-app         → planner, scheduler, settings, presence, fullscreen, status, tray, trayicon,
+app         → planner, scheduler, settings, skiptime, presence, fullscreen, status, tray, trayicon,
               breakwin, prefs, welcome, popover, notify, sounds, ideas, cli, theme,
               paths, logging, update, fonts, locales, mygo, ui
 breakwin    → planner, settings, theme, ideas, status, shortcut, mygo, ui
-prefs       → settings, theme, icons, units, locales, mygo, ui
+prefs       → settings, skiptime, theme, icons, units, locales, mygo, ui
 welcome     → settings, theme, ideas, shortcut, units, locales, mygo, ui
 popover     → theme, icons, locales, ui
 tray        → planner, status, mygo
@@ -217,11 +222,13 @@ theme       → mark, settings, ui
 mark, icons → ui
 paths       → settings, mygo
 units       → locales
-planner, settings, cli, logging, savedstate, update, shortcut, trayicon → stdlib only
+planner     → skiptime, stdlib
+skiptime, settings, cli, logging, savedstate, update, shortcut, trayicon → stdlib only
 ```
 
-`planner` imports only the standard library, never `mygo`, `ui` or the clock: each input
-carries its own `time.Time`. That is what lets the whole schedule be tested without a
+Neither `planner` nor `skiptime` imports `mygo`, `ui` or the clock: callers pass in `time.Time`,
+and `planner`'s only internal dependency is `skiptime`. Period boundaries use local calendar
+arithmetic (`time.Date`, `AddDate`). That is what lets the whole schedule be tested without a
 framework, a window or a timer.
 
 ---
@@ -247,7 +254,7 @@ const (
 )
 
 type Reason uint8   // a set: Has, With, Without, Empty, Primary, String
-const (Manual Reason = 1 << iota; DND; Idle; Lock; Exclusion)
+const (Manual Reason = 1 << iota; SkipPeriod; DND; Idle; Lock; Exclusion)
 
 type State struct {
     Phase Phase; Kind Kind
@@ -276,6 +283,8 @@ type Config struct {
     EveryNBreaks int
     PauseDurations []time.Duration
     MorningHour int
+    SkipPeriodsEnabled bool
+    SkipPeriods []skiptime.Period      // StartMin, EndMin, Days (1=Mon..7=Sun)
 }
 type PostponeConfig struct { Enabled bool; Time time.Duration; Limit, Percent int }
 ```
@@ -298,7 +307,8 @@ reasons: `Completed`, `Postponed`, `Skipped`, `Interrupted`.
 `Step(in Input) []Effect` applies the input, then every deadline that is due:
 
 1. **Apply the input** (`Tick`/`Wake` change nothing themselves; each other input has its
-   rule in §5.3).
+   rule in §5.3). Then `syncSkipPeriods(now)` adds `skipPeriod` on entry to a configured
+   window and removes it on exit, or when the master switch is off.
 2. **Advance due deadlines**, in a loop bounded at eight iterations:
    - `Paused`: an expired timed manual pause removes `Manual`; when that was the last
      reason, schedule break 1 from `now` and emit `NotifyResume`.
@@ -309,7 +319,9 @@ reasons: `Completed`, `Postponed`, `Skipped`, `Interrupted`.
    - `Breaking`: `now >= EndAt` ends it (below).
 3. **Add the deadline** unless the effects already carry one: the earlier of `NotifyAt` and
    `BreakAt` in `Waiting`, `BreakAt` in `Notified`, `EndAt` in `Breaking`, `PauseUntil` for a
-   timed manual pause, otherwise `Disarm`.
+   timed manual pause, otherwise `Disarm`. `withDeadline` moves an armed deadline earlier when
+   a skip period boundary comes first; an indefinite manual pause arms no boundary and the
+   master switch gates the boundary entirely.
 4. **Add `TrayDirty`** when the state signature changed. The signature is
    `phase|kind|reasons|n|strict|manualFinish`: time-only changes do not repaint the menu,
    because the app refreshes the countdown from its own timer.
@@ -328,7 +340,7 @@ have happened with the lid closed. Ending a break has two shapes:
 
 | Input | Preconditions | Result |
 |---|---|---|
-| `Pause(reason, until)` | any; a strict break ignores every reason except `Lock` | Adds the reason. `Manual`/`Lock` close the notice and, if a break runs, `CloseBreak(Interrupted)`; `N=0`, `Paused`, `Manual` records `Until`. `DND`/`Idle`/`Exclusion` pause a waiting app at once; during a break they decide what follows it |
+| `Pause(reason, until)` | any; a strict break ignores every reason except `Lock` and `SkipPeriod` | Adds the reason. `Manual`/`Lock` close the notice and, if a break runs, `CloseBreak(Interrupted)`; `N=0`, `Paused`, `Manual` records `Until`. `DND`/`Idle`/`Exclusion`/`SkipPeriod` pause a waiting app at once; during a break they decide what follows it |
 | `Resume(reason)` | `Paused` with that reason set | Removes it. Reasons left → nothing more; none left → schedule break 1 from `now`, and `NotifyResume` only for `Manual` |
 | `Postpone` | `Breaking`, not strict, `CanPostpone` | `CloseBreak(Postponed)`, `Postpones++`, keep the snapshot, re-schedule the same break `Postpone.Time` later (notice only if the delay exceeds the lead). A reason set → `Paused`, `N=0` |
 | `Skip` | `Breaking`, not strict, **not** postponable | `CloseBreak(Skipped)`, `N++`, reschedule or pause. Postponing and skipping are mutually exclusive: the window offers exactly one exit |
@@ -404,6 +416,12 @@ func (d *Driver) Close()             // stops for good; a due callback does noth
   stays single-threaded.
 - Sleep and wake: `Power.OnResume` stops the driver, steps `Wake` (zero grace) and arms what
   the new state asks for.
+- Skip periods: `planner.withDeadline` compares the break deadline with
+  `skiptime.NextChange` and arms the earlier one. The boundary wake adds or removes the
+  `skipPeriod` reason; leaving a window schedules break 1 from the exit time. The master
+  switch (`SkipPeriodsEnabled`) gates the reason and the boundary: when it is off, no extra
+  wake-up is armed. An indefinite manual pause likewise arms no boundary; a timed one keeps
+  it.
 - Why not a ticker: there is exactly one deadline at a time, and `time.AfterFunc` means no
   wake-ups between deadlines.
 
@@ -413,7 +431,8 @@ func (d *Driver) Close()             // stops for good; a due callback does noth
 
 `internal/settings` owns `config.json`: its shape, defaults, repairs and a writer that never
 lets a slider block a frame. It imports only the standard library; the app converts a
-snapshot into `planner.Config`, so the planner never sees this package.
+snapshot into `planner.Config` (including `skiptime.Period` values), so the planner never
+sees this package.
 
 ### 7.1 Shape and defaults
 
@@ -434,7 +453,8 @@ The file is one object. The values below are what a first run writes
               "intervalMs": 6000000, "notify": true, "notifyLeadMs": 30000,
               "postpone": { "enabled": true, "timeMs": 300000, "limit": 1, "percent": 30 },
               "strict": false, "manualFinish": false },
-    "pauseDurationsMs": [1800000, 3600000, 7200000, 18000000], "morningHour": 6
+    "pauseDurationsMs": [1800000, 3600000, 7200000, 18000000], "morningHour": 6,
+    "skipPeriodsEnabled": false, "skipPeriods": []
   },
   "presence": {
     "idle": { "enabled": true, "resetAfterMs": 300000, "checkIntervalMs": 2000 },
@@ -468,6 +488,7 @@ means the *fifth* break is long). Durations are integer milliseconds everywhere.
 | `breakWindow.field` | `pine`, `ink`, `oxblood`, `slate`, `sand`, `paper`, `custom` |
 | `sound.*` names | `silence`, `crystal-glass`, `wind-chime`, `tic-toc`, `reverie` |
 | `presence.appExclusions[].rule` | `pause`, `resume` |
+| `schedule.skipPeriods[]` | `{enabled, start, end, days}`; `start`/`end` are local `HH:MM`, `days` is 1=Mon..7=Sun, empty = every day; at most 4 |
 
 `transparent` and `backgroundImage` are read from the file but have no control in the UI;
 `opacity` is read and also controlled by the appearance page.
@@ -498,6 +519,7 @@ repair (only an unreadable file sets the app's `corrupt` banner):
 | `schedule.*.postpone` | `timeMs` 60 s–3 600 s, `limit` 0–5, `percent` 0–100 |
 | `schedule.pauseDurationsMs` | non-empty, each 60 s–24 h |
 | `schedule.morningHour` | 0–23 |
+| `schedule.skipPeriods` | at most 4 entries; invalid `HH:MM`, equal times or invalid weekdays are dropped; weekdays are sorted and de-duplicated |
 | `presence.idle.resetAfterMs` | 60 s–3 600 s; both check intervals forced to 2 000 ms |
 | `breakWindow` | ratios 0.5–1, opacity 0.3–1, custom field `#rrggbb` else `#24413A` |
 | `sound.volume` | 0–1; every sound name must be known |
@@ -505,12 +527,16 @@ repair (only an unreadable file sets the app's `corrupt` banner):
 
 It also keeps at least one break kind on (mini returns if both are off), falls back for an
 unknown language, theme, menu-bar style, field, screen, sound or rule, drops an exclusion
-rule without a name or processes, and shortens a notice lead that does not fit its gap.
+rule without a name or processes, and shortens a notice lead that does not fit its gap. The
+master switch `skipPeriodsEnabled` defaults to false and is not validated; disabled entries
+stay in the file.
 
 `migrate.go` brings a v1 file to v2: if the schedule still holds the old draft's values
 exactly (20 s mini every 10 minutes, 5-minute long, every third break) it is replaced with
 the current defaults — a schedule the user changed is left alone; `waitWhileTyping` is turned
 off, because a long typing hold was easy to mistake for a stuck app; `version` becomes 2.
+Skip periods add two members under `schedule` without a version bump: existing v2 files keep
+their values and get the defaults when the members are absent.
 
 ### 7.3 The store and its writer
 

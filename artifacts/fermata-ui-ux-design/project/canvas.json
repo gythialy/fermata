@@ -133,6 +133,22 @@
       "title": "设置 · 日程",
       "page": "settings"
     },
+    "settings/SkipPeriods.dc.html": {
+      "x": 2640,
+      "y": 0,
+      "w": 800,
+      "h": 720,
+      "title": "设置 · 日程 · 跳过时段（已开启）",
+      "page": "settings"
+    },
+    "settings/SkipPeriodsOff.dc.html": {
+      "x": 3520,
+      "y": 0,
+      "w": 800,
+      "h": 720,
+      "title": "设置 · 日程 · 跳过时段（已关闭）",
+      "page": "settings"
+    },
     "settings/Appearance.dc.html": {
       "x": 1760,
       "y": 0,
@@ -260,6 +276,8 @@
     "break/States.dc.html",
     "settings/General.dc.html",
     "settings/Schedule.dc.html",
+    "settings/SkipPeriods.dc.html",
+    "settings/SkipPeriodsOff.dc.html",
     "settings/Appearance.dc.html",
     "settings/About.dc.html",
     "onboarding/Welcome.dc.html",
@@ -304,7 +322,7 @@
       "x": 0,
       "y": -260,
       "text": "04 · 设置与首次启动",
-      "maxW": 2560,
+      "maxW": 4400,
       "page": "settings"
     },
     "t-system": {
