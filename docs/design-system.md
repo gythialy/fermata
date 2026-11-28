@@ -508,6 +508,19 @@ The page uses a **two-column** layout (Mini breaks / Long breaks) so the two rhy
 - When notifications are off the lead time grays out; when strict is on the postpone switch grays out and shows `Strict mode cannot postpone.` When both kinds are turned off, the last one is refused and a danger line appears under the row: `Keep at least one break type on.` No dialog.
 - When only long breaks are on, `Every` becomes a minute Stepper (10–120 minutes, default 100), and the summary reads `15 min every 100 min`.
 - The `Break health` group sits below strict mode: one switch row plus `A vermilion edge when breaks are often postponed or skipped.`
+- The `Skip periods` group sits below `Break health`: title `Skip periods`, help `Breaks pause during these periods and restart afterwards.`; a right-aligned `Enable` Switch (`Enable skip periods`) is the master switch, off by default. `+ Add period` sits under it and stops at four periods.
+- With the master switch off the rows stay visible but are disabled: clock inputs, weekday dots, row switches, `Remove` and `+ Add period` do not respond; saved periods are kept for when it is switched back on.
+- One period row: start and end `HH:MM` inputs, a seven-dot weekday picker (`Mon` to `Sun`), an inline Switch and a `Remove` text button; a new row starts at `09:00`–`10:00`, enabled. An empty day set reads `Every day`; picking a day narrows it, and picking all seven returns to `Every day`. An end earlier than the start reads `From {start} on the start day · until {end} the next day`.
+- A status line closes the group: title left, muted hint right. Four states:
+
+| State | Title | Hint |
+|---|---|---|
+| Master off | `Skip periods are off` | `Your settings are kept and apply when enabled` |
+| On, no enabled period | `No enabled skip periods` | `Add a period to turn this on` |
+| Inside a period | `Skipping now · until {time}` | `Breaks restart afterwards` |
+| Before the next period | `Next skip {time}` | `Until {time}` |
+
+- The status uses local time and the next boundary; while a period is active the tray reads `Breaks skipped`.
 
 #### Appearance
 

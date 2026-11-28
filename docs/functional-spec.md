@@ -108,6 +108,8 @@ Core invariants:
 | `schedule.long.manualFinish` | `false` | Manual finish |
 | `schedule.pauseDurationsMs` | `[1800000,3600000,7200000,18000000]` | 30 min / 1 h / 2 h / 5 h |
 | `schedule.morningHour` | `6` | 6:00 for "pause until morning" |
+| `schedule.skipPeriodsEnabled` | `false` | Master switch for skip periods |
+| `schedule.skipPeriods` | `[]` | At most 4 local time windows in which breaks are skipped |
 | `presence.idle.enabled` | `true` | Pause while idle |
 | `presence.idle.resetAfterMs` | `300000` | 5 minutes idle counts as away |
 | `presence.idle.checkIntervalMs` | `2000` | Check every 2 seconds |
@@ -197,7 +199,7 @@ Started at 09:00:00:
 ### 3.3 Boundaries
 
 - If the notice moment has already passed (for example the app just started and `anchor` is long ago), no notification is sent and scheduling begins with the next break.
-- If the system slept across `breakAt` and `pauseOnLock` is off: **the break is not shown late**. On waking the break counts as missed, `n = n + 1`, and the schedule restarts from the wake (see §6.4).
+- If the system slept across `breakAt` and `pauseOnLock` is off: **the break is not shown late**. On waking the break counts as missed, `n = n + 1`, and the schedule restarts from the wake (see §6.5).
 - Settings change: if only the next break's duration/interval/notice switch changed, `notifyAt`/`breakAt` are recomputed; if `L` or an enabled state changed, the type is decided again from the current `n` and the schedule is recomputed. A running break is unaffected.
 - If the current `n`'s type changes from long to mini (or the reverse) because of a settings change, a notice already scheduled is not interrupted; the next scheduling takes effect.
 
@@ -357,11 +359,12 @@ A pause is a **reason set**, not a single boolean. As long as the set is not emp
 |---|---|---|---|---|
 | `manual` | Menu / CLI / the Pause breaks submenu (P1: optional global shortcut) | The user's Resume, or the timer running out | Yes, when the timer runs out | "Paused — resuming in about 12 minutes" or "Paused — indefinitely" |
 | `dnd` | System Focus / Do Not Disturb on | Focus turned off | Yes | "Paused — Focus is on" |
+| `skipPeriod` | Local clock time falls inside an enabled skip period | The period ends, or the master switch is turned off | Yes | "Breaks skipped" |
 | `idle` | Idle > `resetAfterMs` | The user comes back (idle < 20 seconds) | Yes | "Paused — you were away" |
 | `lock` | Screen locked or system sleep | Unlock or wake | Yes | "Paused — the screen is locked" |
 | `exclusion` | P1 app-exclusion rule matched | The rule no longer matches | Yes | "Paused — app exclusion rule" |
 
-Priority (for display only, not for the pause logic): `manual > dnd > idle > exclusion > lock`.
+Priority (for display only, not for the pause logic): `manual > skipPeriod > dnd > idle > exclusion > lock`.
 As long as any reason remains the pause holds; it resumes when the last reason clears.
 
 ### 6.2 Manual pause
@@ -390,7 +393,17 @@ As long as any reason remains the pause holds; it resumes when the last reason c
   - Otherwise: schedule again from `now`, `n = 1`; no "resuming" notification is sent (to avoid interrupting).
 - A Focus detection failure does not prevent the app from starting; the reason is logged once.
 
-### 6.4 Lock screen, sleep and wake
+### 6.4 Skip periods
+
+- Configuration: `schedule.skipPeriodsEnabled` (bool, default `false`) is the master switch; `schedule.skipPeriods` holds at most 4 entries `{enabled, start, end, days}`. `start`/`end` are local 24-hour `"HH:MM"` values; `days` uses 1 = Mon … 7 = Sun, with an empty list selecting every day. Validation drops entries with invalid or equal times and entries past the limit, and filters out invalid weekdays; `version` stays 2.
+- Matching: an entry describes a local window from `start` (inclusive) to `end` (exclusive) on its selected days. Each entry carries its own `enabled` flag; the Settings status counts enabled entries only. An end earlier than the start belongs to the following day, and the period belongs to its start day: `22:00–06:00` on Friday covers Friday 22:00 through Saturday 06:00. Boundaries are built from the local calendar with `time.Date` / `AddDate`, so week, month and year rollovers keep their weekday.
+- Master switch: off → no `skipPeriod` reason and no extra wake-up; saved entries stay in the file and are shown disabled in Settings. On → the saved periods take effect; turning the master switch off inside a period removes the reason.
+- Pause reasons: entering a period adds `skipPeriod`, like `dnd`, `idle` and `exclusion`. In `Waiting`/`Notified` the schedule is cleared, the notice withdrawn and `n = 0`; a running break is not interrupted, including a strict one. If the period is still active when that break ends, no next break is scheduled until it exits. Other reasons remain in the set until their own trigger clears.
+- Anchor reset: leaving a period removes the reason; with no reason left, break 1 is scheduled from the exit time (`anchor = exit`, `n = 1`). No resume notification is sent. The skip does not consume a sequence position.
+- Wake-up: the planner arms the earlier of a period boundary and the break deadline, so entry and exit take effect at the exact minute. No extra wake-up is armed when the master switch is off or an indefinite manual pause is in effect.
+- Tray: while paused by a period the status line reads `Breaks skipped`; the paused icon shape applies.
+
+### 6.5 Lock screen, sleep and wake
 
 - While `presence.pauseOnLock` is true (the default):
   - Lock/sleep: add the `lock` reason; if a break is running, close the window (counted as a skip) and clear `n`; if in the notice stage, withdraw the notice.
@@ -403,7 +416,7 @@ As long as any reason remains the pause holds; it resumes when the last reason c
 - `pauseOnLock` false and sleeping during a break: after waking, if `now >= endAt` treat it as the countdown ending (close, `n++`, schedule); if it has not ended but the system time jumped, continue with the remaining time.
 - If the system clock is changed by hand: monotonic scheduling is unaffected; "until morning" uses wall-clock time and is recomputed after the change.
 
-### 6.5 Idle (natural breaks)
+### 6.6 Idle (natural breaks)
 
 - It polls only while `presence.idle.enabled` is true; the interval is 2 seconds.
 - Thresholds:
@@ -411,11 +424,11 @@ As long as any reason remains the pause holds; it resumes when the last reason c
   - Idle ≥ `resetAfterMs` (5 minutes by default): add the `idle` reason. In `Waiting`/`Notified`: clear the schedule, withdraw the notice, `n = 0`; in `Breaking`/`ManualAwait`: **do not interrupt** (the break continues), and if the reason is still there when it ends nothing is scheduled, `n = 0`.
 - The user comes back (idle < 20 seconds) after having been away longer than `resetAfterMs`:
   - Remove the `idle` reason; if no other reason remains, schedule again from `now`, `n = 1`, and send no notification.
-- Coming back before 5 minutes of idle: it does not count as a pause; if `breakAt` was crossed while away, §6.4's "not shown late" applies: `n++`, and schedule again from the moment of return.
+- Coming back before 5 minutes of idle: it does not count as a pause; if `breakAt` was crossed while away, §6.5's "not shown late" applies: `n++`, and schedule again from the moment of return.
 - During an idle pause the tray menu does not offer Resume (the user coming back resumes it); the status line shows the reason.
 - When app exclusions (P1) and idle hit at the same time, they are handled as one reason set.
 
-### 6.6 App exclusions (P1)
+### 6.7 App exclusions (P1)
 
 - Rules come from `presence.appExclusions`: `{name, commands: [string], rule: "pause" | "resume", active: true}`.
 - Every 2 seconds the running processes are matched by process name / command-line substring.
@@ -425,7 +438,7 @@ As long as any reason remains the pause holds; it resumes when the last reason c
 - While a break is running and a `rule = pause` rule matches: close the current break (counted as a skip) and add the reason.
 - If process enumeration fails: treat it as not matching and log it once.
 
-### 6.7 Hold when due (P1)
+### 6.8 Hold when due (P1)
 
 - Trigger: the notice moment or the start moment of a break has arrived, and either
   - `presence.fullscreen` is true and a fullscreen app is in front (both the notice and the start are held, so the notice does not interrupt), or
@@ -436,28 +449,28 @@ As long as any reason remains the pause holds; it resumes when the last reason c
 - A user pause/resume/reset/skip cancels the hold; a settings change does not cancel it and leaves the next round to decide.
 - The fullscreen check reads only window bounds, level and owning PID and **does not request screen-recording permission**; a failed read counts as no fullscreen and is logged once.
 
-### 6.8 Common rules during a pause
+### 6.9 Common rules during a pause
 
-- During a pause nothing is scheduled, no notice notification is sent and no start sound plays; `manual`/`lock` close a break window that is showing, `dnd`/`idle`/`exclusion` do not (they take effect after the break ends).
+- During a pause nothing is scheduled, no notice notification is sent and no start sound plays; `manual`/`lock` close a break window that is showing, `dnd`/`idle`/`exclusion`/`skipPeriod` do not (they take effect after the break ends).
 - During a pause the tray icon shows the "paused" shape.
 - When the pause reasons clear, a whole new interval starts from `now`; the remaining time is not restored.
 - A pause does not clear the health counter (P1).
-- During a strict break only the `lock` reason can interrupt; `dnd`/`idle`/`exclusion` do not.
+- During a strict break only `lock` can interrupt; `dnd`/`idle`/`exclusion`/`skipPeriod` do not.
 
-### 6.9 Notification and status popover (P1)
+### 6.10 Notification and status popover (P1)
 
 - At the notice moment only a system notification is sent (`Mini break in {n} seconds` / `Long break in {n} seconds`); the self-dismissing floating panel is gone. Clicking the notification opens the status popover.
 - In `Notified` the popover offers `Start now`, `Push 5 minutes` and `Pause 30 minutes`; `Start now` starts the whole break at once, `Push 5 minutes` delays it without clearing the sequence.
 - Ignoring the notification needs no action: the break still starts on time; clicking the notification only adds one more way in.
 
-### 6.10 Status popover (P1)
+### 6.11 Status popover (P1)
 
 - Left-click on the tray icon: open/close the popover; right-click or Control-click: the native menu. The popover takes the keyboard while it shows, as the system's own menu bar popovers do, and dismisses as they do. The popover also has `⋯` (menu) and `×` (close) at its top right. Linux's tray reports no clicks, so the menu is its icon's only target there; `Skip to` and a click on a notice open the same popover, in the middle of the primary display's work area.
 - The icon carries a menu only while the menu shows. A menu left on it would turn every click, a left click included, into the menu; so changing settings or the language never puts one there.
 - Content: two status lines (the same as the tray), the remaining time in large type, a hairline progress bar (no ring); the actions change with the state: while waiting `Take a break now` and `Pause 30 minutes`; while notified `Start now` / `Push 5 minutes` / `Pause 30 minutes`; while paused `Resume breaks`; `Settings…` is always there.
 - It closes on a second left-click, on a click outside it, on `Esc`, when another app comes to the front, on `×`, when an action runs, when a break starts, or when a right-click opens the menu; once the waiting/paused state ends the buttons change with it.
 
-### 6.11 Restart continuity (P1)
+### 6.12 Restart continuity (P1)
 
 - While running, the next break is written to `schedule.json` in the user data directory (atomic write); the file is deleted when a break starts, when the app pauses, or when it quits into a non-waiting state.
 - At launch, if the state file is at most 10 minutes old, `breakAt` is still in the future and the format is valid, then `N`, `breakAt` and `notifyAt` are restored (a notice that has already passed is ignored); otherwise the app schedules as a fresh launch.
@@ -553,6 +566,7 @@ The status is generated from the current phase + reason set + `timeToNextBreak`;
 | Manual pause (timed) | `Paused — resuming in about {n} minutes` |
 | Manual pause (indefinite) | `Paused — indefinitely` |
 | Focus | `Paused — Focus is on` |
+| Skip period | `Breaks skipped` |
 | Idle | `Paused — you were away` |
 | Lock screen | `Paused — the screen is locked` |
 | App exclusion (P1) | `Paused — app exclusion rule` |
@@ -572,7 +586,7 @@ Rules:
 | Breaking (not strict) | yes | yes | yes | — | yes | yes | yes |
 | Manual finish (not strict) | yes | yes | yes | — | yes | yes | yes |
 | Manual pause | yes | — | — | yes | — | yes | yes |
-| Focus / idle / locked / exclusion | yes | — | — | — | — | yes | yes |
+| Focus / skip period / idle / locked / exclusion | yes | — | — | — | — | yes | yes |
 | Strict break | yes | — | — | — | — | — | — |
 
 - The Skip to submenu: `Mini break` / `Long break`, only for the types that are on; an empty shortcut is shown as an ordinary item.
@@ -580,7 +594,7 @@ Rules:
 - Menu items use localized short labels; the status line is disabled; there is no About (the About page lives in the Settings sidebar).
 - While the menu is open only the status line is updated (`SetLabel`); the whole menu is not rebuilt, so it does not close under the user.
 - A manual pause offers only Resume; Reset has no visible effect while paused, so it is not shown (the CLI can still `reset`, which clears the sequence and does not lift the pause).
-- Focus/idle/locked/exclusion offer no Resume (the reason resumes it by itself) and no Reset either.
+- Focus/skip period/idle/locked/exclusion offer no Resume (the reason resumes it by itself) and no Reset either.
 - During a strict break Quit is hidden; the end of the system session can still quit.
 
 ### 8.3 Menu bar icon
@@ -680,6 +694,8 @@ Rules:
 | `schedule.long.manualFinish` | bool | `false` | — | Schedule |
 | `schedule.pauseDurationsMs` | int[] | 30m/1h/2h/5h | each 60000–86400000, whole minutes | file (P1) |
 | `schedule.morningHour` | int | `6` | 0–23 | file (P1) |
+| `schedule.skipPeriodsEnabled` | bool | `false` | — | Schedule |
+| `schedule.skipPeriods` | object[] | `[]` | at most 4; each `{enabled, start, end, days}` | Schedule |
 | `presence.idle.enabled` | bool | `true` | — | General |
 | `presence.idle.resetAfterMs` | int | `300000` | 60000–3600000 | General (5/10/15 minutes) |
 | `presence.idle.checkIntervalMs` | int | `2000` | fixed 2000 | file |
@@ -720,6 +736,7 @@ Validation rules:
 - Invalid color: falls back to `#24413A`.
 - Invalid sound name: falls back to `silence` (start) / `crystal-glass` (end).
 - Invalid enum: falls back to the default.
+- A skip period is dropped when `start`/`end` is not `HH:MM` or when they are equal; invalid weekdays are filtered out, valid weekdays are sorted and de-duplicated, and entries past the fourth are dropped. Adding the feature does not change `version` (still 2).
 - `version` greater than the supported one: treated as an unknown field, no migration; only the known fields are read.
 
 ### 10.3 Restore defaults
@@ -940,8 +957,8 @@ The items that were open have been decided in the v1 implementation; only platfo
 4. **Background directory**: `backgrounds/` in the user data directory.
 5. **Notification authorization**: never queried, never re-prompted; a refusal is only logged.
 6. **Focus mode**: no Full Disk Access is requested; when it cannot be read the setting is hidden and monitoring stops (see §6.3).
-7. **Fullscreen/typing hold**: the fullscreen hold is on by default; the typing hold is opt-in and waits up to 30 seconds (no "held" status shown). The fullscreen check reads CGWindowList only and requests no permission (see §6.7).
-8. **Notice notification / status popover / restart continuity**: the notice is only a system notification and clicking it opens the popover; the popover opens on left-click; the continuity window is 10 minutes; see §6.9–§6.11.
+7. **Fullscreen/typing hold**: the fullscreen hold is on by default; the typing hold is opt-in and waits up to 30 seconds (no "held" status shown). The fullscreen check reads CGWindowList only and requests no permission (see §6.8).
+8. **Notice notification / status popover / restart continuity**: the notice is only a system notification and clicking it opens the popover; the popover opens on left-click; the continuity window is 10 minutes; see §6.10–§6.12.
 9. **Configuration hot reload**: v1 does not watch for external changes; a restart applies them.
 10. **Strict-mode emergency exit**: no in-app exit other than the end of the system session.
 11. **Only-long interval**: `long.intervalMs` is 100 minutes by default (4 × the mini interval); this is the intended v1 value and is shown by the Settings summary.

@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+<meta charset="utf-8">
+<title>设置 · 日程 · 跳过时段（已关闭）</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+  x-dc{display:block}
+  body{margin:0;background:#F6F4ED;color:#171A17;-webkit-font-smoothing:antialiased;
+       font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI Variable Text","Segoe UI",
+                   "PingFang SC","Microsoft YaHei UI","Noto Sans CJK SC",sans-serif}
+  h1,h2,p,div{margin:0}
+  .mono{font-family:"SF Mono","Cascadia Mono","JetBrains Mono",ui-monospace,monospace;font-variant-numeric:tabular-nums}
+  .window{width:800px;height:720px;background:#F6F4ED;display:flex;box-shadow:inset 0 0 0 1px #D6D4CA;overflow:hidden;position:relative}
+  .lights{position:absolute;left:18px;top:18px;display:flex;gap:8px;z-index:2}
+  .lights i{width:10px;height:10px;border-radius:50%;display:block}
+  .sidebar{width:208px;flex:none;background:#F0EEE6;border-right:1px solid #DCDAD1;padding:44px 16px 16px 20px;box-sizing:border-box}
+  .brand{display:flex;align-items:center;gap:7px;font-size:13px;line-height:18px;font-weight:600}
+  .nav{display:flex;flex-direction:column;gap:2px;margin-top:16px}
+  .nav button{height:32px;border:0;background:transparent;border-radius:6px;padding:0 10px;text-align:left;
+              font:inherit;font-size:13px;line-height:19px;color:#4C5149;cursor:pointer}
+  .nav button:hover{background:rgba(255,255,255,.55)}
+  .nav button[aria-current="page"]{background:#FBFAF5;color:#171A17;font-weight:600;box-shadow:inset 0 0 0 1px #E2E0D7}
+  .content{flex:1;padding:54px 32px 20px;box-sizing:border-box;min-width:0;
+           overflow-y:auto;scrollbar-width:thin;scrollbar-color:#D6D4CA transparent}
+  .content::-webkit-scrollbar{width:8px}
+  .content::-webkit-scrollbar-thumb{background:#D6D4CA;border-radius:4px}
+  h1{font-size:22px;line-height:28px;font-weight:600;letter-spacing:-.01em}
+  .subtitle{margin-top:4px;font-size:12px;line-height:17px;color:#6B7069}
+  :where(button,input,[tabindex]):focus-visible{outline:2px solid rgba(184,67,47,.55);outline-offset:2px}
+  .rhythms{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;margin-top:16px}
+  .colhead{display:flex;align-items:center;justify-content:space-between;height:26px;border-bottom:1px solid #D6D4CA}
+  .colhead b{font-size:13px;line-height:19px;font-weight:600}
+  .row{display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:42px;
+       padding:4px 0;box-sizing:border-box;border-bottom:1px solid #E8E6DD}
+  .row:last-child{border-bottom:0}
+  .label{font-size:13px;line-height:19px;color:#171A17}
+  .desc{font-size:11px;line-height:16px;color:#6B7069;margin-top:1px}
+  .step{display:inline-flex;align-items:center;border:1px solid #D6D4CA;border-radius:8px;height:30px;background:#FBFAF5;flex:none}
+  .step button{width:26px;height:28px;border:0;background:transparent;color:#171A17;font-size:14px;line-height:1;cursor:pointer;border-radius:6px}
+  .step button:hover{background:#F1EFE7}
+  .step .val{width:48px;text-align:center;font-size:11px;line-height:16px;font-variant-numeric:tabular-nums}
+  .sw{position:relative;display:inline-flex;width:36px;height:20px;flex:none}
+  .sw input{position:absolute;inset:0;width:100%;height:100%;opacity:0;margin:0;cursor:pointer}
+  .sw span{position:absolute;inset:0;border-radius:999px;background:#D6D4CA;transition:background .12s}
+  .sw span:after{content:"";position:absolute;width:16px;height:16px;left:2px;top:2px;border-radius:50%;background:#FFF;
+                 box-shadow:0 1px 2px rgba(0,0,0,.2);transition:transform .12s}
+  .sw input:checked + span{background:#B8432F}
+  .sw input:checked + span:after{transform:translateX(16px)}
+  .sw input:focus-visible + span{outline:2px solid rgba(184,67,47,.55);outline-offset:2px}
+  .sw input:disabled + span{opacity:.38}
+  .group{border-top:1px solid #D6D4CA;padding-top:8px}
+  .group-strict{margin-top:14px}
+  .group-health{margin-top:10px}
+  .group-skip{margin-top:10px}
+  .group-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+  .group-head b{font-size:13px;line-height:19px;font-weight:600}
+  .group-actions{display:flex;align-items:center;gap:12px;flex:none}
+  .master-toggle{display:inline-flex;align-items:center;gap:7px;font-size:11px;line-height:16px;color:#5D635B;cursor:pointer}
+  .text-action{border:0;background:transparent;color:#B8432F;font:inherit;font-size:12px;line-height:17px;
+               padding:1px 2px;cursor:pointer;white-space:nowrap}
+  .text-action:hover{color:#8F3223;text-decoration:underline}
+  .text-action:disabled{color:rgba(23,26,23,.38);cursor:default;text-decoration:none}
+  .pair{display:flex;gap:18px;align-items:center}
+  .pair label{display:flex;align-items:center;gap:7px;font-size:11px;line-height:16px;color:#5D635B}
+  .skip-row{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:44px;
+            padding:3px 0;box-sizing:border-box;border-bottom:1px solid #E8E6DD}
+  .skip-row:last-of-type{border-bottom:0}
+  .time{font-size:13px;line-height:19px;letter-spacing:0}
+  .days{display:flex;gap:3px}
+  .day{width:20px;height:20px;border:1px solid #7C8178;border-radius:5px;background:transparent;
+       color:#6B7069;font:inherit;font-size:10px;line-height:14px;display:flex;align-items:center;justify-content:center}
+  .day.on{border-color:#E3B3A8;background:#F6D9D2;color:#8F3223}
+  .skip-actions{display:flex;align-items:center;gap:12px;flex:none}
+  .remove{border:0;background:transparent;color:#B3261E;font:inherit;font-size:11px;line-height:16px;padding:2px;cursor:pointer}
+  .remove:hover{color:#8F3223;text-decoration:underline}
+  .remove:disabled{color:rgba(23,26,23,.38);cursor:default;text-decoration:none}
+  /* 关态：数据保留，仅禁用交互；文字 38%，开关轨道在通用规则里 opacity .38 */
+  .skip-row[data-disabled="true"] .time,
+  .skip-row[data-disabled="true"] .desc{color:rgba(23,26,23,.38)}
+  .skip-row[data-disabled="true"] .days{opacity:.38}
+  .status{display:flex;align-items:center;justify-content:space-between;gap:10px;
+          font-size:11px;line-height:16px;color:#5D635B;margin-top:4px}
+  .status b{font-weight:500;color:#171A17}
+  .summary{margin-top:8px;border-top:1px solid #E2E0D7;padding-top:8px;
+           display:flex;align-items:center;justify-content:space-between;gap:12px}
+  .summary .line{font-size:13px;line-height:19px;font-weight:600}
+  .chips{display:flex;align-items:center;gap:4px;flex:none}
+  .chip{font-size:10px;line-height:14px;color:#3E5F4E;background:#D7E3D9;border-radius:4px;padding:3px 5px}
+  .chip.long{color:#F3F2EA;background:#2B4A41}
+  .sep{font-size:10px;line-height:14px;color:#8A8F86}
+</style>
+</helmet>
+
+<div class="window" role="group" aria-label="停琴设置 · 日程页 · 跳过时段已关闭，设置已保留">
+  <div class="lights" aria-hidden="true">
+    <i style="background:#FF5F57"></i><i style="background:#FEBC2E"></i><i style="background:#28C840"></i>
+  </div>
+
+  <aside class="sidebar">
+    <div class="brand">
+      <svg width="22" height="22" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+        <path d="M6 18C8 8.5 24 8.5 26 18" stroke="#171A17" stroke-width="4.2" stroke-linecap="round"/>
+        <circle cx="16" cy="25" r="3.6" fill="#B8432F"/>
+      </svg>
+      <span>Fermata</span>
+    </div>
+    <nav class="nav" aria-label="设置">
+      <button type="button">通用</button>
+      <button type="button" aria-current="page">日程</button>
+      <button type="button">外观</button>
+      <button type="button">关于</button>
+    </nav>
+  </aside>
+
+  <main class="content">
+    <h1>日程</h1>
+    <p class="subtitle">设定节奏。两类休息至少保留一类。</p>
+
+    <div class="rhythms">
+      <div>
+        <div class="colhead"><b>短休息</b><label class="sw"><input type="checkbox" checked aria-label="启用短休息"><span></span></label></div>
+        <div class="row"><span class="label">休息时长</span><span class="step"><button type="button" aria-label="减少短休息时长">−</button><span class="val">5 分钟</span><button type="button" aria-label="增加短休息时长">+</button></span></div>
+        <div class="row"><span class="label">每</span><span class="step"><button type="button" aria-label="减少短休息间隔">−</button><span class="val">25 分钟</span><button type="button" aria-label="增加短休息间隔">+</button></span></div>
+        <div class="row"><div><div class="label">提前通知</div><div class="desc">10 秒</div></div><label class="sw"><input type="checkbox" checked aria-label="短休息提前通知"><span></span></label></div>
+        <div class="row"><div><div class="label">允许推迟</div><div class="desc">2 分钟 · 1 次</div></div><label class="sw"><input type="checkbox" checked aria-label="允许推迟短休息"><span></span></label></div>
+        <div class="row"><div><div class="label">结束后等我确认</div><div class="desc">直到你点完成</div></div><label class="sw"><input type="checkbox" aria-label="短休息结束后等我确认"><span></span></label></div>
+      </div>
+      <div>
+        <div class="colhead"><b>长休息</b><label class="sw"><input type="checkbox" checked aria-label="启用长休息"><span></span></label></div>
+        <div class="row"><span class="label">休息时长</span><span class="step"><button type="button" aria-label="减少长休息时长">−</button><span class="val">15 分钟</span><button type="button" aria-label="增加长休息时长">+</button></span></div>
+        <div class="row"><span class="label">每</span><span class="step"><button type="button" aria-label="减少长休息频率">−</button><span class="val">4 次</span><button type="button" aria-label="增加长休息频率">+</button></span></div>
+        <div class="row"><div><div class="label">提前通知</div><div class="desc">30 秒</div></div><label class="sw"><input type="checkbox" checked aria-label="长休息提前通知"><span></span></label></div>
+        <div class="row"><div><div class="label">允许推迟</div><div class="desc">5 分钟 · 1 次</div></div><label class="sw"><input type="checkbox" checked aria-label="允许推迟长休息"><span></span></label></div>
+        <div class="row"><div><div class="label">结束后等我确认</div><div class="desc">直到你点完成</div></div><label class="sw"><input type="checkbox" aria-label="长休息结束后等我确认"><span></span></label></div>
+      </div>
+    </div>
+
+    <section class="group group-strict" aria-label="严格模式">
+      <div class="group-head">
+        <div><b>严格模式</b><div class="desc">严格休息不能跳过、推迟或关闭。</div></div>
+        <div class="pair">
+          <label>短 <span class="sw"><input type="checkbox" aria-label="严格短休息"><span></span></span></label>
+          <label>长 <span class="sw"><input type="checkbox" aria-label="严格长休息"><span></span></span></label>
+        </div>
+      </div>
+    </section>
+
+    <section class="group group-health" aria-label="休息健康度">
+      <div class="group-head">
+        <div><b>休息健康度</b><div class="desc">经常推迟或跳过休息时，休息窗出现朱红边。</div></div>
+        <label class="sw"><input type="checkbox" aria-label="休息健康度"><span></span></label>
+      </div>
+    </section>
+
+    <section class="group group-skip" aria-label="跳过时段" aria-disabled="true">
+      <div class="group-head">
+        <div><b>跳过时段</b><div class="desc">时段内暂停休息，结束后重新计时。</div></div>
+        <div class="group-actions">
+          <label class="master-toggle"><span>启用</span><span class="sw"><input type="checkbox" aria-label="启用跳过时段"><span></span></span></label>
+          <button class="text-action" type="button" disabled>＋ 添加时段</button>
+        </div>
+      </div>
+
+      <div class="skip-row" data-disabled="true" aria-disabled="true">
+        <div><div class="time mono">22:00 – 08:00</div><div class="desc">按开始日（周一至周五）22:00 起 · 次日 08:00 止</div></div>
+        <div class="days" aria-label="周一至周五" aria-disabled="true">
+          <span class="day on">一</span><span class="day on">二</span><span class="day on">三</span><span class="day on">四</span><span class="day on">五</span><span class="day">六</span><span class="day">日</span>
+        </div>
+        <div class="skip-actions"><label class="sw"><input type="checkbox" checked disabled aria-label="启用 22:00 至 08:00 跳过时段"><span></span></label><button class="remove" type="button" disabled aria-label="删除 22:00 至 08:00 跳过时段">删除</button></div>
+      </div>
+
+      <div class="skip-row" data-disabled="true" aria-disabled="true">
+        <div><div class="time mono">12:00 – 13:00</div><div class="desc">每天</div></div>
+        <div class="days" aria-label="每天" aria-disabled="true">
+          <span class="day on">一</span><span class="day on">二</span><span class="day on">三</span><span class="day on">四</span><span class="day on">五</span><span class="day on">六</span><span class="day on">日</span>
+        </div>
+        <div class="skip-actions"><label class="sw"><input type="checkbox" checked disabled aria-label="启用 12:00 至 13:00 跳过时段"><span></span></label><button class="remove" type="button" disabled aria-label="删除 12:00 至 13:00 跳过时段">删除</button></div>
+      </div>
+
+      <div class="status"><b>跳过时段已关闭</b><span>设置已保留，开启后生效</span></div>
+    </section>
+
+    <div class="summary">
+      <div class="line">25 分钟短休 5 分钟 · 第 5 次长休 15 分钟</div>
+      <div class="chips" aria-hidden="true">
+        <span class="chip">短 5m ×4</span><span class="sep">·</span><span class="chip long">长 15m</span>
+      </div>
+    </div>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":800,"height":720}}'>
+class Component extends DCLogic {}
+</script>
+</body>
+</html>
