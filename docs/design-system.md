@@ -79,7 +79,7 @@ The same 32-unit geometry is scaled to every surface by `side / 32`. The centers
 
 | Surface | Canvas | Cut / point radius | Notes |
 |---|---|---|---|
-| Menu bar | 18 pt (36 px template at 2×) | 8.0625 / 1.6875 | Black with alpha in a centered 16 pt optical box; the system tints the template for light, dark and selected states |
+| Menu bar | 18 pt (36 px template at 2×) | 8.0625 / 1.6875 | Black with alpha; the mark spans 24.5 pt so its ink reads at ~13.5 pt beside the ring and status text. The system tints the template for light, dark and selected states |
 | Break window | 48 | 7.95 / 1.9 | The moon in `#F3EEE2` with a `#F0836C` point on a dark field, `#1B233A` with `#B8432F` on a light one |
 | Welcome preview / About | 44 / 49 | 7.95 / 1.9 | One moon, optically tuned by size; the 72 px About tile renders at ~49 px |
 | Sidebar / brand row | 22 / 30 | 7.55 / 2.25 (22), 7.75 / 2.05 (30) | Small copies keep the same centers and outer disc |
@@ -864,7 +864,7 @@ Every item is checked before a release:
 What follows is shipped detail that is not a separate visual system; the numbers and strings above remain the authority, and this section no longer overrides them.
 
 - **Fonts:** `internal/fonts` bundles Spectral (300/400) and a Noto Serif SC subset (300/400, OFL); `tools/fonts/subset.py` rebuilds it and the coverage test guards missing glyphs. The UI stays on the system sans; suggestions use the bundled serif.
-- **Moon and small icons:** `internal/mark` defines the one cool-moon crescent used in the app, the tray and the desktop icon; `internal/icons` provides plus / minus / close / more / check / chevron; the tray template is rasterized by `trayicon` at the 18 pt optical size (36 px at 2×, black with alpha); `tools/genicons` scales the same crescent and point into the 1024 icon canvas.
+- **Moon and small icons:** `internal/mark` defines the one cool-moon crescent used in the app, the tray and the desktop icon; `internal/icons` provides plus / minus / close / more / check / chevron; the tray template is rasterized by `trayicon` in an 18 pt menu bar canvas with the mark scaled to ~13.5 pt of ink (36 px at 2×, black with alpha); `tools/genicons` scales the same crescent and point into the 1024 icon canvas.
 - **General page, app exclusions:** group title + one description line + a right-aligned `Add rule`; each rule has two rows — a 140-wide name input, a process input taking the remaining width (comma separated, placeholder `Comma-separated names, e.g. Xcode, zoom.us`), and a `Remove` text action; the second row holds the `Pause / Break only` Segmented, the `Enabled` switch and a hint at the right. The empty list reads `No rules yet.`; a rule with no name or no process is not written.
 - **Schedule page, break health:** one switch row with its description below strict mode; when on, the break panel draws a vermilion inset edge once the counter is above 2 — inset radius 24–60 and alpha 0.14–0.38 scaled by `(count − 2) / 8`; turning the switch off zeroes the counter. The counter runs 0–10: a completed break subtracts its cost, a postponement adds 1, a skip or an interruption adds its cost (mini 1, long 2).
 - **About, update hint:** a silent daily check of GitHub Releases; a newer version adds `Version x.y.z is available.` and a `Release notes` link under the version line — no dialog, no interruption.

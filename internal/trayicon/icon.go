@@ -1,9 +1,10 @@
 // Package trayicon draws the menu bar icon: the cool moon by default, two
 // bars while breaks are paused, a progress ring for the rhythm. The images
 // are template images: black with alpha only, which the system tints to match
-// the menu bar and its selected state. The moon uses a 16 pt optical box
-// inside an 18 pt canvas, so adjacent status text keeps its weight and the
-// ink keeps padding at 36 px (18 pt at 2×).
+// the menu bar and its selected state. The 32-unit mark maps into a 24.5 pt
+// span centered in the 18 pt canvas, drawing about 13.5 pt of ink: the
+// crescent fills only 55% of its own geometry, and a 16 pt box read half the
+// size of the neighbouring status icons.
 package trayicon
 
 import (
@@ -19,6 +20,13 @@ import (
 
 // canvas is the design's 18-point menu bar canvas.
 const canvas = 18.0
+
+// markSpan is the point span the 32-unit mark is drawn into. The crescent
+// occupies about 17.6 of those units, so this leaves ~13.5 pt of visible ink.
+const markSpan = 24.5
+
+// markScale converts points in the canvas to units of the mark's geometry.
+const markScale = markpkg.Canvas / markSpan
 
 // shots is how many samples each pixel gets on a side, for smooth edges.
 const shots = 6
@@ -106,8 +114,9 @@ func draw(k key) image.Image {
 func alphaAt(k key, x, y, used float64) float64 {
 	switch k.kind {
 	case kindMark:
-		// The 32-unit mark maps into a 16 pt optical box centered in 18 pt.
-		mx, my := 2*(x-1), 2*(y-1)
+		// Scale around the canvas center; the ink lands near 13.5 pt.
+		mx := markpkg.Canvas/2 + (x-canvas/2)*markScale
+		my := markpkg.Canvas/2 + (y-canvas/2)*markScale
 		if markpkg.Raster(mx, my, markpkg.Canvas, markpkg.CutRadius, markpkg.SparkRadius) {
 			return 1
 		}

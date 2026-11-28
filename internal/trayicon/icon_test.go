@@ -47,8 +47,8 @@ func TestMark(t *testing.T) {
 		t.Errorf("only %d pixels of ink", got)
 	}
 	// The spark of the moon sits at (22.8125, 22.1875) of the 32-unit
-	// canvas, mapped into the 16 pt optical box: pixel (25, 24) at 36 px.
-	if pixelAlpha(img, 25, 24) < 200 {
+	// canvas, mapped into the 24.5 pt span: pixel (28, 27) at 36 px.
+	if pixelAlpha(img, 28, 27) < 200 {
 		t.Error("no spark")
 	}
 	// Transparent above the moon.
@@ -87,8 +87,14 @@ func TestMarkPadding(t *testing.T) {
 			}
 		}
 	}
-	if minX < 2 || minY < 2 || maxX > 33 || maxY > 33 {
-		t.Errorf("ink bbox %d,%d–%d,%d needs 2 px padding in a 36 px template", minX, minY, maxX, maxY)
+	if minX < 3 || minY < 3 || maxX > 32 || maxY > 32 {
+		t.Errorf("ink bbox %d,%d–%d,%d needs padding in a 36 px template", minX, minY, maxX, maxY)
+	}
+	if w := maxX - minX + 1; w < 25 || w > 28 {
+		t.Errorf("ink width %d, want 25–28 px", w)
+	}
+	if h := maxY - minY + 1; h < 24 || h > 27 {
+		t.Errorf("ink height %d, want 24–27 px", h)
 	}
 }
 
