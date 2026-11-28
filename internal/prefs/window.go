@@ -36,6 +36,8 @@ type Options struct {
 	Dark func() bool
 	// Clock formats a time of day.
 	Clock func(time.Time) string
+	// Now returns the local time used by the skip period status.
+	Now func() time.Time
 	// Displays returns the connected displays, for the content choices.
 	Displays func() []mygo.Display
 	// FocusAvailable reports whether the system exposes Focus without extra
@@ -78,7 +80,18 @@ func New(opts Options) *Window {
 	if opts.Log == nil {
 		opts.Log = slog.Default()
 	}
+	if opts.Now == nil {
+		opts.Now = time.Now
+	}
 	return &Window{opts: opts, section: SectionGeneral}
+}
+
+// now returns the time the views use, so tests can hold it still.
+func (w *Window) now() time.Time {
+	if w.opts.Now == nil {
+		return time.Now()
+	}
+	return w.opts.Now()
 }
 
 // Show opens the window, or brings the open one forward.

@@ -50,13 +50,13 @@ func (w *Window) appearancePage(c *ui.Context, t *ui.Theme) {
 	divider(c, t)
 
 	w.preview(c, t, s)
-	ui.Text(c, locales.SettingsPreviewScale()).FontSize(theme.Px(c, 10)).FixedLineHeight(theme.Px(c, 15)).
+	ui.Text(c, locales.SettingsPreviewScale()).FontSize(theme.Px(c, 11)).FixedLineHeight(theme.Px(c, 16)).
 		TextColor(t.TextMuted).Margin(4, 0, 14, 0)
 
 	ui.Row(c).Gap(16).AlignItems(ui.Start).Children(func() {
 		ui.Column(c).Grow(1).Children(func() {
-			ui.Text(c, strings.ToUpper(locales.SettingsBreakField())).FontSize(theme.Px(c, 11)).
-				FixedLineHeight(theme.Px(c, 15)).FontWeight(600).LetterSpacing(theme.Px(c, 1.54)).TextColor(t.TextMuted)
+			ui.Text(c, strings.ToUpper(locales.SettingsBreakField())).FontSize(theme.Px(c, 13)).
+				FixedLineHeight(theme.Px(c, 19)).FontWeight(600).LetterSpacing(theme.Px(c, 1.54)).TextColor(t.TextMuted)
 			ui.Row(c).Gap(9).Margin(8, 0, 0, 0).Children(func() {
 				for _, name := range settings.FieldPresets {
 					w.swatch(c, t, s, name)
@@ -79,7 +79,7 @@ func (w *Window) appearancePage(c *ui.Context, t *ui.Theme) {
 
 	divider(c, t)
 
-	ui.Text(c, strings.ToUpper(locales.SettingsSounds())).FontSize(theme.Px(c, 11)).FixedLineHeight(theme.Px(c, 14)).
+	ui.Text(c, strings.ToUpper(locales.SettingsSounds())).FontSize(theme.Px(c, 13)).FixedLineHeight(theme.Px(c, 19)).
 		FontWeight(600).LetterSpacing(theme.Px(c, 1.0)).TextColor(t.TextMuted).Margin(10, 0, 0, 4)
 
 	muted := s.Sound.Muted
