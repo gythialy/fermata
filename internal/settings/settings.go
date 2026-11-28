@@ -115,10 +115,21 @@ type Shortcuts struct {
 
 // Schedule is the rhythm of the two kinds of breaks.
 type Schedule struct {
-	Mini           MiniBreaks `json:"mini"`
-	Long           LongBreaks `json:"long"`
-	PauseDurations []int      `json:"pauseDurationsMs"`
-	MorningHour    int        `json:"morningHour"`
+	Mini               MiniBreaks   `json:"mini"`
+	Long               LongBreaks   `json:"long"`
+	PauseDurations     []int        `json:"pauseDurationsMs"`
+	MorningHour        int          `json:"morningHour"`
+	SkipPeriodsEnabled bool         `json:"skipPeriodsEnabled"`
+	SkipPeriods        []SkipPeriod `json:"skipPeriods"`
+}
+
+// SkipPeriod suppresses breaks during a local time window.
+// Start and End are local "HH:MM"; Days uses 1=Mon..7=Sun, empty means every day.
+type SkipPeriod struct {
+	Enabled bool   `json:"enabled"`
+	Start   string `json:"start"`
+	End     string `json:"end"`
+	Days    []int  `json:"days"`
 }
 
 // Postpone is how one kind of break may be postponed.
@@ -250,8 +261,10 @@ func Default() Settings {
 				NotifyLeadMs: 30_000,
 				Postpone:     Postpone{Enabled: true, TimeMs: 300_000, Limit: 1, Percent: 30},
 			},
-			PauseDurations: []int{1_800_000, 3_600_000, 7_200_000, 18_000_000},
-			MorningHour:    6,
+			PauseDurations:     []int{1_800_000, 3_600_000, 7_200_000, 18_000_000},
+			MorningHour:        6,
+			SkipPeriodsEnabled: false,
+			SkipPeriods:        []SkipPeriod{},
 		},
 		Presence: Presence{
 			Idle:            Idle{Enabled: true, ResetAfterMs: 300_000, CheckIntervalMs: 2_000},

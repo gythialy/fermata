@@ -2,10 +2,13 @@ package settings
 
 import (
 	"bytes"
+	"encoding/json/v2"
 	"errors"
+	"fmt"
 	"io/fs"
 	"os"
 	"path/filepath"
+	"slices"
 	"strings"
 	"testing"
 )
@@ -319,5 +322,163 @@ func TestMissingDirectoryIsCreated(t *testing.T) {
 			t.Fatalf("%s was not written", path)
 		}
 		t.Fatal(err)
+	}
+}
+
+func TestSkipPeriodDefaults(t *testing.T) {
+	s := Default()
+	if s.Version != 2 || s.Schedule.SkipPeriodsEnabled {
+		t.Errorf("defaults: version %d, master switch %v", s.Version, s.Schedule.SkipPeriodsEnabled)
+	}
+	if len(s.Schedule.SkipPeriods) != 0 {
+		t.Errorf("default skip periods: %+v", s.Schedule.SkipPeriods)
+	}
+
+	path := filepath.Join(t.TempDir(), FileName)
+	load(t, path)
+	data, err := os.ReadFile(path)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !bytes.Contains(data, []byte(`"skipPeriodsEnabled": false`)) || !bytes.Contains(data, []byte(`"skipPeriods": []`)) {
+		t.Errorf("skip period defaults not written:\n%s", data)
+	}
+}
+
+func TestSkipPeriodsUseStableJSONKeys(t *testing.T) {
+	data, err := json.Marshal(SkipPeriod{Enabled: true, Start: "09:00", End: "10:00", Days: []int{1}})
+	if err != nil {
+		t.Fatal(err)
+	}
+	var fields map[string]any
+	if err := json.Unmarshal(data, &fields); err != nil {
+		t.Fatal(err)
+	}
+	if len(fields) != 4 {
+		t.Fatalf("skip period keys: %s", data)
+	}
+	for _, key := range []string{"enabled", "start", "end", "days"} {
+		if _, ok := fields[key]; !ok {
+			t.Errorf("missing key %q in %s", key, data)
+		}
+	}
+}
+
+func TestSkipPeriodsKeepValidEntries(t *testing.T) {
+	s := Default()
+	s.Schedule.SkipPeriodsEnabled = true
+	s.Schedule.SkipPeriods = []SkipPeriod{
+		{Enabled: true, Start: "09:00", End: "12:30", Days: []int{1, 3, 5}},
+		{Enabled: false, Start: "00:00", End: "23:59"},
+	}
+	if warnings := s.Validate(); len(warnings) != 0 {
+		t.Errorf("valid entries corrected: %v", warnings)
+	}
+	got := s.Schedule.SkipPeriods
+	if len(got) != 2 {
+		t.Fatalf("entries: %+v", got)
+	}
+	if !got[0].Enabled || got[0].Start != "09:00" || got[0].End != "12:30" || !slices.Equal(got[0].Days, []int{1, 3, 5}) {
+		t.Errorf("first entry changed: %+v", got[0])
+	}
+	if got[1].Start != "00:00" || got[1].End != "23:59" || len(got[1].Days) != 0 {
+		t.Errorf("second entry changed: %+v", got[1])
+	}
+}
+
+func TestSkipPeriodsDropInvalidTimes(t *testing.T) {
+	tests := []struct {
+		name  string
+		start string
+		end   string
+	}{
+		{"short hour", "9:00", "10:00"},
+		{"hour out of range", "24:00", "23:59"},
+		{"minute out of range", "09:60", "10:00"},
+		{"leading space", " 09:00", "10:00"},
+		{"seconds", "09:00:00", "10:00"},
+		{"invalid end", "09:00", "25:00"},
+		{"same start and end", "09:00", "09:00"},
+	}
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			s := Default()
+			s.Schedule.SkipPeriods = []SkipPeriod{{Enabled: true, Start: tc.start, End: tc.end, Days: []int{1}}}
+			warnings := s.Validate()
+			if len(s.Schedule.SkipPeriods) != 0 {
+				t.Errorf("invalid entry kept: %+v", s.Schedule.SkipPeriods)
+			}
+			if len(warnings) == 0 {
+				t.Error("no note for the dropped entry")
+			}
+		})
+	}
+}
+
+func TestSkipPeriodsDropInvalidDays(t *testing.T) {
+	s := Default()
+	s.Schedule.SkipPeriods = []SkipPeriod{
+		{Start: "09:00", End: "10:00", Days: []int{-1, 0, 8, 2}},
+		{Start: "10:00", End: "11:00", Days: []int{0, 9}},
+	}
+	s.Validate()
+	got := s.Schedule.SkipPeriods
+	if len(got) != 2 {
+		t.Fatalf("entries: %+v", got)
+	}
+	if !slices.Equal(got[0].Days, []int{2}) {
+		t.Errorf("weekdays not filtered: %v", got[0].Days)
+	}
+	if len(got[1].Days) != 0 {
+		t.Errorf("no weekdays should mean every day: %v", got[1].Days)
+	}
+}
+
+func TestSkipPeriodsLimit(t *testing.T) {
+	s := Default()
+	for i := range 6 {
+		s.Schedule.SkipPeriods = append(s.Schedule.SkipPeriods, SkipPeriod{
+			Start: fmt.Sprintf("%02d:00", i),
+			End:   fmt.Sprintf("%02d:30", i),
+		})
+	}
+	warnings := s.Validate()
+	if len(s.Schedule.SkipPeriods) != 4 {
+		t.Fatalf("entries: %+v", s.Schedule.SkipPeriods)
+	}
+	if got := s.Schedule.SkipPeriods[3].Start; got != "03:00" {
+		t.Errorf("fifth entry replaced the fourth: %q", got)
+	}
+	if len(warnings) == 0 {
+		t.Error("no note for the dropped entries")
+	}
+}
+
+func TestSkipPeriodsSortAndDeduplicateDays(t *testing.T) {
+	s := Default()
+	s.Schedule.SkipPeriods = []SkipPeriod{{Start: "09:00", End: "10:00", Days: []int{7, 3, 3, 1, 7, 2}}}
+	s.Validate()
+	if len(s.Schedule.SkipPeriods) != 1 {
+		t.Fatalf("entries: %+v", s.Schedule.SkipPeriods)
+	}
+	if got := s.Schedule.SkipPeriods[0].Days; !slices.Equal(got, []int{1, 2, 3, 7}) {
+		t.Errorf("weekdays not sorted and deduplicated: %v", got)
+	}
+}
+
+func TestSkipPeriodsKeepMasterSwitch(t *testing.T) {
+	off := Default()
+	off.Schedule.SkipPeriods = []SkipPeriod{{Start: "09:00", End: "10:00"}}
+	off.Validate()
+	if off.Schedule.SkipPeriodsEnabled {
+		t.Error("the master switch was turned on")
+	}
+
+	on := Default()
+	on.Schedule.SkipPeriodsEnabled = true
+	on.Schedule.SkipPeriods = []SkipPeriod{{Start: "bad", End: "10:00"}}
+	on.Validate()
+	if !on.Schedule.SkipPeriodsEnabled {
+		t.Error("the master switch was turned off")
 	}
 }
