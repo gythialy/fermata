@@ -1,10 +1,9 @@
 // Command genicons draws the app icon in its light and dark appearances, the
 // menu bar template icon, and compiles the app icon's asset catalog.
 //
-// The icon is the product's one mark: Fermata is the English name, and 停琴
-// ("the lute stops") is its Chinese reading. The dot is the finger on the
-// string; no extra line is drawn, because below the dot it reads as a face at
-// 16–32 px. The menu bar keeps the same, bolder mark.
+// The app icon follows the name's other reading: 停琴伫凉月 from 停琴, a
+// crescent held above one point of light. The same moon is the in-app mark,
+// drawn by internal/mark; the desktop icon is its largest copy.
 //
 //	go run ./tools/genicons
 package main
@@ -30,27 +29,39 @@ const (
 	// The Icon Composer document and the catalog actool compiles from it.
 	iconDir = "icons/AppIcon.icon"
 	carPath = "icons/AppIcon.car"
-	// The mark sits in a 700-point box centered on the icon, above the
-	// macOS 824-point safe area's edge; its ink is centered too, not just
-	// its box, because the fermata is bottom-heavy.
-	markSide = 700.0
-	markLift = 2.6 // canvas units up, to center the ink
 
+	// Geometry comes from internal/mark so the desktop icon cannot drift.
+	moonX = markpkg.MoonX * iconSize / markpkg.Canvas
+	moonY = markpkg.MoonY * iconSize / markpkg.Canvas
+	moonR = markpkg.MoonRadius * iconSize / markpkg.Canvas
+	cutX  = markpkg.CutX * iconSize / markpkg.Canvas
+	cutY  = markpkg.CutY * iconSize / markpkg.Canvas
+	cutR  = markpkg.CutRadius * iconSize / markpkg.Canvas
+	// The point of light sits outside the crescent, inside the safe area.
+	sparkX = markpkg.SparkX * iconSize / markpkg.Canvas
+	sparkY = markpkg.SparkY * iconSize / markpkg.Canvas
+	sparkR = markpkg.SparkRadius * iconSize / markpkg.Canvas
 )
 
 type vec struct{ x, y float64 }
 
-// The sand appearance: a warm field, an ink or paper mark, one vermilion dot.
-var (
-	lightTop = color.NRGBA{R: 0xF2, G: 0xEA, B: 0xD9, A: 0xff}
-	lightLow = color.NRGBA{R: 0xE6, G: 0xDA, B: 0xC2, A: 0xff}
-	lightInk = color.NRGBA{R: 0x1B, G: 0x1A, B: 0x14, A: 0xff}
-	lightDot = color.NRGBA{R: 0xC9, G: 0x4B, B: 0x33, A: 0xff}
+// The two appearances invert the ink so one crescent keeps contrast on both
+// menu-bar shades; dark mode keeps the night scene itself.
+type palette struct {
+	field, moon, spark color.NRGBA
+}
 
-	darkTop  = color.NRGBA{R: 0x2A, G: 0x24, B: 0x1C, A: 0xff}
-	darkLow  = color.NRGBA{R: 0x16, G: 0x12, B: 0x10, A: 0xff}
-	darkMark = color.NRGBA{R: 0xF3, G: 0xEE, B: 0xE2, A: 0xff}
-	darkDot  = color.NRGBA{R: 0xF0, G: 0x83, B: 0x6C, A: 0xff}
+var (
+	lightIcon = palette{
+		field: color.NRGBA{R: 0xE7, G: 0xEA, B: 0xF0, A: 0xff},
+		moon:  color.NRGBA{R: 0x1B, G: 0x23, B: 0x3A, A: 0xff},
+		spark: color.NRGBA{R: 0xB8, G: 0x43, B: 0x2F, A: 0xff},
+	}
+	darkIcon = palette{
+		field: color.NRGBA{R: 0x16, G: 0x1B, B: 0x2A, A: 0xff},
+		moon:  color.NRGBA{R: 0xF3, G: 0xEE, B: 0xE2, A: 0xff},
+		spark: color.NRGBA{R: 0xF0, G: 0x83, B: 0x6C, A: 0xff},
+	}
 )
 
 func main() {
@@ -68,17 +79,17 @@ func main() {
 // writeAppIcons writes the app icon, its two appearances as an Icon Composer
 // document, and, where Xcode is installed, the asset catalog compiled from it.
 func writeAppIcons() error {
-	if err := save("resources/icon.png", previewIcon()); err != nil {
+	if err := save("resources/icon.png", previewIcon(lightIcon)); err != nil {
 		return err
 	}
 	if err := os.MkdirAll(filepath.Join(iconDir, "Assets"), 0o755); err != nil {
 		return err
 	}
 	files := map[string]image.Image{
-		"bg-light.png":   fieldLayer(true),
-		"bg-dark.png":    fieldLayer(false),
-		"mark-light.png": markLayer(true),
-		"mark-dark.png":  markLayer(false),
+		"bg-light.png":   fieldLayer(lightIcon),
+		"bg-dark.png":    fieldLayer(darkIcon),
+		"mark-light.png": moonLayer(lightIcon),
+		"mark-dark.png":  moonLayer(darkIcon),
 	}
 	for name, img := range files {
 		if err := save(filepath.Join(iconDir, "Assets", name), img); err != nil {
@@ -178,18 +189,18 @@ type missingTool struct{}
 
 func (*missingTool) Error() string { return "Xcode is not installed; keeping the existing AppIcon.car" }
 
-// previewIcon draws the icon as macOS shows it: the sand field and the mark
-// inside the 824-point squircle, on transparent corners.
-func previewIcon() image.Image {
+// previewIcon draws the icon as macOS shows it: the field and the moon inside
+// the 824-point squircle, on transparent corners.
+func previewIcon(pal palette) image.Image {
 	const margin, side, radius = 100.0, 824.0, 185.0
 	return render(iconSize, func(p vec) color.NRGBA {
 		if !inRound(p.x, p.y, margin, margin, side, radius) {
 			return color.NRGBA{}
 		}
-		if c, ok := markAt(p, lightInk, lightDot); ok {
+		if c, ok := moonAt(p, pal); ok {
 			return c
 		}
-		return fieldAt(p.y, lightTop, lightLow)
+		return pal.field
 	})
 }
 
@@ -203,77 +214,40 @@ func inRound(x, y, left, top, side, radius float64) bool {
 	return math.Hypot(x-cx, y-cy) <= radius
 }
 
-// fieldLayer draws the sand field alone, as the icon's background layer.
-func fieldLayer(light bool) image.Image {
-	top, low := lightTop, lightLow
-	if !light {
-		top, low = darkTop, darkLow
-	}
-	return render(iconSize, func(p vec) color.NRGBA { return fieldAt(p.y, top, low) })
+// fieldLayer draws the field alone, as the icon's background layer.
+func fieldLayer(pal palette) image.Image {
+	return render(iconSize, func(p vec) color.NRGBA { return pal.field })
 }
 
-// markLayer draws the fermata alone on transparency, as the icon's foreground
-// layer.
-func markLayer(light bool) image.Image {
-	mark, dot := lightInk, lightDot
-	if !light {
-		mark, dot = darkMark, darkDot
-	}
+// moonLayer draws the crescent and its point of light on transparency, as the
+// icon's foreground layer.
+func moonLayer(pal palette) image.Image {
 	return render(iconSize, func(p vec) color.NRGBA {
-		if c, ok := markAt(p, mark, dot); ok {
+		if c, ok := moonAt(p, pal); ok {
 			return c
 		}
 		return color.NRGBA{}
 	})
 }
 
-// fieldAt is the vertical gradient of the field.
-func fieldAt(y float64, top, low color.NRGBA) color.NRGBA {
-	t := math.Max(0, math.Min(1, y/iconSize))
-	return color.NRGBA{
-		R: uint8(float64(top.R)*(1-t) + float64(low.R)*t),
-		G: uint8(float64(top.G)*(1-t) + float64(low.G)*t),
-		B: uint8(float64(top.B)*(1-t) + float64(low.B)*t),
-		A: 0xff,
+// moonAt colors a point of the icon's graphic and reports whether it is on it.
+// The cut disc is subtracted from the paper disc, leaving a crescent.
+func moonAt(p vec, pal palette) (color.NRGBA, bool) {
+	if math.Hypot(p.x-sparkX, p.y-sparkY) <= sparkR {
+		return pal.spark, true
 	}
+	if math.Hypot(p.x-moonX, p.y-moonY) > moonR {
+		return color.NRGBA{}, false
+	}
+	if math.Hypot(p.x-cutX, p.y-cutY) <= cutR {
+		return color.NRGBA{}, false
+	}
+	return pal.moon, true
 }
 
-// markAt colors a point of the fermata, and reports whether it is on it. The
-// same 32-unit geometry the app draws is scaled into the icon's 700-point
-// box, with the ink centered.
-func markAt(p vec, mark, dot color.NRGBA) (color.NRGBA, bool) {
-	scale := markSide / float64(markpkg.Canvas)
-	ox := (iconSize - markSide) / 2
-	oy := (iconSize - markSide) / 2
-	lx := (p.x - ox) / scale
-	ly := (p.y-oy)/scale + markLift
-	if math.Hypot(lx-markpkg.Dot.X, ly-markpkg.Dot.Y) <= markpkg.DotRadius {
-		return dot, true
-	}
-	points := markpkg.Points(64)
-	for i := 1; i < len(points); i++ {
-		if distanceToSegment(lx, ly, points[i-1], points[i]) <= markpkg.Stroke/2 {
-			return mark, true
-		}
-	}
-	return color.NRGBA{}, false
-}
-
-// writeTray writes the menu bar template icon, which the system tints.
+// writeTray writes the 18 pt menu bar template at 2×, matching the runtime.
 func writeTray() error {
-	return os.WriteFile("resources/tray.png", trayicon.Mark(44), 0o644)
-}
-
-// distanceToSegment is the distance from p to the segment a-b, in canvas
-// units.
-func distanceToSegment(x, y float64, a, b markpkg.Vec) float64 {
-	dx, dy := b.X-a.X, b.Y-a.Y
-	if dx == 0 && dy == 0 {
-		return math.Hypot(x-a.X, y-a.Y)
-	}
-	t := ((x-a.X)*dx + (y-a.Y)*dy) / (dx*dx + dy*dy)
-	t = math.Max(0, math.Min(1, t))
-	return math.Hypot(a.X+t*dx-x, a.Y+t*dy-y)
+	return os.WriteFile("resources/tray.png", trayicon.Mark(36), 0o644)
 }
 
 // render samples draw in a grid per pixel and averages the premultiplied

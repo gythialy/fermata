@@ -1,5 +1,22 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
-  <rect width="32" height="32" rx="7" fill="#F6F4ED"/>
-  <path d="M6 18C8 8.5 24 8.5 26 18" fill="none" stroke="#171A17" stroke-width="2.6" stroke-linecap="round"/>
-  <circle cx="16" cy="25" r="2.8" fill="#B8432F"/>
+  <defs>
+    <style>
+      .field { fill: #E7EAF0 }
+      .moon { fill: #1B233A }
+      .spark { fill: #B8432F }
+      @media (prefers-color-scheme: dark) {
+        .field { fill: #161B2A }
+        .moon { fill: #F3EEE2 }
+        .spark { fill: #F0836C }
+      }
+    </style>
+    <mask id="crescent">
+      <rect width="32" height="32" fill="black"/>
+      <circle cx="15.375" cy="15.625" r="8.5" fill="white"/>
+      <circle cx="19.75" cy="12.8125" r="8.0625" fill="black"/>
+    </mask>
+  </defs>
+  <rect class="field" width="32" height="32" rx="7"/>
+  <rect class="moon" width="32" height="32" mask="url(#crescent)"/>
+  <circle class="spark" cx="22.8125" cy="22.1875" r="1.6875"/>
 </svg>

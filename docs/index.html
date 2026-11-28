@@ -52,12 +52,25 @@
 <a class="skip" href="#main">Skip to content</a>
 <span id="copied-live" class="sr-only" aria-live="polite"></span>
 
+<svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute;width:0;height:0;overflow:hidden">
+  <symbol id="cool-moon" viewBox="0 0 32 32">
+    <defs>
+      <mask id="cool-moon-cut">
+        <rect width="32" height="32" fill="black"></rect>
+        <circle cx="15.375" cy="15.625" r="8.5" fill="white"></circle>
+        <circle cx="19.75" cy="12.8125" r="8.0625" fill="black"></circle>
+      </mask>
+    </defs>
+    <rect width="32" height="32" fill="var(--moon-ink)" mask="url(#cool-moon-cut)"></rect>
+    <circle cx="22.8125" cy="22.1875" r="1.6875" fill="var(--accent)"></circle>
+  </symbol>
+</svg>
+
 <header class="site-header">
   <div class="nav">
     <a class="brand" href="./">
       <svg width="24" height="24" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
-        <path d="M6 18C8 8.5 24 8.5 26 18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"></path>
-        <circle cx="16" cy="25" r="2.6" style="fill:var(--accent)"></circle>
+        <use href="#cool-moon"></use>
       </svg>
       <span class="word">Fermata</span>
       <span class="cn">停琴</span>
@@ -100,8 +113,8 @@
         <div class="install">
           <div class="caption">Install</div>
           <div class="codebox">
-            <code>brew install --cask fermata</code>
-            <button type="button" class="copy" data-copy="brew install --cask fermata" data-copied-label="Copied" aria-label="Copy the install command">
+            <code>brew tap gythialy/tap<br>brew trust gythialy/tap<br>brew install --cask fermata</code>
+            <button type="button" class="copy" data-copy="brew tap gythialy/tap&#10;brew trust gythialy/tap&#10;brew install --cask fermata" data-copied-label="Copied" aria-label="Copy the install command">
               <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true" focusable="false">
                 <rect x="5.5" y="5.5" width="8" height="8" rx="1.5"></rect>
                 <path d="M10.5 5.5V3.5a1 1 0 0 0-1-1h-6a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2"></path>
@@ -127,7 +140,7 @@
             <source src="images/break-loop.webm" type="video/webm">
             <source src="images/break-loop.mp4" type="video/mp4">
           </video>
-          <img class="still" src="images/break-mini.png" width="2400" height="1600" alt="The mini break window: a deep pine field, the fermata mark, one suggestion, a hairline and the countdown">
+          <img class="still" src="images/break-mini.png" width="2400" height="1600" alt="The mini break window: a deep pine field, a crescent moon, one suggestion, a hairline and the countdown">
         </div>
         <figcaption>The mini break, drawn by the app: one field, one suggestion, one exit.</figcaption>
       </figure>
@@ -139,14 +152,13 @@
       <div>
         <div class="caption">The name</div>
         <svg class="mark-lg" width="108" height="108" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
-          <path d="M6 18C8 8.5 24 8.5 26 18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
-          <circle cx="16" cy="25" r="1.9" style="fill:var(--accent)"></circle>
+          <use href="#cool-moon"></use>
         </svg>
       </div>
       <div>
         <h2>A note held longer.</h2>
         <p class="lede-wide">
-          Fermata is the musical sign that tells a player to hold a note past its written value. The orchestra waits; then it goes on. 停琴, "the qin stops", comes from a line by the Southern Qi poet Xie Tiao. Both names describe one gesture, and the mark carries it: the arc is the fermata, the dot beneath is the finger resting on the string.
+          Fermata is the musical sign that tells a player to hold a note past its written value. The orchestra waits; then it goes on. 停琴, "the qin stops", comes from a line by the Southern Qi poet Xie Tiao. Both names describe the same pause; the moon in the icon comes from that line — the qin put down, a moment in the cool moonlight.
         </p>
         <blockquote>
           <div class="quote">「停琴伫凉月，灭烛听归鸿」</div>
@@ -206,7 +218,7 @@
         <article class="feature">
           <div class="idx">01</div>
           <h3>A field, not a dialog</h3>
-          <p>One window per display at 85% of the screen: the fermata, one suggestion, a hairline that fills with the break, and exactly one exit.</p>
+          <p>One window per display at 85% of the screen: a crescent moon, one suggestion, a hairline that fills with the break, and exactly one exit.</p>
         </article>
         <article class="feature">
           <div class="idx">02</div>
@@ -266,7 +278,7 @@
     <div class="wrap install-sec">
       <div>
         <div class="caption">Install</div>
-        <h2>One line on macOS.<br>A package everywhere else.</h2>
+        <h2>Three commands on macOS.<br>A package everywhere else.</h2>
         <p class="lede-wide">
           Homebrew or the disk image on macOS; an installer or a portable zip on Windows; a .deb, an .rpm, a tarball with <code>install.sh</code> or a PKGBUILD on Linux. The macOS build is ad-hoc signed and not notarized, and the Windows build is not signed yet, so SmartScreen asks once.
         </p>
@@ -278,8 +290,8 @@
       </div>
       <div>
         <div class="codeblock">
-          <code>brew tap gythialy/tap<br>brew install --cask fermata</code>
-          <button type="button" class="copy" data-copy="brew tap gythialy/tap&#10;brew install --cask fermata" data-copied-label="Copied" aria-label="Copy the install commands">
+          <code>brew tap gythialy/tap<br>brew trust gythialy/tap<br>brew install --cask fermata</code>
+          <button type="button" class="copy" data-copy="brew tap gythialy/tap&#10;brew trust gythialy/tap&#10;brew install --cask fermata" data-copied-label="Copied" aria-label="Copy the install commands">
             <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true" focusable="false">
               <rect x="5.5" y="5.5" width="8" height="8" rx="1.5"></rect>
               <path d="M10.5 5.5V3.5a1 1 0 0 0-1-1h-6a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2"></path>
@@ -301,8 +313,7 @@
   <div class="footer-top">
     <div class="footer-brand">
       <svg width="28" height="28" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
-        <path d="M6 18C8 8.5 24 8.5 26 18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"></path>
-        <circle cx="16" cy="25" r="2.4" style="fill:var(--accent)"></circle>
+        <use href="#cool-moon"></use>
       </svg>
       <div>
         <div class="word">Fermata <span class="cn">停琴</span></div>

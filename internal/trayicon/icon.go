@@ -1,6 +1,9 @@
-// Package trayicon draws the menu bar icon: the fermata by default, two bars
-// while breaks are paused, a progress ring for the rhythm. The images are
-// template images: black with alpha, which the system tints.
+// Package trayicon draws the menu bar icon: the cool moon by default, two
+// bars while breaks are paused, a progress ring for the rhythm. The images
+// are template images: black with alpha only, which the system tints to match
+// the menu bar and its selected state. The moon uses a 16 pt optical box
+// inside an 18 pt canvas, so adjacent status text keeps its weight and the
+// ink keeps padding at 36 px (18 pt at 2×).
 package trayicon
 
 import (
@@ -10,6 +13,8 @@ import (
 	"image/png"
 	"math"
 	"sync"
+
+	markpkg "github.com/gythialy/fermata/internal/mark"
 )
 
 // canvas is the design's 18-point menu bar canvas.
@@ -18,17 +23,6 @@ const canvas = 18.0
 // shots is how many samples each pixel gets on a side, for smooth edges.
 const shots = 6
 
-// The fermata at menu bar size is bolder than the printed mark: its arc is
-// 2.5 points wide and its dot 4.4 points across, so an 18-point template
-// still reads in a crowded bar. The curves are the design's.
-var (
-	arc   = [4]point{{1.7, 10.4}, {4.1, 2.7}, {13.9, 2.7}, {16.3, 10.4}}
-	dot   = point{9, 14.5}
-	dotR  = 2.2
-	arcW  = 2.5
-	curve = bezier(arc[0], arc[1], arc[2], arc[3], 48)
-)
-
 type kind uint8
 
 const (
@@ -36,8 +30,6 @@ const (
 	kindPaused
 	kindRing
 )
-
-type point struct{ x, y float64 }
 
 type key struct {
 	kind     kind
@@ -50,7 +42,7 @@ var cache struct {
 	images map[key][]byte
 }
 
-// Mark returns the fermata.
+// Mark returns the cool moon.
 func Mark(size int) []byte { return cached(kindMark, size, 0) }
 
 // Paused returns the two bars that mean a pause.
@@ -114,13 +106,10 @@ func draw(k key) image.Image {
 func alphaAt(k key, x, y, used float64) float64 {
 	switch k.kind {
 	case kindMark:
-		if math.Hypot(x-dot.x, y-dot.y) <= dotR {
+		// The 32-unit mark maps into a 16 pt optical box centered in 18 pt.
+		mx, my := 2*(x-1), 2*(y-1)
+		if markpkg.Raster(mx, my, markpkg.Canvas, markpkg.CutRadius, markpkg.SparkRadius) {
 			return 1
-		}
-		for i := 1; i < len(curve); i++ {
-			if distanceToSegment(x, y, curve[i-1], curve[i]) <= arcW/2 {
-				return 1
-			}
 		}
 	case kindPaused:
 		for _, cx := range []float64{6.4, 11.6} {
@@ -145,30 +134,6 @@ func alphaAt(k key, x, y, used float64) float64 {
 		}
 	}
 	return 0
-}
-
-// bezier returns points along a cubic Bézier curve.
-func bezier(p0, p1, p2, p3 point, n int) []point {
-	out := make([]point, 0, n+1)
-	for i := range n + 1 {
-		t := float64(i) / float64(n)
-		mt := 1 - t
-		out = append(out, point{
-			x: mt*mt*mt*p0.x + 3*mt*mt*t*p1.x + 3*mt*t*t*p2.x + t*t*t*p3.x,
-			y: mt*mt*mt*p0.y + 3*mt*mt*t*p1.y + 3*mt*t*t*p2.y + t*t*t*p3.y,
-		})
-	}
-	return out
-}
-
-func distanceToSegment(x, y float64, a, b point) float64 {
-	dx, dy := b.x-a.x, b.y-a.y
-	if dx == 0 && dy == 0 {
-		return math.Hypot(x-a.x, y-a.y)
-	}
-	t := ((x-a.x)*dx + (y-a.y)*dy) / (dx*dx + dy*dy)
-	t = min(max(t, 0), 1)
-	return math.Hypot(a.x+t*dx-x, a.y+t*dy-y)
 }
 
 // roundedRect reports whether (x, y) is inside a rounded rectangle centered

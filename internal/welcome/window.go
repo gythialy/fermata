@@ -271,7 +271,7 @@ func (w *Window) rhythm(s *settings.Settings) []rhythmRow {
 	return rows
 }
 
-// previewMark draws the fermata at 40 points, where the preview's smaller
+// previewMark draws the moon at 40 points, where the preview's smaller
 // type still reads it as the same mark as the break window's.
 func previewMark(c *ui.Context, bg ui.Color) {
 	arc, dot := theme.Mark(bg)

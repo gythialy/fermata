@@ -12,7 +12,7 @@ Precedence: **behavior** follows the functional spec; **visuals, sizes, controls
 
 ### 1.1 In one line
 
-**A break is a held note.** Fermata does not draw clocks, breathing circles or clouds. It puts one fermata where the day stops for a moment, then steps back into the menu bar or the tray.
+**A break is a held note.** Fermata does not draw clocks, breathing circles or clouds. It puts one cool-moon crescent where the day stops for a moment, then steps back into the menu bar or the tray.
 
 ### 1.2 Three scenarios
 
@@ -64,53 +64,54 @@ Material 3 is **structure** here, not a skin. No Material component's appearance
 
 ## 2. Identity
 
-### 2.1 The mark
+### 2.1 The cool moon
 
-A fermata: one shallow arc with a dot beneath it. It is the product's **only** graphic asset, and there is exactly one geometry in code (`internal/mark`). The app icon, the menu bar, the break window, the welcome window, the sidebar and the About page all take their shape from it; no second mark (an hourglass, for example) may appear.
+The brand graphic is the **cool moon**: a crescent cut out of a disc, with one small point of light. It is the product's one graphic asset, and there is exactly one geometry in code (`internal/mark`). The menu bar, the break window, the welcome window, the sidebar, the About page and the desktop icon all use it; no second mark (an hourglass, for example) may appear in the interface. The name still comes from the musical hold and the poem's cool moonlight, but neither a fermata arc nor a separate desktop moon is drawn.
 
 ```
 viewBox 0 0 32 32
-arc:   M 6 18 C 8 8.5, 24 8.5, 26 18    round cap
-dot:   cx 16, cy 25                     fill
-visual bounding box: x 4.9–27.1, y 9.8–27.6
+crescent: outer disc cx 15.375, cy 15.625, r 8.5
+          minus cutout cx 19.75, cy 12.8125, r 8.0625
+point:    cx 22.8125, cy 22.1875, r 1.6875
 ```
 
-The same 32-unit geometry is scaled by `side / 32` at every size, and a small copy takes a heavier stroke and dot so it holds. Optical sizes (one curve, thickened as it shrinks; units are the 32 canvas unless stated):
+The same 32-unit geometry is scaled to every surface by `side / 32`. The centers and the outer disc never change; below 64 px the cut and point radii are tuned so the crescent keeps its weight (the canonical radii above are used at 64 px and larger). Optical sizes (the canvas is the rendered size unless stated):
 
-| Surface | Canvas | Arc width | Dot radius | Notes |
-|---|---|---|---|---|
-| Menu bar | 18 | 2.5 | 2.2 | Optical values for an 18 canvas (≈ 4.4 / 3.9 on the 32 canvas); template image; arc control points `(1.7,10.4) (4.1,2.7) (13.9,2.7) (16.3,10.4)`, dot `(9,14.5)` |
-| Break window | 48 | 2.6 | 2.9 | Vermilion `#F0836C` on a dark field, `#B8432F` on a light one |
-| Welcome preview / About | 44 / 49 | 2.6 | 2.9 | Same shape as the break window |
-| Sidebar / brand row | 22 / 30 | 3.2–4.2 | 3.0–3.6 | Bolder at small sizes, so it still reads on paper |
-| App icon | 700 | 2.2 | 2.6 | Centered in the 824 safe area; ink arc + vermilion dot |
+| Surface | Canvas | Cut / point radius | Notes |
+|---|---|---|---|
+| Menu bar | 18 pt (36 px template at 2×) | 8.0625 / 1.6875 | Black with alpha in a centered 16 pt optical box; the system tints the template for light, dark and selected states |
+| Break window | 48 | 7.95 / 1.9 | The moon in `#F3EEE2` with a `#F0836C` point on a dark field, `#1B233A` with `#B8432F` on a light one |
+| Welcome preview / About | 44 / 49 | 7.95 / 1.9 | One moon, optically tuned by size; the 72 px About tile renders at ~49 px |
+| Sidebar / brand row | 22 / 30 | 7.55 / 2.25 (22), 7.75 / 2.05 (30) | Small copies keep the same centers and outer disc |
+| Desktop icon | 1024 | 8.0625 / 1.6875 | The canonical geometry scaled into the icon canvas (§2.3) |
 
-- The mark never rotates, never takes a shadow and is never animated. It is a printed mark, not a loading indicator.
-- On a light field the mark is ink `#171A17` with vermilion `#B8432F`; on a dark field it is paper `#F3F2EA` with vermilion `#F0836C`.
-- The menu bar template image is tinted by the system; the in-app copies use the colors in this table and do not depend on a system tint.
+- The moon never rotates, never takes a shadow and is never animated. It is a printed mark, not a loading indicator.
+- The pause bars and the progress ring are functional icons (§2.2), not variants of the brand graphic.
+- On a light field the moon is `#1B233A` with a `#B8432F` point; on a dark field it is `#F3EEE2` with a `#F0836C` point.
+- The menu bar template ships in one black-with-alpha form; the system tint supplies the light, dark and selected appearances.
 
 ### 2.2 Tray / menu bar icon states
 
 | State | Graphic | Notes |
 |---|---|---|
-| Normal | The mark | One-color template image; the system tints it on macOS, `Tray.Dark()` drives a repaint on Windows/Linux |
-| Time style | The mark + `9m` | **macOS menu bar title; the Linux tray label depends on the host (AppIndicator); Windows has no title** (MyGo `SetTitle` is a no-op there) — the time goes to the tooltip and the menu |
+| Normal | The cool-moon crescent | One-color template image; the system tints it on macOS, `Tray.Dark()` drives a repaint on Windows/Linux |
+| Time style | The cool-moon crescent + `9m` | **macOS menu bar title; the Linux tray label depends on the host (AppIndicator); Windows has no title** (MyGo `SetTitle` is a no-op there) — the time goes to the tooltip and the menu |
 | Progress style | 16–18 pt ring + center dot | Track at 25% alpha, used arc at 100%; ring 1.6 pt wide, center dot r 1.3 |
-| Paused / DND / idle / locked | Two bars (1.7×7.4, radius 0.8) | The generic pause meaning; no moon, no ZZZ; bar centers 5.2 apart |
-| Strict break | The mark | No lock; strict is carried by the menu copy and the break window's label |
+| Paused / DND / idle / locked | Two bars (1.7×7.4, radius 0.8) | The generic pause meaning, never a decorative moon or ZZZ; bar centers 5.2 apart |
+| Strict break | The cool-moon crescent | No lock; strict is carried by the menu copy and the break window's label |
 
-- Icon size: v1 hands one 36 px template (18 pt at 2×) to every platform; the per-platform sizes (Windows 16/20/24 px, Linux 22 px symbolic) are platform work for their release, and the system scales the template.
+- Icon size: v1 hands one 36 px template (18 pt at 2×) to every platform; the per-platform sizes (Windows 16/20/24 px, Linux 22 px symbolic) are platform work for their release, and the system scales the template. The macOS menu bar is 24 pt tall; the system tints the black-with-alpha image for light, dark and selected states, so the icon ships no colour variants.
 - Title: `9m` (no space), `0m`, at most `99m`; never `9′`. Icon updates do not flicker: the same state never calls `SetIcon` twice.
+- Every state that carries the brand uses the same cool-moon crescent and point; the menu bar template draws them in black with alpha. The pause bars and the progress ring below are functional icons, retained as-is.
 
 ### 2.3 App icon
 
 - 1024×1024 canvas; the content sits inside the macOS 824 squircle safe area (100 pt margin all round), and the system draws the corners and Liquid Glass.
-- Graphic: **the same fermata as the interface**, not an hourglass, not a clock. The mark sits centered in a 700×700 box, ink arc over a vermilion dot; because the arc is above the dot the optical center is lifted slightly above the box center.
-- The name and the graphic share one origin: the English name **Fermata** is the mark itself, and the Chinese name is the same gesture — a finger stopping the string. No strings and no staff are drawn: at 16–32 px they read as a face, or flatten the mark into a background texture.
-- Field: a vertical sand gradient, light `#F2EAD9` → `#E6DAC2`; dark `#2A241C` → `#161210`.
-- Mark: ink `#1B1A14` (paper `#F3EEE2` in dark); dot `#C94B33` (dark `#F0836C`).
-- The About page, welcome window, sidebar and menu bar template all use the same geometry (`theme.PaintMark` / `trayicon.Mark` / `internal/mark`), adjusting only the optical weight from the table above.
-- **Delivery:** an Icon Composer `.icon` with two layers (sand field + mark) and light/dark specializations, compiled into `Assets.car`; older systems fall back to a pre-rounded `.icns`. No text, no drop shadow.
+- Graphic: **the same cool-moon crescent and one coral point of light** used across the product, from 停琴伫凉月 ("the qin stops, and I stand in the cool moonlight"). The poem gives the shape; there is no second, name-led desktop mark.
+- Geometry on the 1024 canvas: a paper disc at (492, 500) r 272 cut by a night disc at (632, 410) r 258; the point of light sits at (730, 710) r 54. All ink stays inside the 824 safe area.
+- Light appearance: field `#E7EAF0`, crescent `#1B233A`, point `#B8432F`. Dark appearance: field `#161B2A`, crescent `#F3EEE2`, point `#F0836C` — the same geometry in inverse ink, so the icon keeps contrast in both system shades.
+- The About page, welcome window, sidebar, break window and menu bar template use the same moon geometry (`theme.PaintMark` / `trayicon.Mark` / `internal/mark`); the menu bar template is the same shape in black with alpha, tinted by the system.
+- **Delivery:** an Icon Composer `.icon` with two layers (night field + moon) and light/dark specializations, compiled into `Assets.car`; older systems fall back to a pre-rounded `.icns`. No text, no drop shadow.
 - Regenerate with `make icons` (needs `actool` from Xcode 26+), which also writes `resources/icon.png` and `resources/tray.png`.
 
 ### 2.4 Wordmark
@@ -127,7 +128,7 @@ The wordmark is the product name in the system UI font, Semibold, tracking −0.
 
 | Token | Light | Dark | Use |
 |---|---|---|---|
-| `primary` | `#B8432F` | `#F0836C` | Primary button, selection, the mark's dot |
+| `primary` | `#B8432F` | `#F0836C` | Primary button, selection, the moon's point of light |
 | `on-primary` | `#FFFFFF` | `#451009` | Text on an accent fill |
 | `primary-container` | `#F6D9D2` | `#5C2418` | Secondary accent fill, hints |
 | `secondary` | `#3E5F4E` | `#A9C8B4` | Quiet state, success meaning |
@@ -159,7 +160,7 @@ Contrast: body and description text ≥ 4.5:1; large text and graphics ≥ 3:1; 
 | Paper (light) | `#EFEEE6` | `#EFEEE6` | `#E6E4DA` | ink |
 
 - The foreground is chosen automatically from luminance, paper or ink; custom colors are treated the same way. A light field takes no vignette and no texture.
-- The mark: vermilion `#F0836C` on a dark field, `#B8432F` on a light one.
+- The moon: `#F3EEE2` with a `#F0836C` point on a dark field, `#1B233A` with a `#B8432F` point on a light one.
 - Progress track = foreground at 25%; used = foreground at 85%; secondary text = foreground at 62–72%.
 - A long break does not change hue, only deepens one step; type is one step larger. The user picks one field color.
 
@@ -346,7 +347,7 @@ The product has one small-icon language, all drawn by the app (`internal/icons`,
 | `ring` | Tray progress | 18 |
 
 - Stroke width follows the glyph box: `max(1.4, 10% of the box)`, so a 12 px glyph draws 1.4 pt and larger glyphs scale.
-- Beyond the mark and this table, no icon language is introduced; the sidebar has no icons.
+- Beyond the moon and this table, no icon language is introduced; the sidebar has no icons.
 - No emoji and no Unicode characters (`×`, `⋯`, `−`, `+`) as substitutes for a glyph.
 - Icon color inherits the text color (`t.Text` / `t.TextMuted`); the hit area is still provided by a 20–28 px button.
 - A meaningful icon button must have a localized accessible name: `Close` / `Show menu` / `Decrease` / `Increase`.
@@ -369,8 +370,8 @@ The product has one small-icon language, all drawn by the app (`internal/icons`,
 
 ```
 MINI BREAK                                             14:32
-                         ⌒
-                          •
+                         ☾
+                          ·
           Look out a window until your eyes relax.
               ──────────────────────────────
                           0:14
@@ -378,7 +379,7 @@ MINI BREAK                                             14:32
                     Postpone  ⌘X
 ```
 
-0. Mark: 48×48, 28 above the suggestion; optically heavy arc (2.6) and dot (2.9).
+0. Moon: 48×48, 28 above the suggestion; the one cool-moon crescent and its point of light, unchanged geometry.
 1. Top-left label: `MINI BREAK` / `LONG BREAK`; `STRICT MINI BREAK` / `STRICT LONG BREAK` when strict. 11 pt, all caps, +0.14em, 55% foreground.
 2. Top-right current time (optional): follows the locale's 12/24-hour clock; 11 pt, 55% foreground.
 3. Center suggestion: one sentence for a mini break, at most 4 lines, 42/51 (38/46 on screens ≤1280; Chinese +2, line height ×1.25), serif 300, centered; a long break sets a 50/57 title (46/53 on ≤1280; Chinese 52/65) plus a 26/36 body (Chinese 28/35, 72% foreground), 24 apart.
@@ -449,7 +450,7 @@ Follows functional spec §8.1; in short:
 - A left click on the tray icon opens `mygo.NewFlyout`: `Width: 320` (`MinWidth`/`MaxWidth` both 320), `FitContent: true` (`MaxHeight: 560`), `Gap: 4`, `Focusable: true` on macOS (`false` on Windows), `Content: ui.View(a.popoverView)`. On macOS a focusable flyout is a transient popover: it takes the keyboard while it shows and is dismissed by a click outside it, by `Esc` or by another app coming to the front.
 - **The shell belongs to the system on macOS:** with `Popover: true`, NSPopover draws the material, corners, shadow, the arrow pointing at the tray and the open/close animation, and the content paints no fill and no border (`c.Vibrancy()` is true). The window is created with `Shadow: true` and `CornerRadius: 14` on every platform; on Windows and Linux v1 paints its own paper-and-ink fill. The Linux tray reports no clicks, so the menu is its icon's only target; `Skip to` and a click on a notice open the same popover, in the middle of the primary display's work area.
 - **Height is not hard-coded:** waiting / notice / breaking / paused / strict are sized by their content (about 296 / 336 / 207 / 236 / 147); when action rows come and go, FitContent catches the change on the next frame, and no height is written in code. The panel hugs its content; no `Spacer` stretches it.
-- Skeleton (`ui.Column`, padding `t.Space(4)`, blocks `t.Space(3)` apart): the mark at 20 (`theme.PaintMark`, drawn) + the state word (10/600, letter spacing .16em, uppercase) on one row with two 22 px icon buttons at the top right (`ui.ButtonBase` + a 12 px drawn glyph + `Label`/`Tooltip`, `Show menu` then `Close`); the remaining time (`theme.Px(c,34)` mono, weight 600, `ContentTransition{Numeric, Down}`; `21m` while waiting, `8s` during the notice, `12:04` while breaking or paused); the **ruler** (12 high, 60 hairlines, every fifth one long, the passed span in vermilion, a 2×10 cursor at the leading edge; drawn in `Draw`, `Role(RoleProgress)` + `Label("34%")` for screen readers); an 11/15 detail line with `MaxLines(2)`. The ruler and the tray icon's Ring share the same `progressShare`.
+- Skeleton (`ui.Column`, padding `t.Space(4)`, blocks `t.Space(3)` apart): the moon at 20 (`theme.PaintMark`, drawn) + the state word (10/600, letter spacing .16em, uppercase) on one row with two 22 px icon buttons at the top right (`ui.ButtonBase` + a 12 px drawn glyph + `Label`/`Tooltip`, `Show menu` then `Close`); the remaining time (`theme.Px(c,34)` mono, weight 600, `ContentTransition{Numeric, Down}`; `21m` while waiting, `8s` during the notice, `12:04` while breaking or paused); the **ruler** (12 high, 60 hairlines, every fifth one long, the passed span in vermilion, a 2×10 cursor at the leading edge; drawn in `Draw`, `Role(RoleProgress)` + `Label("34%")` for screen readers); an 11/15 detail line with `MaxLines(2)`. The ruler and the tray icon's Ring share the same `progressShare`.
 - Actions: `ui.PrimaryButton` + `ui.Button` (secondary: surface + 1 px border), then, after a `ui.Divider`, a `Settings…` text row (20 high, its underline fading in over 120 ms on hover). **The primary button needs `t.InactiveAccent = t.Accent`** (`theme.ApplyFlyout`): `PrimaryButton` only fills with the accent in a focused window, and a flyout usually is not one, so by default it would collapse into a plain button identical to the secondary one. A strict break has no actions and no settings row.
 - State words: `Next mini break` / `Next long break` / `Mini break · starting` / `Mini break · in progress` / `Paused` / `Strict · Mini break`, composed from `popoverNextMini`, `popoverNextLong`, `popoverMini`, `popoverLong`, `popoverStarting`, `popoverInProgress`, `popoverPaused` and `popoverStrict`. The detail line reuses the menu's second line (`Long break after 4 more mini breaks`) or the break's suggestion (`lastIdea.Text`); a pause does not repeat its reason — the menu and the tooltip carry it.
 - No "end now" button during a break: the exit belongs to the break window, and the popover only reports the remaining time and the suggestion.
@@ -469,7 +470,7 @@ Follows functional spec §8.1; in short:
 
 #### Sidebar
 
-- Top: a 22 px mark + the wordmark at 13 semibold, 44 from the top and 20 from the left; the mark uses an ink arc and a vermilion dot with no plate behind it.
+- Top: a 22 px cool-moon crescent + the wordmark at 13 semibold, 44 from the top and 20 from the left; the moon uses ink and a vermilion point with no plate behind it.
 - Items: General / Schedule / Appearance / About; row height 32; the selected row is `surface` + weight 600; no icons.
 - Keyboard: Tab enters the content, Shift+Tab returns to the sidebar; arrow keys move between items.
 
@@ -704,7 +705,7 @@ The source of truth is `locales/en.json`; the keys below are the catalog's own. 
 | `settingsLanguage` | Language | General row |
 | `languageSystem` / `languageEnglish` / `languageChineseSimplified` | System / English / 简体中文 | Language select; the endonym ships verbatim in the English catalog |
 | `settingsMenuBar` / `settingsTrayIcon` | Menu bar / Tray icon | Row label; Tray icon is the Windows label |
-| `styleMark` / `styleTime` / `styleRing` | Mark / Time / Ring | Segmented options |
+| `styleMark` / `styleTime` / `styleRing` | Moon / Time / Ring | Segmented options; the config value stays `mark` |
 | `settingsPauseAway` + `settingsAfterMinutes` | Pause when away — after {n} minutes | General row and its indented threshold |
 | `settingsPauseFocus` | Pause during Focus | General row |
 | `settingsPauseLock` | Pause when the screen is locked | General row |
@@ -797,7 +798,7 @@ MyGo 0.10.0 provides the same window, tray, menu, notification, power, login-ite
 | Break panel window | `mygo.NewWindow(WindowOptions{Panel: true, AlwaysOnTop: true, Width, Height, X, Y, Content, BackgroundColor})`; `ShowInactive()`; `DisableClose` for strict |
 | Multiple displays | `mygo.Screen.Displays()` for `Bounds`; one window per screen; `OnDisplaysChanged` rebuilds it and keeps the timer |
 | Break suggestion | `ui.Text(...).Font(theme.Serif)`; size through `theme.Px(c, 42)`; Chinese is drawn from the bundled Noto Serif SC subset |
-| Mark | The one geometry in `internal/mark`; `ui.Box(...).Draw(theme.PaintMark)`; the app icon and the tray take their shape from it too |
+| Moon | The one cool-moon geometry in `internal/mark`; `ui.Box(...).Draw(theme.PaintMark)`; the desktop icon and the tray take the same crescent, without a second shape |
 | Small icons | Paths from `internal/icons` (chevron / check / plus / minus / close / more); no Unicode glyphs |
 | Tray | `mygo.NewTray(TrayOptions{Icon, IconIsTemplate, Title, MonospacedTitle, Menu, ToolTip})`; `SetTitle` is a no-op on Windows, the Linux label depends on the host, `MonospacedTitle` is macOS-only |
 | Menu | `mygo.NewMenu` + `MenuItem`; the status line is disabled; `SetLabel` updates in place |
@@ -863,7 +864,7 @@ Every item is checked before a release:
 What follows is shipped detail that is not a separate visual system; the numbers and strings above remain the authority, and this section no longer overrides them.
 
 - **Fonts:** `internal/fonts` bundles Spectral (300/400) and a Noto Serif SC subset (300/400, OFL); `tools/fonts/subset.py` rebuilds it and the coverage test guards missing glyphs. The UI stays on the system sans; suggestions use the bundled serif.
-- **Mark and small icons:** `internal/mark` is the single geometry; `internal/icons` provides plus / minus / close / more / check / chevron; the tray template is rasterized by `trayicon` at the 18 pt optical size; the app icon is redrawn from the same geometry by `tools/genicons` (the mark is centered on its ink with a 2.6-unit lift inside the 700 box).
+- **Moon and small icons:** `internal/mark` defines the one cool-moon crescent used in the app, the tray and the desktop icon; `internal/icons` provides plus / minus / close / more / check / chevron; the tray template is rasterized by `trayicon` at the 18 pt optical size (36 px at 2×, black with alpha); `tools/genicons` scales the same crescent and point into the 1024 icon canvas.
 - **General page, app exclusions:** group title + one description line + a right-aligned `Add rule`; each rule has two rows — a 140-wide name input, a process input taking the remaining width (comma separated, placeholder `Comma-separated names, e.g. Xcode, zoom.us`), and a `Remove` text action; the second row holds the `Pause / Break only` Segmented, the `Enabled` switch and a hint at the right. The empty list reads `No rules yet.`; a rule with no name or no process is not written.
 - **Schedule page, break health:** one switch row with its description below strict mode; when on, the break panel draws a vermilion inset edge once the counter is above 2 — inset radius 24–60 and alpha 0.14–0.38 scaled by `(count − 2) / 8`; turning the switch off zeroes the counter. The counter runs 0–10: a completed break subtracts its cost, a postponement adds 1, a skip or an interruption adds its cost (mini 1, long 2).
 - **About, update hint:** a silent daily check of GitHub Releases; a newer version adds `Version x.y.z is available.` and a `Release notes` link under the version line — no dialog, no interruption.
@@ -871,14 +872,14 @@ What follows is shipped detail that is not a separate visual system; the numbers
 - **Strict-mode tray menu:** with `general.showTrayMenuInStrictMode` true, the menu keeps only Settings during a strict break; Quit stays hidden and is refused by `OnBeforeQuit`.
 - **Popover and resumed timing:** the tray popover, clicking the notice and the context menu; a restart within 10 minutes resumes the countdown (`schedule.json`); the popover is anchored to the tray icon with `mygo.NewFlyout`, and on Linux there is only the menu.
 - **Hold at a due break:** a full-screen app (reading only window bounds/layer/PID, no screen-recording permission; up to 1 hour) and typing (idle < 0.5 s; up to 30 seconds) hold the break back; once the condition clears the whole break starts immediately.
-- **Two app-icon appearances:** the source is `icons/AppIcon.icon`, the products are `icons/AppIcon.car` and `resources/icon.png`; regenerating needs Xcode 26+. The marks in About, the welcome window and the sidebar follow the appearance.
+- **Two app-icon appearances:** the source is `icons/AppIcon.icon`, the products are `icons/AppIcon.car` and `resources/icon.png`; regenerating needs Xcode 26+. The two appearances invert the moon's ink; `resources/icon.png` is the light one. The in-app copies use the same light/dark moon colours.
 - **Focus pause:** one permission-free probe at launch; if Focus cannot be read, the row is hidden, nothing is monitored and no permission prompt appears; once the user grants access, a restart or a settings change takes effect.
-- **Settings window and sidebar:** one 800×720 size, minimum 760×560, a scrollable content column; the sidebar draws its own rows (32 high, selected = surface + weight 600) under a 22 px mark and the 13 semibold wordmark.
+- **Settings window and sidebar:** one 800×720 size, minimum 760×560, a scrollable content column; the sidebar draws its own rows (32 high, selected = surface + weight 600) under a 22 px cool-moon crescent and the 13 semibold wordmark.
 
 ### 12.1 The Fermata name
 
 - Bundle id `dev.gythialy.fermata`, module `github.com/gythialy/fermata`.
-- UI names are localized (`Fermata` in English, the product's Chinese name in Simplified Chinese; menus, About, welcome, notifications and the CLI all follow). The app icon remains the same fermata: Fermata is the mark itself and the Chinese name is its reading, with no strings drawn, because at small sizes they turn into a face.
+- UI names are localized (`Fermata` in English, the product's Chinese name in Simplified Chinese; menus, About, welcome, notifications and the CLI all follow). The app icon keeps the same cool-moon crescent: the Chinese name is the poem's reading, and no strings are drawn, because at small sizes they turn into a face.
 
 ### 12.2 Implementation status
 

@@ -57,8 +57,13 @@
   <aside style="width:208px;flex:none;background:#F0EEE6;border-right:1px solid #DCDAD1;padding:44px 16px 16px 20px;box-sizing:border-box">
     <div style="display:flex;align-items:center;gap:7px">
       <svg width="22" height="22" viewBox="0 0 32 32" fill="none" aria-hidden="true">
-        <path d="M6 18C8 8.5 24 8.5 26 18" stroke="#171A17" stroke-width="4.2" stroke-linecap="round"/>
-        <circle cx="16" cy="25" r="3.6" fill="#B8432F"/>
+        <defs><mask id="moon-settings-general-1">
+          <rect width="32" height="32" fill="black"/>
+          <circle cx="15.375" cy="15.625" r="8.5" fill="white"/>
+          <circle cx="19.75" cy="12.8125" r="8.0625" fill="black"/>
+        </mask></defs>
+        <rect width="32" height="32" fill="#1B233A" mask="url(#moon-settings-general-1)"/>
+        <circle cx="22.8125" cy="22.1875" r="1.6875" fill="#B8432F"/>
       </svg>
       <span style="font-size:13px;line-height:18px;font-weight:600;letter-spacing:.005em">Fermata</span>
     </div>
@@ -93,7 +98,7 @@
       <div class="row" style="min-height:52px">
         <div class="label">Menu bar</div>
         <div class="seg" role="group" aria-label="Menu bar style">
-          <button type="button" aria-pressed="true">Mark</button>
+          <button type="button" aria-pressed="true">Moon</button>
           <button type="button" aria-pressed="false">Time</button>
           <button type="button" aria-pressed="false">Ring</button>
         </div>

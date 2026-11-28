@@ -17,14 +17,27 @@ a:hover{color:#F5A08D}
 ::selection{background:#5C2418;color:#F6F4ED}
 </style>
 </helmet>
+
+<svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute;width:0;height:0;overflow:hidden">
+  <symbol id="cool-moon" viewBox="0 0 32 32">
+    <defs>
+      <mask id="cool-moon-cut">
+        <rect width="32" height="32" fill="black"></rect>
+        <circle cx="15.375" cy="15.625" r="8.5" fill="white"></circle>
+        <circle cx="19.75" cy="12.8125" r="8.0625" fill="black"></circle>
+      </mask>
+    </defs>
+    <rect width="32" height="32" fill="#F3EEE2" mask="url(#cool-moon-cut)"></rect>
+    <circle cx="22.8125" cy="22.1875" r="1.6875" fill="#F0836C"></circle>
+  </symbol>
+</svg>
 <div style="background:#121513;color:#ECEDE5;font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','Segoe UI',Inter,'Noto Sans SC','PingFang SC',sans-serif;-webkit-font-smoothing:antialiased">
 
   <header style="background:#121513;border-bottom:1px solid #2E342F">
     <div style="max-width:1200px;margin:0 auto;padding:0 40px;height:72px;display:flex;align-items:center;justify-content:space-between">
       <a href="#top" style="display:flex;align-items:center;gap:11px;color:#ECEDE5">
         <svg width="24" height="24" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
-          <path d="M6 18C8 8.5 24 8.5 26 18" fill="none" stroke="#ECEDE5" stroke-width="2.4" stroke-linecap="round"></path>
-          <circle cx="16" cy="25" r="2.6" fill="#F0836C"></circle>
+          <use href="#cool-moon"></use>
         </svg>
         <span style="font-family:'Spectral',serif;font-size:19px;letter-spacing:-.01em">Fermata</span>
         <span style="font-size:12px;color:#8E938B;letter-spacing:.02em">停琴</span>
@@ -58,16 +71,16 @@ a:hover{color:#F5A08D}
           <span aria-hidden="true" style="width:20px;height:1px;background:#F0836C"></span>
           Menu bar break reminder for macOS
         </div>
-        <h1 style="margin:26px 0 0;font-family:'Spectral',serif;font-weight:300;font-size:92px;line-height:94px;letter-spacing:-.022em;color:#ECEDE5">
-          A break,<br>held<span style="color:#F0836C">.</span>
+        <h1 style="margin:26px 0 0;font-family:'Spectral','Noto Serif SC','Songti SC',serif;font-weight:300;font-size:92px;line-height:112px;letter-spacing:-.022em;color:#ECEDE5">
+          休息，可以<br>多停一会儿<span style="color:#F0836C">。</span>
         </h1>
         <p style="margin:28px 0 0;max-width:452px;font-size:16px;line-height:27px;color:#A8AEA4">
-          Short breaks and long ones arrive on their own schedule, take the screen for a few minutes, and get out of the way. One process, a native menu bar item, no webview.
+          短休息和长休息到点就来，把屏幕占几分钟，然后退开。只有一个进程；图标在菜单栏或托盘里，不用 webview。
         </p>
         <div style="margin-top:36px;max-width:452px">
           <div style="font-size:10px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:#8E938B">Install</div>
           <div style="margin-top:10px;display:flex;align-items:center;justify-content:space-between;gap:12px;height:54px;padding:0 8px 0 16px;background:#1B211D;border:1px solid #2E342F;border-radius:8px">
-            <code style="font-family:'SF Mono','JetBrains Mono',monospace;font-size:13px;color:#ECEDE5;white-space:nowrap">brew install --cask fermata</code>
+            <code style="font-family:'SF Mono','JetBrains Mono',monospace;font-size:13px;color:#ECEDE5;white-space:nowrap">brew tap gythialy/tap<br>brew trust gythialy/tap<br>brew install --cask fermata</code>
             <button type="button" aria-label="Copy the install command" style="display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border:1px solid #2E342F;border-radius:6px;background:#232A25;color:#A8AEA4;cursor:pointer">
               <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true" focusable="false">
                 <rect x="5.5" y="5.5" width="8" height="8" rx="1.5"></rect>
@@ -89,7 +102,7 @@ a:hover{color:#F5A08D}
 
       <figure style="margin:0">
         <div style="border:1px solid #2E342F;border-radius:12px;overflow:hidden;background:#1B211D">
-          <img src="/_blob/de65890c75038165a2aaff7ea5485ef1" alt="The mini break window: a deep pine field, the fermata mark, one suggestion, a hairline and the countdown" style="display:block;width:100%;height:auto">
+          <img src="/_blob/de65890c75038165a2aaff7ea5485ef1" alt="The mini break window: a deep pine field, a crescent moon, one suggestion, a hairline and the countdown" style="display:block;width:100%;height:auto">
         </div>
         <figcaption style="margin-top:12px;font-size:11px;line-height:18px;color:#8E938B">The mini break, drawn by the app. The field keeps its pine; the page goes quiet around it.</figcaption>
       </figure>

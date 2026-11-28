@@ -101,7 +101,7 @@ func (m *Manager) header(c *ui.Context, now time.Time, fg ui.Color) {
 	})
 }
 
-// mark draws the fermata, at any field size.
+// mark draws the moon, at any field size.
 func (m *Manager) mark(c *ui.Context, mark, dot ui.Color) {
 	box := ui.Box(c).Size(48, 48)
 	box.Draw(func(p *ui.Painter, r ui.Rect) {

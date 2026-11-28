@@ -27,7 +27,7 @@ English · [简体中文](README.zh-Hans.md)
   25 minutes, and a 15-minute long break after every four mini breaks. Both
   kinds are adjustable, and at least one stays on.
 - **A break field, not a dialog.** One window per display at 85% of the
-  screen, holding the fermata, one suggestion, a hairline that fills with the
+  screen, holding the moon, one suggestion, a hairline that fills with the
   break, the countdown, and exactly one exit — `Postpone`, then `Skip`, then
   `Finish` for a break that waits for you. `⌘X` does the same from the keyboard.
 - **Strict mode when you mean it.** No postponing, no skipping, no closing the
@@ -59,13 +59,13 @@ English · [简体中文](README.zh-Hans.md)
   <a href="docs/images/break-mini.png"><img src="docs/images/break-loop.png" width="840" alt="The break window in motion: the content settles, the hairline fills with the break, the countdown steps down, and the exit changes from Postpone to Skip"></a>
 </p>
 
-The break field, 85% of the screen: the fermata, one suggestion, a hairline that
+The break field, 85% of the screen: the moon, one suggestion, a hairline that
 fills with the break, the countdown, and one exit at a time. The loop is drawn
 by the app itself, frame by frame; click it for a still at full size.
 
 | Short break | Long break |
 |:-:|:-:|
-| <a href="docs/images/break-mini.png"><img src="docs/images/break-mini.png" width="400" alt="The short break: a deep pine field, the fermata, one suggestion, a hairline and the countdown"></a> | <a href="docs/images/break-long.png"><img src="docs/images/break-long.png" width="400" alt="The long break: a title, a sentence, a longer hairline and fifteen minutes"></a> |
+| <a href="docs/images/break-mini.png"><img src="docs/images/break-mini.png" width="400" alt="The short break: a deep pine field, the moon, one suggestion, a hairline and the countdown"></a> | <a href="docs/images/break-long.png"><img src="docs/images/break-long.png" width="400" alt="The long break: a title, a sentence, a longer hairline and fifteen minutes"></a> |
 | Five minutes, every twenty-five. | Fifteen minutes, after four mini breaks. |
 
 ### Around the app
@@ -95,6 +95,7 @@ macOS 13 or later, via [Homebrew](https://brew.sh):
 
 ```sh
 brew tap gythialy/tap
+brew trust gythialy/tap
 brew install --cask fermata
 ```
 
@@ -153,8 +154,8 @@ orchestra waits, and then goes on. The Chinese name 停琴, "the qin stops",
 comes from a line by the Southern Qi poet Xie Tiao, 《移病还园示亲属诗》:
 「停琴伫凉月，灭烛听归鸿」 — he stops the strings and stands in the cool
 moonlight, blows out the candle to listen for the returning geese. Both names
-describe one gesture, and the dot under the arc in the mark is the finger
-resting on the string.
+describe one gesture; the graphic is the cool moon from that moonlight, with
+one small point of light.
 
 ## License
 
@@ -174,7 +175,7 @@ The design, behaviour and implementation are written down. Start at the
 | [Product](https://github.com/gythialy/fermata/blob/main/docs/product.md) | Goals, scope, decisions, roadmap and the visual canvas |
 | [Functional specification](https://github.com/gythialy/fermata/blob/main/docs/functional-spec.md) | The normative behaviour rules and acceptance cases |
 | [Architecture](https://github.com/gythialy/fermata/blob/main/docs/architecture.md) | Packages, state machine, data flow, tests and build |
-| [Design system](https://github.com/gythialy/fermata/blob/main/docs/design-system.md) | Held Note v2: the mark, tokens, components and surfaces |
+| [Design system](https://github.com/gythialy/fermata/blob/main/docs/design-system.md) | Held Note v2: the moon, tokens, components and surfaces |
 | [Development](https://github.com/gythialy/fermata/blob/main/docs/development.md) | Run, build, install, test, command line, i18n, assets |
 
 Requirements, building from source and the full command line live in the

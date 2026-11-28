@@ -7,7 +7,7 @@ own design tokens and bundled fonts, so it stays in step with the product.
 |---|---|---|
 | `banner.png` | 2560×1280 (2× of 1280×640) | The README hero image |
 | `social-preview.png` | 1280×640 | Repository **Settings → Social preview** |
-| `mark.svg` | 32-unit mark, scalable | Avatars, slides, anywhere a vector mark is needed |
+| `mark.svg` | 32-unit cool-moon crescent, scalable | Avatars, slides, anywhere a vector brand graphic is needed |
 | `icon.png` | 1024×1024 | Repository avatar or organization logo |
 
 ## Regenerating

@@ -2,7 +2,7 @@
 <html lang="zh-Hans">
 <head>
 <meta charset="utf-8">
-<title>停琴 · Fermata — 一次休息，被拉长</title>
+<title>Fermata 停琴 — 休息，可以多停一会儿</title>
 <script src="./support.js"></script>
 </head>
 <body>
@@ -17,14 +17,27 @@ a:hover{color:#8F3223}
 ::selection{background:#F6D9D2;color:#171A17}
 </style>
 </helmet>
+
+<svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute;width:0;height:0;overflow:hidden">
+  <symbol id="cool-moon" viewBox="0 0 32 32">
+    <defs>
+      <mask id="cool-moon-cut">
+        <rect width="32" height="32" fill="black"></rect>
+        <circle cx="15.375" cy="15.625" r="8.5" fill="white"></circle>
+        <circle cx="19.75" cy="12.8125" r="8.0625" fill="black"></circle>
+      </mask>
+    </defs>
+    <rect width="32" height="32" fill="#1B233A" mask="url(#cool-moon-cut)"></rect>
+    <circle cx="22.8125" cy="22.1875" r="1.6875" fill="#B8432F"></circle>
+  </symbol>
+</svg>
 <div style="background:#F6F4ED;color:#171A17;font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','PingFang SC','Noto Sans SC',sans-serif;-webkit-font-smoothing:antialiased">
 
   <header style="background:#F6F4ED;border-bottom:1px solid #D6D4CA">
     <div style="max-width:1200px;margin:0 auto;padding:0 40px;height:72px;display:flex;align-items:center;justify-content:space-between">
       <a href="../" style="display:flex;align-items:center;gap:11px;color:#171A17">
         <svg width="24" height="24" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
-          <path d="M6 18C8 8.5 24 8.5 26 18" fill="none" stroke="#171A17" stroke-width="2.4" stroke-linecap="round"></path>
-          <circle cx="16" cy="25" r="2.6" fill="#B8432F"></circle>
+          <use href="#cool-moon"></use>
         </svg>
         <span style="font-family:'Spectral','Noto Serif SC','Songti SC',serif;font-weight:400;font-size:19px;letter-spacing:-.01em">Fermata</span>
         <span style="font-size:12px;color:#6B7069;letter-spacing:.02em">停琴</span>
@@ -55,19 +68,19 @@ a:hover{color:#8F3223}
       <div style="padding-top:6px">
         <div style="display:flex;align-items:center;gap:12px;font-size:10px;font-weight:500;letter-spacing:.16em;color:#6B7069">
           <span aria-hidden="true" style="width:20px;height:1px;background:#B8432F"></span>
-          macOS 菜单栏休息提醒
+          菜单栏 / 托盘里的休息提醒
         </div>
         <h1 style="margin:26px 0 0;font-family:'Spectral','Noto Serif SC','Songti SC',serif;font-weight:300;font-size:90px;line-height:112px;letter-spacing:0;color:#171A17">
-          一次休息，<br>被拉长<span style="color:#B8432F">。</span>
+          休息，可以<br>多停一会儿<span style="color:#B8432F">。</span>
         </h1>
         <p style="margin:24px 0 0;max-width:452px;font-size:16px;line-height:28px;color:#4A514A">
-          短休息与长休息按自己的节奏到来，占据屏幕几分钟，然后离开。一个进程，一个原生菜单栏图标，没有 webview。
+          短休息和长休息到点就来，把屏幕占几分钟，然后退开。只有一个进程；图标在菜单栏或托盘里，不用 webview。
         </p>
 
         <div style="margin-top:36px;max-width:452px">
           <div style="font-size:10px;font-weight:500;letter-spacing:.16em;color:#6B7069">安装</div>
           <div style="margin-top:10px;display:flex;align-items:center;justify-content:space-between;gap:12px;height:54px;padding:0 8px 0 16px;background:#EAE8DF;border:1px solid #D6D4CA;border-radius:8px">
-            <code style="font-family:'SF Mono','JetBrains Mono',monospace;font-size:13px;color:#171A17;white-space:nowrap">brew install --cask fermata</code>
+            <code style="font-family:'SF Mono','JetBrains Mono',monospace;font-size:13px;color:#171A17;white-space:nowrap">brew tap gythialy/tap<br>brew trust gythialy/tap<br>brew install --cask fermata</code>
             <button type="button" aria-label="复制安装命令" style="display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border:1px solid #D6D4CA;border-radius:6px;background:#F6F4ED;color:#3F453E;cursor:pointer">
               <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true" focusable="false">
                 <rect x="5.5" y="5.5" width="8" height="8" rx="1.5"></rect>
@@ -76,23 +89,24 @@ a:hover{color:#8F3223}
             </button>
           </div>
           <div style="margin-top:12px;display:flex;flex-wrap:wrap;gap:18px;font-size:12px;color:#5D635B">
-            <a href="https://github.com/gythialy/fermata/releases/latest/download/Fermata.dmg" style="color:#B8432F;text-decoration:underline;text-underline-offset:2px">下载 .dmg</a>
-            <span style="color:#8A8F86">自由与开源 · MIT</span>
+            <a href="https://github.com/gythialy/fermata/releases/latest/download/Fermata.dmg" style="color:#B8432F;text-decoration:underline;text-underline-offset:2px">下载 macOS 版</a>
+            <a href="https://github.com/gythialy/fermata/releases/latest" style="color:#B8432F;text-decoration:underline;text-underline-offset:2px">下载 Windows / Linux 版</a>
+            <span style="color:#8A8F86">免费开源 · MIT</span>
           </div>
         </div>
 
         <div style="margin-top:44px;padding-top:18px;border-top:1px solid #D6D4CA;display:flex;flex-wrap:wrap;gap:22px;font-size:11px;color:#6B7069">
           <span>macOS 13 或更新</span>
-          <span>一个进程，无 webview</span>
+          <span>单进程，不用 webview</span>
           <span>English · 简体中文</span>
         </div>
       </div>
 
       <figure style="margin:0">
         <div style="border:1px solid #D6D4CA;border-radius:12px;overflow:hidden;background:#EAE8DF">
-          <img src="/_blob/de65890c75038165a2aaff7ea5485ef1" alt="短休息窗口：一片深松绿的场、延长记号、一句建议、一条细线和倒计时" style="display:block;width:100%;height:auto">
+          <img src="/_blob/de65890c75038165a2aaff7ea5485ef1" alt="短休息窗口：深松绿背景，中间一枚月牙、一句话、一条进度线和倒计时。" style="display:block;width:100%;height:auto">
         </div>
-        <figcaption style="margin-top:12px;font-size:11px;line-height:18px;color:#6B7069">短休息，由应用渲染：一片场、一句建议、一个出口。</figcaption>
+        <figcaption style="margin-top:12px;font-size:11px;line-height:18px;color:#6B7069">短休息的画面是应用自己画的：一片颜色、一句话、一个按钮。</figcaption>
       </figure>
     </section>
   </main>

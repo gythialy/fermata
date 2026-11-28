@@ -16,6 +16,8 @@ var (
 	accentDark  = ui.Hex("#F0836C")
 	paper       = ui.Hex("#F3F2EA")
 	ink         = ui.Hex("#171A17")
+	moonLight   = ui.Hex("#1B233A")
+	moonDark    = ui.Hex("#F3EEE2")
 )
 
 // Apply themes the window that c builds and returns the theme.
@@ -115,43 +117,43 @@ func Deeper(field string, bg ui.Color) ui.Color {
 	return bg.Mix(ui.Hex("#000000"), 0.12)
 }
 
-// AppIcon returns the app icon's colors for an appearance: the sand field,
-// the fermata and the dot. The dark appearance warms the field instead.
-func AppIcon(dark bool) (bg, mark, dot ui.Color) {
+// AppIcon returns the cool moon's colors for an appearance: field, moon and
+// spark. Both appearances come from the icon's palette.
+func AppIcon(dark bool) (bg, moon, spark ui.Color) {
 	if dark {
-		return ui.Hex("#2A241C"), ui.Hex("#F3EEE2"), ui.Hex("#F0836C")
+		return ui.Hex("#161B2A"), moonDark, accentDark
 	}
-	return ui.Hex("#F2EAD9"), ui.Hex("#1B1A14"), ui.Hex("#C94B33")
+	return ui.Hex("#E7EAF0"), moonLight, accentLight
 }
 
-// PaintMark draws the product's fermata in r: the arc in mark, the dot in
-// dot. Small copies take a slightly bolder stroke so that the shape holds in
-// the sidebar and the welcome preview.
-func PaintMark(p *ui.Painter, r ui.Rect, mark, dot ui.Color) {
+// PaintMark draws the moon in r. Small copies shrink the cut and enlarge the
+// spark so the crescent keeps its weight in the sidebar and the previews.
+func PaintMark(p *ui.Painter, r ui.Rect, moon, spark ui.Color) {
 	side := min(r.W, r.H)
-	stroke, radius := float32(markpkg.Stroke), float32(markpkg.DotRadius)
+	cut, radius := float32(markpkg.CutRadius), float32(markpkg.SparkRadius)
 	switch {
 	case side < 24:
-		stroke, radius = 4.2, 3.6
+		cut, radius = 7.55, 2.25
 	case side < 32:
-		stroke, radius = 3.2, 3.0
+		cut, radius = 7.75, 2.05
 	case side < 64:
-		stroke, radius = 2.6, 2.9
+		cut, radius = 7.95, 1.9
 	}
-	markpkg.PaintWith(p, r, stroke, radius, mark, dot)
+	markpkg.PaintWith(p, r, cut, radius, moon, spark)
 }
 
-// PaintAppIconMark draws the app icon's mark, at any size.
-func PaintAppIconMark(p *ui.Painter, r ui.Rect, mark, dot ui.Color) {
-	PaintMark(p, r, mark, dot)
+// PaintAppIconMark draws the app icon's moon, at any size.
+func PaintAppIconMark(p *ui.Painter, r ui.Rect, moon, spark ui.Color) {
+	PaintMark(p, r, moon, spark)
 }
 
-// Mark returns the fermata's arc and dot colors for a field.
-func Mark(bg ui.Color) (arc, dot ui.Color) {
+// Mark returns ink and vermilion on a light field, paper and coral on a dark
+// one: the moon keeps contrast whatever the break field is.
+func Mark(bg ui.Color) (moon, spark ui.Color) {
 	if Luminance(bg) > 0.5 {
-		return ink, ui.Hex("#B8432F")
+		return ink, accentLight
 	}
-	return paper, ui.Hex("#F0836C")
+	return paper, accentDark
 }
 
 func fieldColor(bw settings.BreakWindow, darkAppearance bool) ui.Color {

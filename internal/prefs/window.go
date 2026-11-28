@@ -299,7 +299,7 @@ func pageHeader(c *ui.Context, t *ui.Theme, title, subtitle string) {
 	}
 }
 
-// markIcon draws the fermata at a small size, in the app icon's colors: ink
+// markIcon draws the moon at a small size, in the app icon's colors: ink
 // on paper in the light appearance, paper on ink in the dark one.
 func markIcon(c *ui.Context, size float32) {
 	_, mark, dot := theme.AppIcon(c.Theme().Dark)

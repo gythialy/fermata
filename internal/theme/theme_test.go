@@ -32,3 +32,26 @@ func TestDeeperMixesACustomField(t *testing.T) {
 		t.Errorf("Deeper(custom) = %v, want %v", got, want)
 	}
 }
+
+func TestAppIconAndMarkPalettes(t *testing.T) {
+	for _, tc := range []struct {
+		dark            bool
+		bg, moon, spark ui.Color
+	}{
+		{false, ui.Hex("#E7EAF0"), ui.Hex("#1B233A"), ui.Hex("#B8432F")},
+		{true, ui.Hex("#161B2A"), ui.Hex("#F3EEE2"), ui.Hex("#F0836C")},
+	} {
+		bg, moon, spark := AppIcon(tc.dark)
+		if bg != tc.bg || moon != tc.moon || spark != tc.spark {
+			t.Errorf("AppIcon(%v) = %v, %v, %v; want %v, %v, %v", tc.dark, bg, moon, spark, tc.bg, tc.moon, tc.spark)
+		}
+		wantMoon, wantSpark := ink, accentLight
+		if tc.dark {
+			wantMoon, wantSpark = paper, accentDark
+		}
+		gotMoon, gotSpark := Mark(bg)
+		if gotMoon != wantMoon || gotSpark != wantSpark {
+			t.Errorf("Mark(%v) = %v, %v; want %v, %v", bg, gotMoon, gotSpark, wantMoon, wantSpark)
+		}
+	}
+}

@@ -30,8 +30,13 @@
 
     <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center">
       <svg width="48" height="48" viewBox="0 0 32 32" fill="none" aria-hidden="true">
-        <path d="M6 18C8 8.5 24 8.5 26 18" stroke="#F3F2EA" stroke-width="2.6" stroke-linecap="round"/>
-        <circle cx="16" cy="25" r="2.9" fill="#F0836C"/>
+        <defs><mask id="moon-break-mini-1">
+          <rect width="32" height="32" fill="black"/>
+          <circle cx="15.375" cy="15.625" r="8.5" fill="white"/>
+          <circle cx="19.75" cy="12.8125" r="8.0625" fill="black"/>
+        </mask></defs>
+        <rect width="32" height="32" fill="#F3EEE2" mask="url(#moon-break-mini-1)"/>
+        <circle cx="22.8125" cy="22.1875" r="1.6875" fill="#F0836C"/>
       </svg>
 
       <div class="serif" style="margin-top:28px;max-width:760px;text-align:center;font-size:42px;line-height:51px;font-weight:300;letter-spacing:-.008em;color:#F3F2EA">Look out a window until your eyes relax.</div>
