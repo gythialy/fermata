@@ -1,7 +1,29 @@
-# DIRECTION — 跳过时段设置页
+# DIRECTION — Fermata UI/UX 设计画布
 
+- 2026-11-28 · v4（定稿目录三段划分；Reduce Motion 与 Switch 时长裁决）
 - 2026-11-28 · v3（Designer 评审 P0/P1/P2 修订；两张状态画板）
 - 2026-11-28 · v2（在 v1 画布的 Schedule 页新增一节）
+
+## v4 · 目录定稿与设计裁决（2026-11-28）
+
+### 目录三段划分
+
+- `project/`：只放 `canvas.json`、所有 `.dc.html` 画板与设计方向 `DIRECTION.md`（本文件）。本版本由 artifact 根 `git mv` 至此。
+- `preview/`：只放最终导出的 PNG；现有两张 `skip-periods*.png` 保持不动。
+- artifact 根：只留 `.artifact.json` 与 `.gitignore`。
+- 文本小改不重新截图；只有出现明显溢出时才修一轮。
+
+### 裁决 1 · Reduce Motion 不是「去掉所有淡入」
+
+- 休息盘：去掉位移，**无淡入**；进度线仍可每秒跳变。
+- 弹层：保留内容淡入，**不位移**；数值直接到位，不做滚动补间。
+- 已同步 `system/A11y.dc.html`（含平台验收行）、`popover/PopoverStates.dc.html` 与 `language/ShapeMotion.dc.html`；画板不再把减动效写成「位移与淡入一刀切全去掉」。
+
+### 裁决 2 · Switch 用框架默认 140 ms
+
+- `ui.Switch` 的状态切换为 **140 ms（MyGo 框架默认）**；其他控制态（hover 等）仍是 120 ms，不整体上调。
+- 与运行代码和文档一致：应用不自绘开关。休息盘退出 120 ms、进度线 900 ms linear 等无关时长保持不变。
+- 已同步 `language/Components.dc.html` 与 `language/ShapeMotion.dc.html` 的时长标签。
 
 ## v3 五格简报
 
