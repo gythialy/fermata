@@ -293,8 +293,10 @@ func TestSkipPeriodsDisabledWhenMasterOff(t *testing.T) {
 		name string
 	}{
 		{ui.RoleButton, "+ Add period"},
-		{ui.RoleTextField, "Start time"},
-		{ui.RoleTextField, "End time"},
+		{ui.RoleStepper, "Start time hours"},
+		{ui.RoleStepper, "Start time minutes"},
+		{ui.RoleStepper, "End time hours"},
+		{ui.RoleStepper, "End time minutes"},
 		{ui.RoleToggleButton, "Mon"},
 		{ui.RoleToggleButton, "Sun"},
 		{ui.RoleSwitch, "Enable 09:00 to 10:00 period"},
@@ -491,24 +493,47 @@ func TestSkipPeriodsChineseStatusCopy(t *testing.T) {
 	}
 }
 
-// TestSkipPeriodsClockDraft saves a valid edit of a time field.
-func TestSkipPeriodsClockDraft(t *testing.T) {
+// TestSkipPeriodsTimeInput saves a time chosen in the segmented field.
+func TestSkipPeriodsTimeInput(t *testing.T) {
 	w, f := newWindow(t)
 	w.section = SectionSchedule
 	f.settings.Schedule.SkipPeriodsEnabled = true
 	f.settings.Schedule.SkipPeriods = []settings.SkipPeriod{{Enabled: true, Start: "09:00", End: "10:00"}}
 	tt := ui.NewTester(w.view, 800, 720)
+	tt.SetRegion(i18n.Region{Locale: "en-GB", FirstWeekday: time.Monday, HourCycle: 24})
 	tt.Frame()
-	field := namedAccess(t, tt, ui.RoleTextField, "Start time")
-	tt.ClickAt(field.Bounds.X+field.Bounds.W/2, field.Bounds.Y+field.Bounds.H/2)
-	tt.Command("selectAll")
-	tt.Type("11:30")
+	hours := namedAccess(t, tt, ui.RoleStepper, "Start time hours")
+	press(t, tt, hours)
+	for _, key := range []ui.Key{ui.Key1, ui.Key1, ui.Key3, ui.Key0} {
+		tt.Key(0, key)
+	}
 	tt.Frame()
 	if got := f.settings.Schedule.SkipPeriods[0].Start; got != "11:30" {
 		t.Errorf("start time: %q, want 11:30", got)
 	}
 	if f.touched == 0 {
-		t.Error("editing a time did not touch the settings")
+		t.Error("choosing a time did not touch the settings")
+	}
+}
+
+// TestSkipPeriodsTimeInputKeepsEndDifferent rejects a zero-length period.
+func TestSkipPeriodsTimeInputKeepsEndDifferent(t *testing.T) {
+	w, f := newWindow(t)
+	w.section = SectionSchedule
+	f.settings.Schedule.SkipPeriodsEnabled = true
+	f.settings.Schedule.SkipPeriods = []settings.SkipPeriod{{Enabled: true, Start: "09:00", End: "10:00"}}
+	tt := ui.NewTester(w.view, 800, 720)
+	tt.SetRegion(i18n.Region{Locale: "en-GB", FirstWeekday: time.Monday, HourCycle: 24})
+	tt.Frame()
+	hours := namedAccess(t, tt, ui.RoleStepper, "End time hours")
+	press(t, tt, hours)
+	tt.Key(0, ui.KeyDown)
+	tt.Frame()
+	if got := f.settings.Schedule.SkipPeriods[0].End; got != "10:00" {
+		t.Errorf("end time: %q, want 10:00", got)
+	}
+	if f.touched != 0 {
+		t.Error("a zero-length period touched the settings")
 	}
 }
 

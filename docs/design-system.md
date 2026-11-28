@@ -510,8 +510,8 @@ The page uses a **two-column** layout (Mini breaks / Long breaks) so the two rhy
 - When only long breaks are on, `Every` becomes a minute Stepper (10–120 minutes, default 100), and the summary reads `15 min every 100 min`.
 - The `Break health` group sits below strict mode: one switch row plus `A vermilion edge when breaks are often postponed or skipped.`
 - The `Skip periods` group sits below `Break health`: title `Skip periods`, help `Breaks pause during these periods and restart afterwards.`; a right-aligned `Enable` Switch (`Enable skip periods`) is the master switch, off by default. `+ Add period` sits under it and stops at four periods.
-- With the master switch off the rows stay visible but are disabled: clock inputs, weekday dots, row switches, `Remove` and `+ Add period` do not respond; saved periods are kept for when it is switched back on.
-- One period row: start and end `HH:MM` inputs, a seven-dot weekday picker (`Mon` to `Sun`), an inline Switch and a `Remove` text button; a new row starts at `09:00`–`10:00`, enabled. An empty day set reads `Every day`; picking a day narrows it, and picking all seven returns to `Every day`. An end earlier than the start reads `From {start} on the start day · until {end} the next day`.
+- With the master switch off the rows stay visible but are disabled: time fields, weekday dots, row switches, `Remove` and `+ Add period` do not respond; saved periods are kept for when it is switched back on.
+- One period row: start and end segmented time fields, a seven-dot weekday picker (`Mon` to `Sun`), an inline Switch and a `Remove` text button; a new row starts at `09:00`–`10:00`, enabled. Clicking a segment selects the hours or minutes; Up/Down steps it, digits type it, Left/Right moves between segments, and a 12-hour region adds an AM/PM segment. The two ends cannot be set to the same time. An empty day set reads `Every day`; picking a day narrows it, and picking all seven returns to `Every day`. An end earlier than the start reads `From {start} on the start day · until {end} the next day`.
 - A status line closes the group: title left, muted hint right. Four states:
 
 | State | Title | Hint |

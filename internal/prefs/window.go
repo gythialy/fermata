@@ -61,6 +61,7 @@ type Options struct {
 // Window is the one settings window of the app.
 type Window struct {
 	texts     map[string]*string
+	times     map[string]*time.Time
 	opts      Options
 	win       *mygo.Window
 	section   string
