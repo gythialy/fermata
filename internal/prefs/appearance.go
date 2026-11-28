@@ -275,7 +275,7 @@ func fieldName(name string) string {
 	}
 }
 
-// previewMark draws the fermata small, as the preview shows it.
+// previewMark draws the moon small, as the preview shows it.
 func previewMark(c *ui.Context, mark, dot ui.Color) {
 	box := ui.Box(c).Size(30, 30)
 	box.Draw(func(p *ui.Painter, r ui.Rect) {

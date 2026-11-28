@@ -766,11 +766,11 @@ func (msgs Messages) SettingsTrayIcon() string {
 	return Catalog.Format(msgs.locale, "settingsTrayIcon", nil)
 }
 
-// StyleMark says "Mark"
+// StyleMark says "Moon"
 // in the language the app shows.
 func StyleMark() string { return In(i18n.Locale()).StyleMark() }
 
-// StyleMark says "Mark"
+// StyleMark says "Moon"
 // in the language of msgs.
 func (msgs Messages) StyleMark() string {
 	return Catalog.Format(msgs.locale, "styleMark", nil)

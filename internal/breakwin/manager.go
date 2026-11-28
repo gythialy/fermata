@@ -1,4 +1,4 @@
-// Package breakwin shows a break: one window per display, the fermata on the
+// Package breakwin shows a break: one window per display, the moon on the
 // field, the suggestion, the countdown and one exit.
 package breakwin
 

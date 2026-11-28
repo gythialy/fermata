@@ -46,13 +46,49 @@ func TestMark(t *testing.T) {
 	if got := ink(t, img); got < 40 {
 		t.Errorf("only %d pixels of ink", got)
 	}
-	// The dot of the fermata sits under the arc, at (9, 14.5) of 18.
-	if pixelAlpha(img, 18, 29) < 200 {
-		t.Error("no dot")
+	// The spark of the moon sits at (22.8125, 22.1875) of the 32-unit
+	// canvas, mapped into the 16 pt optical box: pixel (25, 24) at 36 px.
+	if pixelAlpha(img, 25, 24) < 200 {
+		t.Error("no spark")
 	}
-	// Transparent above the arc.
+	// Transparent above the moon.
 	if pixelAlpha(img, 18, 2) != 0 {
 		t.Error("ink above the mark")
+	}
+}
+
+func TestTemplatePixels(t *testing.T) {
+	states := map[string][]byte{
+		"mark":   Mark(36),
+		"paused": Paused(36),
+		"ring":   Ring(36, 1),
+	}
+	for name, data := range states {
+		img := decode(t, data, 36)
+		for y := range 36 {
+			for x := range 36 {
+				c := color.NRGBAModel.Convert(img.At(x, y)).(color.NRGBA)
+				if c.A > 0 && (c.R != 0 || c.G != 0 || c.B != 0) {
+					t.Fatalf("%s at %d,%d is not black with alpha: %+v", name, x, y, c)
+				}
+			}
+		}
+	}
+}
+
+func TestMarkPadding(t *testing.T) {
+	img := decode(t, Mark(36), 36)
+	minX, minY, maxX, maxY := 36, 36, -1, -1
+	for y := range 36 {
+		for x := range 36 {
+			if pixelAlpha(img, x, y) > 0 {
+				minX, minY = min(minX, x), min(minY, y)
+				maxX, maxY = max(maxX, x), max(maxY, y)
+			}
+		}
+	}
+	if minX < 2 || minY < 2 || maxX > 33 || maxY > 33 {
+		t.Errorf("ink bbox %d,%d–%d,%d needs 2 px padding in a 36 px template", minX, minY, maxX, maxY)
 	}
 }
 

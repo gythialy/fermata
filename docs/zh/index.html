@@ -3,16 +3,16 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Fermata 停琴 — macOS / Windows / Linux 休息提醒</title>
-<meta name="description" content="Fermata（停琴）是一款 macOS、Windows 与 Linux 上的休息提醒。短休息与长休息按自己的节奏到来，占据屏幕几分钟，然后离开。一个进程，没有 webview，自由与开源。">
+<title>Fermata 停琴 · macOS / Windows / Linux 休息提醒</title>
+<meta name="description" content="Fermata（停琴）是 macOS、Windows、Linux 上的休息提醒。到点了，它占住屏幕几分钟，然后自己退开。只有一个进程，不用 webview，免费开源。">
 <link rel="canonical" href="https://gythialy.github.io/fermata/zh/">
 <link rel="alternate" hreflang="en" href="https://gythialy.github.io/fermata/">
 <link rel="alternate" hreflang="zh-Hans" href="https://gythialy.github.io/fermata/zh/">
 <meta name="theme-color" content="#f6f4ed" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#121513" media="(prefers-color-scheme: dark)">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Fermata 停琴 — 一次休息，被拉长">
-<meta property="og:description" content="菜单栏与系统托盘里的休息提醒：短休息与长休息按自己的节奏到来，一片场、一句建议、一个出口，macOS、Windows、Linux 通用。">
+<meta property="og:title" content="Fermata 停琴 — 休息，可以多停一会儿">
+<meta property="og:description" content="菜单栏和托盘里的休息提醒。到点了，整块屏幕只有一种颜色、一句话、一个按钮。macOS、Windows、Linux 都能用。">
 <meta property="og:url" content="https://gythialy.github.io/fermata/zh/">
 <meta property="og:image" content="https://raw.githubusercontent.com/gythialy/fermata/main/.github/assets/social-preview.png">
 <meta name="twitter:card" content="summary_large_image">
@@ -52,12 +52,25 @@
 <a class="skip" href="#main">跳到正文</a>
 <span id="copied-live" class="sr-only" aria-live="polite"></span>
 
+<svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute;width:0;height:0;overflow:hidden">
+  <symbol id="cool-moon" viewBox="0 0 32 32">
+    <defs>
+      <mask id="cool-moon-cut">
+        <rect width="32" height="32" fill="black"></rect>
+        <circle cx="15.375" cy="15.625" r="8.5" fill="white"></circle>
+        <circle cx="19.75" cy="12.8125" r="8.0625" fill="black"></circle>
+      </mask>
+    </defs>
+    <rect width="32" height="32" fill="var(--moon-ink)" mask="url(#cool-moon-cut)"></rect>
+    <circle cx="22.8125" cy="22.1875" r="1.6875" fill="var(--accent)"></circle>
+  </symbol>
+</svg>
+
 <header class="site-header">
   <div class="nav">
     <a class="brand" href="../">
       <svg width="24" height="24" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
-        <path d="M6 18C8 8.5 24 8.5 26 18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"></path>
-        <circle cx="16" cy="25" r="2.6" style="fill:var(--accent)"></circle>
+        <use href="#cool-moon"></use>
       </svg>
       <span class="word">Fermata</span>
       <span class="cn">停琴</span>
@@ -91,17 +104,17 @@
   <div class="wrap">
     <section class="hero">
       <div class="hero-copy">
-        <p class="eyebrow">菜单栏与系统托盘里的休息提醒</p>
-        <h1 class="display">一次休息，<br>被拉长<span class="dot">。</span></h1>
+        <p class="eyebrow">菜单栏 / 托盘里的休息提醒</p>
+        <h1 class="display">休息，可以<br>多停一会儿<span class="dot">。</span></h1>
         <p class="lede">
-          短休息与长休息按自己的节奏到来，占据屏幕几分钟，然后离开。一个进程，一个原生菜单栏图标，没有 webview。
+          短休息和长休息都会按时来。到点了，它占住屏幕几分钟，然后悄悄退开。整个应用只有一个进程，图标待在菜单栏或托盘里，也不用 webview。
         </p>
 
         <div class="install">
           <div class="caption">安装</div>
           <div class="codebox">
-            <code>brew install --cask fermata</code>
-            <button type="button" class="copy" data-copy="brew install --cask fermata" data-copied-label="已复制" aria-label="复制安装命令">
+            <code>brew tap gythialy/tap<br>brew trust gythialy/tap<br>brew install --cask fermata</code>
+            <button type="button" class="copy" data-copy="brew tap gythialy/tap&#10;brew trust gythialy/tap&#10;brew install --cask fermata" data-copied-label="已复制" aria-label="复制安装命令">
               <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true" focusable="false">
                 <rect x="5.5" y="5.5" width="8" height="8" rx="1.5"></rect>
                 <path d="M10.5 5.5V3.5a1 1 0 0 0-1-1h-6a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2"></path>
@@ -110,27 +123,27 @@
           </div>
           <div class="link-row">
             <a href="https://github.com/gythialy/fermata/releases/latest">下载 macOS 版</a>
-            <a href="https://github.com/gythialy/fermata/releases/latest">Windows 与 Linux</a>
-            <span>自由与开源 · MIT</span>
+            <a href="https://github.com/gythialy/fermata/releases/latest">下载 Windows / Linux 版</a>
+            <span>免费开源 · MIT</span>
           </div>
         </div>
 
         <div class="meta">
           <span>macOS 13 或更新</span>
-          <span>一个进程，无 webview</span>
+          <span>单进程，不用 webview</span>
           <span>English · 简体中文</span>
         </div>
       </div>
 
       <figure>
         <div class="frame">
-          <video class="loop" width="2400" height="1600" autoplay muted playsinline preload="metadata" poster="../images/zh-Hans/break-mini.png" aria-label="休息窗动图：内容落定，发丝线随休息推进，倒计时逐秒减少，出口从「延迟」变为「跳过」">
+          <video class="loop" width="2400" height="1600" autoplay muted playsinline preload="metadata" poster="../images/zh-Hans/break-mini.png" aria-label="休息窗动画：文字先出现，细线一点点走完，倒计时往下走，按钮从「推迟」变成「跳过」。">
             <source src="../images/zh-Hans/break-loop.webm" type="video/webm">
             <source src="../images/zh-Hans/break-loop.mp4" type="video/mp4">
           </video>
-          <img class="still" src="../images/zh-Hans/break-mini.png" width="2400" height="1600" alt="短休息窗口：一片深松绿的场、延长记号、一句建议、一条细线和倒计时">
+          <img class="still" src="../images/zh-Hans/break-mini.png" width="2400" height="1600" alt="短休息窗口：深松绿背景，中间一枚月牙、一句话、一条进度线和倒计时。">
         </div>
-        <figcaption>短休息，由应用渲染：一片场、一句建议、一个出口。</figcaption>
+        <figcaption>短休息长这样：整屏一种颜色、一句话、一个按钮，都是应用自己画的。</figcaption>
       </figure>
     </section>
   </div>
@@ -140,18 +153,17 @@
       <div>
         <div class="caption">名字</div>
         <svg class="mark-lg" width="108" height="108" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
-          <path d="M6 18C8 8.5 24 8.5 26 18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
-          <circle cx="16" cy="25" r="1.9" style="fill:var(--accent)"></circle>
+          <use href="#cool-moon"></use>
         </svg>
       </div>
       <div>
-        <h2>一个被延长的音符。</h2>
+        <h2>一个音，停得久一点。</h2>
         <p class="lede-wide">
-          Fermata 是乐谱上让一个音延续得比记谱更长的记号：乐队等着，然后继续。停琴，来自南朝诗人谢朓的一句诗。两个名字说的是同一个动作，记号也带着它：弧线是延长记号，下面的一点是按在弦上的指。
+          Fermata 是乐谱里的延长记号，让一个音比写出来的时值停得更长。乐队等一等，再接着往下走。中文名「停琴」来自谢朓的诗，说的也是停下来的那一刻。图标里的月牙取自诗中的凉月——琴放下了，人就站一会儿。
         </p>
         <blockquote>
           <div class="quote">「停琴伫凉月，灭烛听归鸿」</div>
-          <div class="tr">停下手里的琴，站在凉月里，吹灭蜡烛，听归来的雁。</div>
+          <div class="tr">把琴放下，在凉月下站一会儿。吹灭蜡烛，听大雁飞回来。</div>
           <div class="src">谢朓 《移病还园示亲属诗》</div>
         </blockquote>
       </div>
@@ -171,7 +183,7 @@
       </div>
       <div class="field-foot">
         <span class="exit">推迟 <span class="key">⌘X</span></span>
-        <span class="field-note">每块屏幕一个窗口，占屏幕 85%。可以推迟、跳过，或者等它结束。</span>
+        <span class="field-note">每块屏幕各开一个窗口，占 85% 的画面。可以推迟、跳过，也可以让它自己走完。</span>
       </div>
     </div>
   </section>
@@ -181,7 +193,7 @@
       <div class="caption">节奏</div>
       <h2>25 / 5，四次之后 15。</h2>
       <p class="lede-wide">
-        默认番茄钟：每 25 分钟一次 5 分钟短休息，每四次短休息之后一次 15 分钟长休息。两种都可以调整，至少保留一种。
+        默认是番茄钟：工作 25 分钟，休息 5 分钟。四次短休息之后，换一次 15 分钟的长休息。时长都能改，但至少留一种。
       </p>
       <div class="timeline">
         <div class="tl" role="img" aria-label="时间线：四段 25 分钟的工作，每段之后一次 5 分钟短休息，最后是一次 15 分钟长休息">
@@ -194,7 +206,7 @@
           <div class="seg work" style="flex:25 1 0"><span class="n">25</span><span class="l">工作</span></div>
           <div class="seg long" style="flex:15 1 0"><span class="n">15</span><span class="l">长休</span></div>
         </div>
-        <div class="tl-note">四次短休息之后是一次长休息；两种时长都能调整。</div>
+        <div class="tl-note">四次短休息，换一次 15 分钟长休息。时长都可以改。</div>
       </div>
     </div>
   </section>
@@ -202,37 +214,37 @@
   <section class="section rule" id="features">
     <div class="wrap">
       <div class="caption">它做什么</div>
-      <h2>安静，但不缺席。</h2>
+      <h2>平时不打扰，到点才出现。</h2>
       <div class="features">
         <article class="feature">
           <div class="idx">01</div>
-          <h3>一片场，不是对话框</h3>
-          <p>每块屏幕一个窗口，占 85%：延长记号、一句建议、一条随休息推进的细线，和一个出口。</p>
+          <h3>是一片颜色，不是弹窗</h3>
+          <p>每块屏幕一个窗口，占 85% 的画面。里面有一枚月牙、一句话、一条进度线，还有一个按钮。</p>
         </article>
         <article class="feature">
           <div class="idx">02</div>
-          <h3>认真起来，就有严格模式</h3>
-          <p>不能推迟、不能跳过、不能关掉窗口；休息结束前应用拒绝退出。锁屏也会结束这次休息。</p>
+          <h3>需要严格时，可以锁住</h3>
+          <p>打开严格模式，就不能推迟、跳过，也不能关掉窗口。休息没结束，应用不会退出；锁屏了，这次休息照样算结束。</p>
         </article>
         <article class="feature">
           <div class="idx">03</div>
-          <h3>会看时机的暂停</h3>
-          <p>30 分钟、1 小时、到明早，或者一直暂停。也会自己暂停：离开、专注模式、锁屏，以及你排除的应用。</p>
+          <h3>会自己挑时候暂停</h3>
+          <p>想停久一点，可以选 30 分钟、1 小时、到明早，或者干脆一直停。你离开电脑、开着专注模式、锁了屏，或者打开了排除列表中的应用，它也会自己暂停。</p>
         </article>
         <article class="feature">
           <div class="idx">04</div>
-          <h3>到点的休息会等</h3>
-          <p>全屏应用最多让它等一小时；打字最多等 30 秒。开始后仍是完整的时长。</p>
+          <h3>到点也会等你一下</h3>
+          <p>你在全屏应用里，它最多等一小时；你在打字，最多等 30 秒。等完了，休息还是完整的时长。</p>
         </article>
         <article class="feature">
           <div class="idx">05</div>
-          <h3>安静地待在设置里</h3>
-          <p>通用、日程、外观、关于。中文或 English、登录时启动、菜单栏样式、场的颜色、声音、排除的应用。</p>
+          <h3>设置也不吵</h3>
+          <p>设置分通用、日程、外观、关于四页。语言、开机启动、菜单栏样式、休息背景色、声音和排除的应用，都在里面。</p>
         </article>
         <article class="feature">
           <div class="idx">06</div>
-          <h3>对机器很轻</h3>
-          <p>一个 Go 进程、一个原生菜单栏图标，没有 webview。空闲 CPU 接近零，也不常驻内存。</p>
+          <h3>不吃多少资源</h3>
+          <p>一个 Go 进程、一个系统原生图标，不用 webview。闲着时几乎不占 CPU，内存也用得少。</p>
         </article>
       </div>
     </div>
@@ -241,7 +253,7 @@
   <section class="section rule tint" id="screenshots">
     <div class="wrap">
       <div class="caption">应用里的样子</div>
-      <h2>每一面，同一只手。</h2>
+      <h2>每个界面，都是同一套设计。</h2>
       <div class="gallery">
         <figure class="shot">
           <div class="mat"><img src="../images/zh-Hans/popover.png" width="640" height="720" loading="lazy" alt="状态弹窗：下一次休息的倒计时和快捷操作"></div>
@@ -249,15 +261,15 @@
         </figure>
         <figure class="shot">
           <div class="mat"><img src="../images/zh-Hans/welcome.png" width="1600" height="1080" loading="lazy" alt="首次启动窗口，带一份休息的真实预览"></div>
-          <figcaption>首次启动：一个决定，一份真实预览。</figcaption>
+          <figcaption>第一次打开：先选语言，再看一眼休息长什么样。</figcaption>
         </figure>
         <figure class="shot">
           <div class="mat"><img src="../images/zh-Hans/settings-general.png" width="1600" height="1440" loading="lazy" alt="通用设置：日程、登录时启动和语言"></div>
-          <figcaption>通用设置，桌面密度。</figcaption>
+          <figcaption>通用设置，桌面尺寸。</figcaption>
         </figure>
         <figure class="shot">
           <div class="mat"><img src="../images/zh-Hans/settings-appearance.png" width="1600" height="1440" loading="lazy" alt="外观设置：场的颜色、透明度和菜单栏样式"></div>
-          <figcaption>外观：场的颜色与菜单栏样式。</figcaption>
+          <figcaption>外观：休息背景色、菜单栏样式。</figcaption>
         </figure>
       </div>
     </div>
@@ -267,9 +279,9 @@
     <div class="wrap install-sec">
       <div>
         <div class="caption">安装</div>
-        <h2>macOS 上一行命令，<br>其余系统一个包。</h2>
+        <h2>macOS 用三条命令，<br>其他系统下载安装包。</h2>
         <p class="lede-wide">
-          macOS 用 Homebrew 或磁盘映像；Windows 用安装器或免安装 zip；Linux 用 .deb、.rpm、带 <code>install.sh</code> 的 tarball 或 PKGBUILD。macOS 版是 ad-hoc 签名、未公证，Windows 版尚未签名，首次运行 SmartScreen 会问一次。
+          macOS：Homebrew 或 .dmg。Windows：安装器，或者解压就能用的 zip。Linux：.deb、.rpm、带 <code>install.sh</code> 的压缩包，或 PKGBUILD。macOS 版是 ad-hoc 签名，没做公证；Windows 版还没签名，第一次运行时 SmartScreen 会拦一下。
         </p>
         <div class="meta" style="margin-top:28px;border-top:0;padding-top:0">
           <span>macOS 13+ · Windows 11 · Linux</span>
@@ -279,8 +291,8 @@
       </div>
       <div>
         <div class="codeblock">
-          <code>brew tap gythialy/tap<br>brew install --cask fermata</code>
-          <button type="button" class="copy" data-copy="brew tap gythialy/tap&#10;brew install --cask fermata" data-copied-label="已复制" aria-label="复制安装命令">
+          <code>brew tap gythialy/tap<br>brew trust gythialy/tap<br>brew install --cask fermata</code>
+          <button type="button" class="copy" data-copy="brew tap gythialy/tap&#10;brew trust gythialy/tap&#10;brew install --cask fermata" data-copied-label="已复制" aria-label="复制安装命令">
             <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true" focusable="false">
               <rect x="5.5" y="5.5" width="8" height="8" rx="1.5"></rect>
               <path d="M10.5 5.5V3.5a1 1 0 0 0-1-1h-6a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2"></path>
@@ -289,10 +301,10 @@
         </div>
         <div class="link-row">
           <a href="https://github.com/gythialy/fermata/releases/latest">下载 macOS 版</a>
-          <a href="https://github.com/gythialy/fermata/releases/latest">Windows 与 Linux</a>
+          <a href="https://github.com/gythialy/fermata/releases/latest">下载 Windows / Linux 版</a>
           <a href="https://github.com/gythialy/fermata/releases">GitHub Releases</a>
         </div>
-        <p class="small-note">Windows：<code>fermata-<version>-windows-amd64-setup.exe</code>，或免安装 zip；首次运行选「更多信息 → 仍要运行」。Linux：.deb、.rpm、带 <code>install.sh</code> 的 tarball，或 PKGBUILD；需要 GTK 3 与 AppIndicator。</p>
+        <p class="small-note">Windows：<code>fermata-<version>-windows-amd64-setup.exe</code>，或者免安装 zip；第一次运行点「更多信息 → 仍要运行」。Linux：.deb、.rpm、带 <code>install.sh</code> 的压缩包，或 PKGBUILD；还需要 GTK 3 和 AppIndicator。</p>
         <p class="small-note">更新：<code>brew upgrade --cask fermata</code>。</p>
       </div>
     </div>
@@ -303,8 +315,7 @@
   <div class="footer-top">
     <div class="footer-brand">
       <svg width="28" height="28" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
-        <path d="M6 18C8 8.5 24 8.5 26 18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"></path>
-        <circle cx="16" cy="25" r="2.4" style="fill:var(--accent)"></circle>
+        <use href="#cool-moon"></use>
       </svg>
       <div>
         <div class="word">Fermata <span class="cn">停琴</span></div>

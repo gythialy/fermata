@@ -1,6 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 32 32" role="img" aria-label="Fermata mark">
-  <title>Fermata mark</title>
-  <path d="M 6 18 C 8 8.5, 24 8.5, 26 18" stroke="#171A17" stroke-width="2.4" stroke-linecap="round" fill="none"/>
-  <circle cx="16" cy="25" r="2.6" fill="#B8432F"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 32 32" role="img" aria-label="Fermata moon mark">
+  <title>Fermata moon mark</title>
+  <defs>
+    <style>
+      .moon { fill: #1B233A }
+      .spark { fill: #B8432F }
+      @media (prefers-color-scheme: dark) {
+        .moon { fill: #F3EEE2 }
+        .spark { fill: #F0836C }
+      }
+    </style>
+    <mask id="cool-moon-cut">
+      <rect width="32" height="32" fill="black"/>
+      <circle cx="15.375" cy="15.625" r="8.5" fill="white"/>
+      <circle cx="19.75" cy="12.8125" r="8.0625" fill="black"/>
+    </mask>
+  </defs>
+  <rect class="moon" width="32" height="32" mask="url(#cool-moon-cut)"/>
+  <circle class="spark" cx="22.8125" cy="22.1875" r="1.6875"/>
 </svg>

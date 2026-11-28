@@ -27,8 +27,9 @@ poet Xie Tiao in 《移病还园示亲属诗》: 「停琴伫凉月，灭烛听�
 stops the strings and stands in the cool moonlight, blows out the candle to
 hear the returning geese.
 
-The two names describe the same pause, and the mark carries it: the arc is the
-fermata, the dot beneath is the finger resting on the string.
+The two names describe the same pause. The graphic does not draw a fermata
+sign: it is the cool-moon crescent from the poem's 凉月, with one small point
+of light — the same shape in the menu bar, the break window and the desktop icon.
 
 Three moments carry the product:
 
@@ -39,7 +40,7 @@ Three moments carry the product:
 | First run | Persuade | One page, one decision, a real preview |
 
 The one-sentence design stance: **a break is a note held longer.** No clock
-faces, breathing circles, clouds, streaks or badges — one fermata, one field,
+faces, breathing circles, clouds, streaks or badges — one moon, one field,
 one exit.
 
 ## 2. Goals
@@ -122,9 +123,9 @@ implementation choices (A1–A10) follow in §6.1.
 | D3 | Ship the P0 scope first | P1/P2 stay visible in §5 rather than creeping into v1 |
 | D4 | No Apple Developer account | Ad-hoc signing; the user confirms the first launch; no notarization |
 | D5 | Repository `github.com/gythialy/fermata` | Module path, update endpoint and About links follow it |
-| D6 | Design direction *Held Note v2* | Paper and ink, one vermilion signal, Material 3 tokens as structure only, platform shells native |
+| D6 | Design direction *Held Note v2* | Paper and ink, one cool-moon crescent and one vermilion signal, Material 3 tokens as structure only, platform shells native |
 | D7 | One owner per document | Behaviour → functional spec; visuals → design system; structure → architecture; scope → this document |
-| D8 | One graphic asset: the fermata | App icon, menu bar, break window, welcome, sidebar and About share one geometry (`internal/mark`); no hourglass |
+| D8 | One graphic asset across the product: the cool moon | Menu bar, break window, welcome, sidebar, About and desktop icon share one geometry (`internal/mark`); no separate desktop moon or in-app fermata arc |
 | D9 | Bundle the break serif | Spectral (Latin) + Noto Serif SC subset (Han), OFL; UI stays on the system sans; coverage is tested |
 | D10 | Respect the system text scale | `theme.Px` applies it to UI text, capped at 1.5; the scale preview is exempt |
 | D11 | English name *Fermata*, Chinese 停琴 | Bundle `dev.gythialy.fermata`, module `github.com/gythialy/fermata` |
@@ -200,7 +201,7 @@ on-device verification, not unimplemented scope.
 | No Developer ID | Ad-hoc signing plus install notes | Accepted |
 | Timer drift across sleep | Monotonic clock, wake events, 2-second lateness threshold; never replay a missed break | Handled by design |
 | Notifications denied | Log, do not block, explain in settings; no pre-query | Handled by design |
-| The mark at 18 px loses legibility | Optical sizes in the design system; menu bar template checked at 1× and 2× | On-device check pending |
+| The moon at 18 pt loses legibility | The same 32-unit crescent at every size; the black-with-alpha menu bar template (36 px at 2×) is checked on device | On-device check pending |
 | Fonts and Han fallback | Bundled subsets with a coverage test; no runtime download | Done |
 | The break window can steal focus | `Panel` + `ShowInactive`; on-device check | Open |
 | Windows/Linux platform gaps (tray title, panel focus, Wayland, DND) | Same stack builds; adapt per platform and verify on hardware before promising a release | Deferred to M5 |
@@ -214,7 +215,7 @@ is cut by pushing a `v*` tag: GitHub Actions injects that version, runs the
 checks, builds the universal ad-hoc DMG and attaches it to the release with a
 `SHA256SUMS` file. The update check reads `releases/latest` and never installs
 anything. Homebrew users install through `gythialy/homebrew-tap`
-(`brew tap gythialy/tap`, then `brew install --cask fermata`); that tap also
+(`brew tap gythialy/tap`, `brew trust gythialy/tap`, then `brew install --cask fermata`); that tap also
 carries exDesktop and refreshes both casks from the latest upstream releases.
 See [development.md](development.md) for the commands.
 

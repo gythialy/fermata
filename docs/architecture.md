@@ -188,7 +188,7 @@ fermata/
     ├── welcome/       window (one page, one decision)
     ├── popover/       the flyout's view (the window belongs to the app)
     ├── tray/          tray, menu
-    ├── trayicon/      runtime-drawn mark, pause bars, progress ring, cache
+    ├── trayicon/      runtime-drawn moon template, pause bars, progress ring, cache
     ├── status/        state → tray words, pure
     ├── savedstate/    schedule.json across a quick restart
     ├── notify/        system notifications, one at a time
@@ -196,7 +196,7 @@ fermata/
     ├── ideas/         embedded suggestion decks, shuffle bags
     ├── cli/           argument and duration parsing, help, version
     ├── theme/         Held Note theme, field colors, font stacks, text scale
-    ├── mark/          the fermata: one geometry for every surface
+    ├── mark/          the cool-moon crescent: one geometry for every surface
     ├── icons/         drawn glyphs on a 16-unit grid
     ├── fonts/         embedded Spectral + Noto Serif SC subsets
     ├── units/         duration wording for steppers and summaries
@@ -821,8 +821,8 @@ back to a fresh `Reset` if not.
 
 ## 10. Break windows
 
-`internal/breakwin` shows the break: one window per display, the fermata on the field, one
-suggestion, a hairline that fills, the countdown and exactly one exit.
+`internal/breakwin` shows the break: one window per display, the cool-moon crescent on the field,
+one suggestion, a hairline that fills, the countdown and exactly one exit.
 
 ### 10.1 Targets and geometry
 
@@ -898,7 +898,7 @@ object, and it never calls the planner.
 |---|---|---|
 | Padding | 48 left/right, 48 top, 64 bottom | same |
 | Header | label at 11 pt, letter-spacing 1.5, 55% opacity (`MINI BREAK`, `STRICT LONG BREAK`, …); time of day at the right when `showCurrentTime` | same |
-| Mark | the fermata at 48×48 (`theme.PaintMark`) | same |
+| Moon | the cool-moon crescent at 48×48 (`theme.PaintMark`) | same |
 | Suggestion | one sentence, serif, 42/51 pt (38/46 below 1280 DIP wide), max width 780, up to 4 lines | title 50/57 pt (46/53), max 820, 2 lines; text 26/36 pt, max 680, 3 lines |
 | Han text | +2 pt, line height ×1.25, no negative tracking | same |
 | Hairline | 280 pt wide, 1 pt tall, track 25% opacity, fill 85%, animated to the elapsed share over 900 ms | 360 pt wide |
@@ -940,7 +940,7 @@ One window, created on first use: 800×720, minimum 760×560, `StateKey: "prefer
 (position and size survive relaunch), hidden title bar on macOS, a native one elsewhere,
 scrollable content, `theme.Apply` per frame.
 
-Layout: a 208 DIP sidebar and a content column capped at 592 DIP. The sidebar holds the mark,
+Layout: a 208 DIP sidebar and a content column capped at 592 DIP. The sidebar holds the moon,
 the app name and four rows (`general`, `schedule`, `appearance`, `about`), drawn as 32 DIP
 `ButtonBase` rows with selected and hover states and real accessible names — no icons, no
 `ui.Sidebar`. The hidden title bar still needs dragging, so an absolute strip across the top
@@ -996,11 +996,11 @@ One page, one decision, a real preview — shown only while `isFirstRun` is true
 
 - 800×540, fixed size, hidden title bar, created hidden then shown and focused. Closing it is
   the same decision as *Start*.
-- Left: a 320 DIP preview of the break field in the chosen field color — label, mark, one
+- Left: a 320 DIP preview of the break field in the chosen field color — label, moon, one
   suggestion in the serif, hairline, countdown, exit hint. It is the break window's
   composition drawn by `internal/welcome`, not `breakwin.view` at another size: different
   padding, its own type sizes, no live countdown.
-- Right: mark and name, tagline, the rhythm the current settings make (mini duration and
+- Right: moon and name, tagline, the rhythm the current settings make (mini duration and
   interval, long duration and "after every Nth"), a language select, a start-at-login switch,
   *Start* (primary), *Open settings*, the closing hint, and the line that says where the app
   lives — "menu bar" on macOS, "system tray" elsewhere.
@@ -1040,7 +1040,7 @@ Right-click still opens the classic menu.
 | `Breaking` / `ManualAwait`, not strict | none: the break window owns the exit |
 | any strict break | none, and no settings footer |
 
-- The header carries the mark, the state's name in small caps (`MINI BREAK · IN PROGRESS`,
+- The header carries the moon, the state's name in small caps (`MINI BREAK · IN PROGRESS`,
   `STRICT · MINI BREAK`, `PAUSED`) and two icon buttons: menu (opens the tray menu where a
   right click may not reach the icon) and close. Icon buttons are 22 DIP with 12 DIP glyphs
   and real labels and tooltips, because a panel that never takes the keyboard is otherwise
@@ -1060,12 +1060,14 @@ progress:
 
 | Style | Icon | Title |
 |---|---|---|
-| `mark` (default) | the fermata | none |
-| `time` | the fermata | minutes to the next break, `0m`–`99m`; `0m` while a break runs |
+| `mark` (default) | the cool-moon crescent | none |
+| `time` | the moon | minutes to the next break, `0m`–`99m`; `0m` while a break runs |
 | `progress` | a ring filled to the wait's share | none |
 | paused (any style) | two bars | none |
 
-The title is written only in the `time` style, and only on macOS. Icons and titles are
+The icon is a black-with-alpha crescent-and-point template (36 px = 18 pt at 2×);
+the system tints it for light, dark and selected states. The title is written only in the `time`
+style, and only on macOS. Icons and titles are
 compared with their last value (`IconKey`, the title string), so an unchanged state never
 touches the tray. The tooltip is the app name, the status line and, when there is one, the
 detail line.
@@ -1161,7 +1163,7 @@ by the app (for `fermata last`), so rebuilding a window never changes the sugges
   their strings per frame and never cache a translation.
 - Tests compare the catalogs key by key, including placeholder sets and plural forms.
 
-### 15.5 Fonts, glyphs, the mark and the theme
+### 15.5 Fonts, glyphs, the moon and the theme
 
 - **Fonts.** `internal/fonts` embeds four faces — Spectral Light/Regular and a Noto Serif SC
   Light/Regular subset — and registers them with `ui.RegisterFont` once per process. The
@@ -1173,13 +1175,17 @@ by the app (for `fermata last`), so rebuilding a window never changes the sugges
   `theme.Px(c, v)` scales a size and rounds to half a point. Views pass every size and line
   height through it and use `FixedLineHeight` (absolute points), never `LineHeight` (a
   multiplier, which would make the design's sizes ten times too tall).
-- **The mark.** `internal/mark` defines the fermata once on a 32-unit canvas: a cubic arc from
-  (6,18) through (8,8.5)/(24,8.5) to (26,18), a 2.2-unit stroke, and a dot at (16,25) of
-  radius 2.6. `theme.PaintMark` adds optical sizes for small copies, `mark.Raster` answers "is
-  this pixel on the mark" for the menu bar's template, and the app icon, menu bar icon, break
-  window, welcome preview, settings sidebar and About tile all draw this one geometry.
-  `trayicon` uses a bolder 18 pt variant (2.5-unit arc, 2.2-unit dot radius) so the shape
-  survives a crowded menu bar.
+- **The moon.** `internal/mark` defines the cool-moon crescent once on a 32-unit canvas: an
+  outer disc at (15.375,15.625) of radius 8.5 minus a cutout disc at (19.75,12.8125) of radius
+  8.0625, plus a point of light at (22.8125,22.1875) of radius 1.6875. Light ink is `#1B233A`
+  with a `#B8432F` point, dark ink `#F3EEE2` with `#F0836C`. `theme.PaintMark` scales that one
+  geometry to the break window, welcome preview, settings sidebar and About tile; below 64 px
+  `theme.PaintMark` tunes the cut and point radii for legibility without moving their centers;
+  `mark.Raster`
+  answers "is this pixel on the moon" for the menu bar template, which draws the crescent and point
+  in black with alpha (36 px = 18 pt at 2×), tinted by the system. The desktop icon scales the same
+  crescent and point into its 1024 canvas. The pause bars and progress ring are functional icons,
+  not variants of the brand graphic.
 - **Glyphs.** `internal/icons` draws plus, minus, close, more, check and chevron on a 16-unit
   grid, so stroke weight and optical size do not drift the way borrowed Unicode characters do.
 - **Theme.** `theme` builds the Held Note theme from the system light or dark base: paper and
@@ -1257,6 +1263,10 @@ sequenceDiagram
         A->>P: Reset → Arm(next)
     end
 ```
+
+`trayicon.Mark(36)` is the 36 px (18 pt at 2×) black-with-alpha cool-moon crescent template;
+the system supplies the light, dark and selected tints. The pause bars and progress ring stay
+functional icons.
 
 ```mermaid
 sequenceDiagram
@@ -1382,8 +1392,9 @@ locally, and `go tool mygo build` is the packaging smoke test.
 
 - `LSUIElement` makes it an agent app: no Dock icon, no main window, one menu bar item.
 - `icons/AppIcon.car` is a compiled asset catalog with light and dark appearances, built by
-  `tools/genicons` from the same mark and committed, so a machine without Xcode can still
-  package; `resources/icon.png` stays the fallback for older systems.
+  `tools/genicons` from the same cool-moon geometry scaled into the 1024 canvas and committed, so
+  a machine without Xcode can still package; `resources/icon.png` stays the fallback for older
+  systems.
 - **Commands.** `make build` → `go tool mygo build -skip-dmg -platform
   darwin/universal -sign -` → `build/darwin-universal/Fermata.app` (arm64 + x86_64);
   `make dmg` adds the disk image; `PLATFORM=darwin/arm64 make build` narrows it for a
@@ -1413,7 +1424,7 @@ locally, and `go tool mygo build` is the packaging smoke test.
 |---|---|---|---|
 | S1 | A panel that steals focus would interrupt the user it helps | `Panel` + `ShowInactive`, never `Focus()`; the status popover is focusable on macOS only, where it dismisses as the system's popovers do, and stays non-focus on Windows | Click and keyboard behaviour on each supported macOS |
 | S2 | Focus / Do Not Disturb keys differ per version | Assertions file first, `defaults` fallback, one-shot `Unavailable`, row hidden when unreadable | The key each version writes, with and without Full Disk Access |
-| S3 | A template mark may vanish in a crowded menu bar | Bolder 18 pt variant, separate arc/dot alphas, runtime raster | Legibility at 1×/2× in both appearances |
+| S3 | A template moon may vanish in a crowded menu bar | One 18 pt crescent template with full alpha, runtime raster | Legibility at 1×/2× in both appearances |
 | S4 | A monospaced `99m` title may reach the notch | Title capped 0–99 minutes, minutes only, monospaced digits | Width against the notch and neighbours |
 | S5 | Multi-display coordinates, including negatives | All geometry from `Display.Bounds`; unknown index falls back | Displays left of and above the main one |
 | S6 | A sleeping Mac misses a break, then fires it late | 2 s grace, `Wake` with zero grace, rearm from wake time | Sleep ≥ 1 h, lid closed, then wake |

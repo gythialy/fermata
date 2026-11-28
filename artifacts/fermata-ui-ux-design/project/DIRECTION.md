@@ -9,7 +9,7 @@
 ### 目录三段划分
 
 - `project/`：只放 `canvas.json`、所有 `.dc.html` 画板与设计方向 `DIRECTION.md`（本文件）。本版本由 artifact 根 `git mv` 至此。
-- `preview/`：只放最终导出的 PNG；现有两张 `skip-periods*.png` 保持不动。
+- `preview/`：只放最终导出的 PNG；当前没有随本次品牌更新产出的画板截图，后续需要时再补。
 - artifact 根：只留 `.artifact.json` 与 `.gitignore`。
 - 文本小改不重新截图；只有出现明显溢出时才修一轮。
 

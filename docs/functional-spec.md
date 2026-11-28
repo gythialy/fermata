@@ -132,7 +132,7 @@ Core invariants:
 | `shortcuts.endBreak` | `"CmdOrCtrl+X"` | Finish/postpone/skip shortcut inside the break window |
 | `general.openAtLogin` | `false` | Start at login |
 | `general.language` | `"system"` | Follow the system, or `en` / `zh-Hans` |
-| `general.menuBarStyle` | `"mark"` | `mark` / `time` / `progress` |
+| `general.menuBarStyle` | `"mark"` | `mark` / `time` / `progress` (the `mark` value stays; its UI copy names the moon) |
 | `presence.fullscreen` | `true` | Hold a due break while an app is fullscreen |
 | `presence.waitWhileTyping` | `false` | Hold a due break while typing (opt-in) |
 | `presence.appExclusions` | `[]` | Pause or allow breaks while an app runs |
@@ -509,7 +509,7 @@ As long as any reason remains the pause holds; it resumes when the last reason c
 
 The content display, top to bottom:
 
-0. **Mark**: the 48×48 fermata mark, 28 pt above the suggestion; arc 2.6, dot 2.9 (the optical sizes in [design system](design-system.md) §2.1).
+0. **Moon**: the 48×48 cool-moon crescent and its point of light, 28 pt above the suggestion; the 32-unit geometry in [design system](design-system.md) §2.1.
 1. **Top-left label**: `MINI BREAK` / `LONG BREAK`; `STRICT MINI BREAK` / `STRICT LONG BREAK` when strict. 11 pt, all caps, +0.14em tracking, paper at 55%.
 2. **Top-right current time** (optional): `14:32`, following the locale's 12/24-hour clock; 11 pt, paper at 55%.
 3. **Central break suggestion**:
@@ -603,21 +603,21 @@ Rules:
 
 | Style | Content | Width |
 |---|---|---|
-| `mark` (default) | the fermata mark (arc + dot) | 18 pt |
-| `time` | the mark + the title `9m`, monospaced digits | 18 pt + text |
+| `mark` (default) | the cool-moon crescent | 18 pt |
+| `time` | the moon + the title `9m`, monospaced digits | 18 pt + text |
 | `progress` | ring progress + a center dot | 18 pt |
 
-- Paused/Focus/idle/locked: a two-bar "pause" icon; a strict break still uses the mark.
+- Paused/Focus/idle/locked: a two-bar "pause" icon (kept as a functional icon); a strict break still uses the moon.
 - The title is at most `99m`; beyond that it shows `99m` and the tooltip gives the exact value.
-- The icon is a template image, tinted light or dark by the system; there is no color icon.
+- The icon is one black-with-alpha crescent template (36 px = 18 pt at 2×), tinted by the system for light, dark and selected states; the crescent and point are both black with alpha; there is no color icon.
 - Update cadence: the title/icon once a minute; state changes (break, pause, strict, resume) update at once; the progress style updates at the coarser of 1% or one minute, to avoid constant redraws.
 - With no menu bar title the tooltip is still complete.
 
 ### 8.4 App icon
 
 - Not shown in the Dock (`LSUIElement` + accessory).
-- The app icon and the DMG icon use the design system's "sand field + ink fermata + vermilion dot", the same geometry as the interface and the menu bar; the menu bar icon is generated separately as an 18 pt optically bolded template.
-- Name and mark share one origin: the English *Fermata* is the musical hold, and the Chinese name is its reading. The icon adds no strings or staff — at 16–32 px they would break the mark.
+- The app icon and the DMG icon use the design system's cool moon: the same crescent and point on the icon field as in the interface and the menu bar, scaled into the 1024 canvas. The menu bar icon is the same crescent and point as a black-with-alpha 36 px template (18 pt at 2×).
+- The name keeps its origin — the English *Fermata* is the musical hold and the Chinese name is its reading — while the graphic is the cool moon from the poem. No strings or staff are drawn: at 16–32 px they would break the shape.
 
 ---
 
@@ -674,7 +674,7 @@ Controls are MyGo widgets: `ui.Switch` takes 140 ms (the framework default), oth
 | `version` | int | `2` | fixed | — |
 | `general.openAtLogin` | bool | `false` | — | General |
 | `general.language` | string | `"system"` | `system`/`en`/`zh-Hans` | General |
-| `general.menuBarStyle` | string | `"mark"` | `mark`/`time`/`progress` | General |
+| `general.menuBarStyle` | string | `"mark"` | `mark`/`time`/`progress` | General; `mark` selects the moon |
 | `shortcuts.endBreak` | string | `"CmdOrCtrl+X"` | a valid accelerator | General (P1) |
 | `schedule.mini.enabled` | bool | `true` | at least one type on | Schedule |
 | `schedule.mini.durationMs` | int | `300000` | 10000–600000, step 10000 | Schedule |

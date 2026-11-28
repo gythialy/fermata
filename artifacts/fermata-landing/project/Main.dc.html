@@ -17,14 +17,27 @@ a:hover{color:#8F3223}
 ::selection{background:#F6D9D2;color:#171A17}
 </style>
 </helmet>
+
+<svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute;width:0;height:0;overflow:hidden">
+  <symbol id="cool-moon" viewBox="0 0 32 32">
+    <defs>
+      <mask id="cool-moon-cut">
+        <rect width="32" height="32" fill="black"></rect>
+        <circle cx="15.375" cy="15.625" r="8.5" fill="white"></circle>
+        <circle cx="19.75" cy="12.8125" r="8.0625" fill="black"></circle>
+      </mask>
+    </defs>
+    <rect width="32" height="32" fill="#1B233A" mask="url(#cool-moon-cut)"></rect>
+    <circle cx="22.8125" cy="22.1875" r="1.6875" fill="#B8432F"></circle>
+  </symbol>
+</svg>
 <div style="background:#F6F4ED;color:#171A17;font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','Segoe UI',Inter,'Noto Sans SC','PingFang SC',sans-serif;-webkit-font-smoothing:antialiased">
 
   <header style="position:sticky;top:0;z-index:10;background:#F6F4ED;border-bottom:1px solid #D6D4CA">
     <div style="max-width:1200px;margin:0 auto;padding:0 40px;height:72px;display:flex;align-items:center;justify-content:space-between">
       <a href="#top" style="display:flex;align-items:center;gap:11px;color:#171A17">
         <svg width="24" height="24" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
-          <path d="M6 18C8 8.5 24 8.5 26 18" fill="none" stroke="#171A17" stroke-width="2.4" stroke-linecap="round"></path>
-          <circle cx="16" cy="25" r="2.6" fill="#B8432F"></circle>
+          <use href="#cool-moon"></use>
         </svg>
         <span style="font-family:'Spectral',serif;font-weight:400;font-size:19px;letter-spacing:-.01em">Fermata</span>
         <span style="font-size:12px;color:#6B7069;letter-spacing:.02em">停琴</span>
@@ -67,7 +80,7 @@ a:hover{color:#8F3223}
         <div style="margin-top:36px;max-width:452px">
           <div style="font-size:10px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:#6B7069">Install</div>
           <div style="margin-top:10px;display:flex;align-items:center;justify-content:space-between;gap:12px;height:54px;padding:0 8px 0 16px;background:#EAE8DF;border:1px solid #D6D4CA;border-radius:8px">
-            <code style="font-family:'SF Mono','JetBrains Mono',monospace;font-size:13px;color:#171A17;white-space:nowrap">brew install --cask fermata</code>
+            <code style="font-family:'SF Mono','JetBrains Mono',monospace;font-size:13px;color:#171A17;white-space:nowrap">brew tap gythialy/tap<br>brew trust gythialy/tap<br>brew install --cask fermata</code>
             <button type="button" aria-label="Copy the install command" style="display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border:1px solid #D6D4CA;border-radius:6px;background:#F6F4ED;color:#3F453E;cursor:pointer">
               <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true" focusable="false">
                 <rect x="5.5" y="5.5" width="8" height="8" rx="1.5"></rect>
@@ -90,7 +103,7 @@ a:hover{color:#8F3223}
 
       <figure style="margin:0">
         <div style="border:1px solid #D6D4CA;border-radius:12px;overflow:hidden;background:#EAE8DF">
-          <img src="/_blob/de65890c75038165a2aaff7ea5485ef1" alt="The mini break window: a deep pine field, the fermata mark, one suggestion, a hairline and the countdown" style="display:block;width:100%;height:auto">
+          <img src="/_blob/de65890c75038165a2aaff7ea5485ef1" alt="The mini break window: a deep pine field, a crescent moon, one suggestion, a hairline and the countdown" style="display:block;width:100%;height:auto">
         </div>
         <figcaption style="margin-top:12px;font-size:11px;line-height:18px;color:#6B7069">The mini break, drawn by the app: one field, one suggestion, one exit.</figcaption>
       </figure>
@@ -101,14 +114,13 @@ a:hover{color:#8F3223}
         <div>
           <div style="font-size:10px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:#6B7069">The name</div>
           <svg width="108" height="108" viewBox="0 0 32 32" style="margin-top:28px;display:block" aria-hidden="true" focusable="false">
-            <path d="M6 18C8 8.5 24 8.5 26 18" fill="none" stroke="#171A17" stroke-width="1.5" stroke-linecap="round"></path>
-            <circle cx="16" cy="25" r="1.9" fill="#B8432F"></circle>
+            <use href="#cool-moon"></use>
           </svg>
         </div>
         <div>
           <h2 style="margin:0;font-family:'Spectral',serif;font-weight:300;font-size:52px;line-height:58px;letter-spacing:-.015em">A note held longer.</h2>
           <p style="margin:24px 0 0;max-width:640px;font-size:15px;line-height:26px;color:#3F453E">
-            Fermata is the musical sign that tells a player to hold a note past its written value. The orchestra waits; then it goes on. 停琴, "the qin stops", comes from a line by the Southern Qi poet Xie Tiao. Both names describe one gesture, and the mark carries it: the arc is the fermata, the dot beneath is the finger resting on the string.
+            Fermata is the musical sign that tells a player to hold a note past its written value. The orchestra waits; then it goes on. 停琴, "the qin stops", comes from a line by the Southern Qi poet Xie Tiao. Both names describe the same pause; the moon in the icon comes from that line — the qin put down, a moment in the cool moonlight.
           </p>
           <blockquote style="margin:40px 0 0;padding:0;max-width:680px">
             <div style="font-family:'Spectral','Songti SC','Noto Serif CJK SC',serif;font-size:26px;line-height:42px;color:#171A17">「停琴伫凉月，灭烛听归鸿」</div>
@@ -192,7 +204,7 @@ a:hover{color:#8F3223}
           <article style="border-top:1px solid #D6D4CA;padding-top:22px">
             <div style="font-size:10px;letter-spacing:.14em;color:#8A8F86">01</div>
             <h3 style="margin:10px 0 0;font-family:'Spectral',serif;font-weight:400;font-size:21px;line-height:28px">A field, not a dialog</h3>
-            <p style="margin:8px 0 0;font-size:13px;line-height:22px;color:#4A514A">One window per display at 85% of the screen: the fermata, one suggestion, a hairline that fills with the break, and exactly one exit.</p>
+            <p style="margin:8px 0 0;font-size:13px;line-height:22px;color:#4A514A">One window per display at 85% of the screen: a crescent moon, one suggestion, a hairline that fills with the break, and exactly one exit.</p>
           </article>
           <article style="border-top:1px solid #D6D4CA;padding-top:22px">
             <div style="font-size:10px;letter-spacing:.14em;color:#8A8F86">02</div>
@@ -259,7 +271,7 @@ a:hover{color:#8F3223}
     <section id="install" style="max-width:1200px;margin:0 auto;padding:112px 40px;display:grid;grid-template-columns:.92fr 1.08fr;gap:80px;align-items:start">
       <div>
         <div style="font-size:10px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:#6B7069">Install</div>
-        <h2 style="margin:18px 0 0;font-family:'Spectral',serif;font-weight:300;font-size:44px;line-height:50px;letter-spacing:-.015em">One line, one DMG.</h2>
+        <h2 style="margin:18px 0 0;font-family:'Spectral',serif;font-weight:300;font-size:44px;line-height:50px;letter-spacing:-.015em">Three commands, one DMG.</h2>
         <p style="margin:18px 0 0;max-width:440px;font-size:14px;line-height:25px;color:#3F453E">
           Via Homebrew, or take the disk image from GitHub Releases. Fermata is ad-hoc signed and not notarized; the cask clears the download quarantine, and macOS may still ask you to right-click → Open the first time.
         </p>
@@ -271,7 +283,7 @@ a:hover{color:#8F3223}
       </div>
       <div>
         <div style="background:#EAE8DF;border:1px solid #D6D4CA;border-radius:8px;padding:18px 16px 18px 20px;display:flex;justify-content:space-between;gap:16px">
-          <code style="font-family:'SF Mono','JetBrains Mono',monospace;font-size:13px;line-height:25px;color:#171A17;white-space:nowrap">brew tap gythialy/tap<br>brew install --cask fermata</code>
+          <code style="font-family:'SF Mono','JetBrains Mono',monospace;font-size:13px;line-height:25px;color:#171A17;white-space:nowrap">brew tap gythialy/tap<br>brew trust gythialy/tap<br>brew install --cask fermata</code>
           <button type="button" aria-label="Copy the install commands" style="flex:none;display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border:1px solid #D6D4CA;border-radius:6px;background:#F6F4ED;color:#3F453E;cursor:pointer">
             <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true" focusable="false">
               <rect x="5.5" y="5.5" width="8" height="8" rx="1.5"></rect>
@@ -292,8 +304,7 @@ a:hover{color:#8F3223}
     <div style="max-width:1200px;margin:0 auto;padding:48px 40px 0;display:flex;justify-content:space-between;align-items:flex-start;gap:40px;flex-wrap:wrap">
       <div style="display:flex;gap:13px;align-items:flex-start">
         <svg width="28" height="28" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
-          <path d="M6 18C8 8.5 24 8.5 26 18" fill="none" stroke="#171A17" stroke-width="2.2" stroke-linecap="round"></path>
-          <circle cx="16" cy="25" r="2.4" fill="#B8432F"></circle>
+          <use href="#cool-moon"></use>
         </svg>
         <div>
           <div style="font-family:'Spectral',serif;font-size:18px;line-height:24px">Fermata <span style="font-family:-apple-system,sans-serif;font-size:12px;color:#6B7069">停琴</span></div>

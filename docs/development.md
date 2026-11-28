@@ -68,6 +68,7 @@ plus the on-device acceptance cases in the functional spec.
 
 ```sh
 brew tap gythialy/tap
+brew trust gythialy/tap
 brew install --cask fermata
 ```
 
@@ -185,8 +186,11 @@ make icons     # go run ./tools/genicons
 The tool draws the app icon in light and dark appearances, the menu bar
 template, and compiles `icons/AppIcon.icon` into `icons/AppIcon.car` with
 `xcrun actool`. It writes `resources/icon.png` (the `.icns` fallback) and
-`resources/tray.png` too. The geometry comes from `internal/mark`, the same
-mark the interface draws — never trace a new one.
+`resources/tray.png` too. Both outputs use the same `internal/mark` cool-moon
+geometry: the menu bar template is a 36 px black-with-alpha crescent and point
+(18 pt at 2×), tinted by the system; the app icon scales the crescent and
+point into the 1024 canvas with light and dark colours. Never trace either one
+again.
 
 `tools/genicons` needs Xcode 26+; the compiled `.car` is committed so machines
 without Xcode can still build.
@@ -291,7 +295,7 @@ The repository page uses these files as follows:
 |---|---|
 | `.github/assets/banner.png` | README hero |
 | `.github/assets/social-preview.png` | Settings → Social preview |
-| `.github/assets/mark.svg` | Vector mark |
+| `.github/assets/mark.svg` | Vector cool-moon crescent, 32-unit canvas |
 | `.github/assets/icon.png` | Repository avatar |
 
 ## Tests

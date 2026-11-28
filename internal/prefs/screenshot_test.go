@@ -48,7 +48,7 @@ func TestScreenshots(t *testing.T) {
 	}
 	for _, shot := range shotLocales {
 		t.Run(shot.locale, func(t *testing.T) {
-			useLocale(t, shot.locale)
+			useShotLocale(t, shot.locale)
 			out := filepath.Join(shot.dir...)
 			if err := os.MkdirAll(out, 0o755); err != nil {
 				t.Fatal(err)
@@ -78,8 +78,8 @@ var shotPreviewIdeas = map[string]ideas.Idea{
 	"zh-Hans": {Text: "慢慢地眨几次眼。"},
 }
 
-// useLocale draws the views in locale until the test ends.
-func useLocale(t *testing.T, locale string) {
+// useShotLocale draws the views in locale until the test ends.
+func useShotLocale(t *testing.T, locale string) {
 	t.Helper()
 	i18n.SetLocaleFunc(func() string { return locale })
 	t.Cleanup(func() { i18n.SetLocaleFunc(nil) })

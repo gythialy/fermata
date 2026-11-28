@@ -44,7 +44,7 @@
       <div class="tr" style="grid-template-columns:110px 240px 1fr"><div class="l">外壳</div><div class="m">NewFlyout(FlyoutOptions{…})</div><div class="n">Popover / Shadow / CornerRadius / FitContent 一次说清</div></div>
       <div class="tr" style="grid-template-columns:110px 240px 1fr"><div class="l">主题</div><div class="m">theme.Apply(c)</div><div class="n">t.Space、t.Radius、t.Accent；字号走 theme.Px</div></div>
       <div class="tr" style="grid-template-columns:110px 240px 1fr"><div class="l">布局</div><div class="m">ui.Column · ui.Row · ui.Spacer</div><div class="n">Spacer / Divider 代替固定高度空 Box</div></div>
-      <div class="tr" style="grid-template-columns:110px 240px 1fr"><div class="l">记号</div><div class="m">ui.Icon(c, ui.MustParseSVG(mark))</div><div class="n">两色由记号自带，按尺寸加粗</div></div>
+      <div class="tr" style="grid-template-columns:110px 240px 1fr"><div class="l">月牙</div><div class="m">ui.Icon(c, ui.MustParseSVG(mark))</div><div class="n">月牙自带浅深两色，几何不随尺寸改变</div></div>
       <div class="tr" style="grid-template-columns:110px 240px 1fr"><div class="l">状态词</div><div class="m">ui.Text(…).Bold().LetterSpacing(.16em)</div><div class="n">10 px 大写标签，随主题文字缩放</div></div>
       <div class="tr" style="grid-template-columns:110px 240px 1fr"><div class="l">剩余时间</div><div class="m">ContentTransition{Numeric, Down}</div><div class="n">21m→20m 是滚动，不是整块淡入</div></div>
       <div class="tr" style="grid-template-columns:110px 240px 1fr"><div class="l">刻度尺</div><div class="m">ui.Box(c).Draw(60 ticks)</div><div class="n">61 个图元；RoleProgress + Label 补语义</div></div>
@@ -74,7 +74,7 @@ a.popover = mygo.NewFlyout(mygo.FlyoutOptions{
 	t := theme.Apply(c)
 	ui.Column(c).Padding(t.Space(4)).Gap(t.Space(3)).Children(<span class="k">func</span>() {
 		ui.Row(c).Gap(t.Space(2)).Children(<span class="k">func</span>() {
-			ui.Icon(c, mark)                       <span class="c">// 记号</span>
+			ui.Icon(c, mark)                       <span class="c">// cool-moon crescent</span>
 			ui.Text(c, state).Bold()
 			ui.Spacer(c)
 			ui.Button(c, <span class="s">""</span>).Children(<span class="k">func</span>() { ui.Icon(c, more) })

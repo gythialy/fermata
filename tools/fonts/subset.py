@@ -34,8 +34,8 @@ ASSETS = ROOT / "internal" / "fonts" / "assets"
 # catalogs, but the bundled subset should draw them too.
 EXTRA = [
     "望向窗外，直到眼睛放松下来。",
-    "一次休息，是一个被延长的音符。",
-    "工作日里的一次延长记号。",
+    "休息，可以多停一会儿。",
+    "休息，可以多停一会儿。界面只做三件事：标出时长、给出一条建议、留一个按钮；其余时间，它退到菜单栏或系统托盘里。",
     "System voice, serif for the break.",
     "Fermata", "停琴",
 ]

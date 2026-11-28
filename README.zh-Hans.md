@@ -23,16 +23,16 @@
 - **可坚持的节奏。** 默认番茄钟：每 25 分钟一次 5 分钟短休息，每四次短休息
   之后一次 15 分钟长休息。两种都可调，但至少保留一种。
 - **一块休息的场，不是对话框。** 每块屏幕一个窗口，占屏幕 85%，里面只有
-  延长记号、一条建议、一条随休息推进的发丝线、倒计时，以及同一时刻唯一的
-  出口——`延迟`、然后`跳过`、然后等待你完成的`结束`。键盘上 `⌘X` 效果相同。
-- **严格模式说到做到。** 不能延迟、不能跳过、不能关窗，休息结束前应用拒绝退出。
+  月牙、一条建议、一条随休息推进的发丝线、倒计时，以及同一时刻唯一的
+  出口——`推迟`、然后`跳过`、然后等待你完成的`完成`。键盘上 `⌘X` 效果相同。
+- **严格模式说到做到。** 不能推迟、不能跳过、不能关窗，休息结束前应用拒绝退出。
   锁屏或 Mac 睡眠仍会结束这次休息。
 - **不必离开菜单栏就能暂停。** 30 分钟、1 小时、2 小时、5 小时、直到明早，
   或无限期。离开电脑、专注模式、锁屏、以及你排除的应用也会自动暂停。
 - **到点的休息会等一等。** 前台应用全屏（最多 1 小时），或启用后你正在输入
   （最多 30 秒）时，休息暂缓，条件解除后以完整时长开始。全屏检测只读窗口边界，不需要屏幕录制权限。
 - **安静而完整的设置。** 通用、日程、外观、关于；英文、简体中文或跟随系统；
-  登录时启动；菜单栏样式（记号／时间／圆环）；休息场颜色与不透明度；声音与
+  登录时启动；菜单栏样式（月牙／时间／圆环）；休息场颜色与不透明度；声音与
   音量；应用排除；休息健康；恢复默认。
 - **状态弹窗代替一长串菜单项。** 左键点图标（或休息预告）看倒计时和快捷操作；
   右键保留经典菜单。
@@ -44,15 +44,15 @@
 ## 截图
 
 <p align="center">
-  <a href="docs/images/zh-Hans/break-mini.png"><img src="docs/images/zh-Hans/break-loop.png" width="840" alt="休息窗动图：内容落定，发丝线随休息推进，倒计时逐秒减少，出口从「延迟」变为「跳过」"></a>
+  <a href="docs/images/zh-Hans/break-mini.png"><img src="docs/images/zh-Hans/break-loop.png" width="840" alt="休息窗动图：内容落定，发丝线随休息推进，倒计时逐秒减少，出口从「推迟」变为「跳过」"></a>
 </p>
 
-占屏幕 85% 的休息场：延长记号、一条建议、一条随休息推进的发丝线、倒计时，
+占屏幕 85% 的休息场：月牙、一条建议、一条随休息推进的发丝线、倒计时，
 以及同一时刻唯一的出口。动图由应用自己逐帧渲染，点击可看全尺寸静止图。
 
 | 短休息 | 长休息 |
 |:-:|:-:|
-| <a href="docs/images/zh-Hans/break-mini.png"><img src="docs/images/zh-Hans/break-mini.png" width="400" alt="短休息：深绿色的场、延长记号、一条建议、发丝线与倒计时"></a> | <a href="docs/images/zh-Hans/break-long.png"><img src="docs/images/zh-Hans/break-long.png" width="400" alt="长休息：标题、正文、更长的发丝线与十五分钟"></a> |
+| <a href="docs/images/zh-Hans/break-mini.png"><img src="docs/images/zh-Hans/break-mini.png" width="400" alt="短休息：深绿色的场、月牙、一条建议、发丝线与倒计时"></a> | <a href="docs/images/zh-Hans/break-long.png"><img src="docs/images/zh-Hans/break-long.png" width="400" alt="长休息：标题、正文、更长的发丝线与十五分钟"></a> |
 | 每 25 分钟五分钟。 | 四次短休息后十五分钟。 |
 
 ### 应用各处
@@ -66,8 +66,8 @@
 
 | 通用 | 日程 |
 |:-:|:-:|
-| <a href="docs/images/zh-Hans/settings-general.png"><img src="docs/images/zh-Hans/settings-general.png" width="400" alt="通用设置：登录时启动、语言、菜单栏样式与自动暂停"></a> | <a href="docs/images/zh-Hans/settings-schedule.png"><img src="docs/images/zh-Hans/settings-schedule.png" width="400" alt="日程设置：长短休息时长、延迟与跳过"></a> |
-| 登录时启动、语言、菜单栏样式、自动暂停。 | 长短休息时长、延迟与跳过。 |
+| <a href="docs/images/zh-Hans/settings-general.png"><img src="docs/images/zh-Hans/settings-general.png" width="400" alt="通用设置：登录时启动、语言、菜单栏样式与自动暂停"></a> | <a href="docs/images/zh-Hans/settings-schedule.png"><img src="docs/images/zh-Hans/settings-schedule.png" width="400" alt="日程设置：长短休息时长、推迟与跳过"></a> |
+| 登录时启动、语言、菜单栏样式、自动暂停。 | 长短休息时长、推迟与跳过。 |
 
 | 外观 | 关于 |
 |:-:|:-:|
@@ -82,6 +82,7 @@ macOS 13 或更新，通过 [Homebrew](https://brew.sh)：
 
 ```sh
 brew tap gythialy/tap
+brew trust gythialy/tap
 brew install --cask fermata
 ```
 
@@ -132,7 +133,7 @@ Windows 的托盘没有标题，所以图标只能显示记号或圆环，不显
 *Fermata* 是乐谱上的延长记号：让一个音停得比写下的时值更久，乐队等着，然后继续。
 中文名 **停琴** 取自南朝齐诗人谢朓《移病还园示亲属诗》：「停琴伫凉月，灭烛听归鸿。」
 ——停下琴弦，在凉月里站一会儿，吹灭蜡烛听归雁。两个名字说的是同一个动作；
-记号里弧下的那一点，是按住琴弦的手指。
+图形取自诗里的凉月：一枚月牙，加一点微光。
 
 ## 许可
 
@@ -150,7 +151,7 @@ SIL Open Font License 1.1 分发。
 | [产品](https://github.com/gythialy/fermata/blob/main/docs/product.md) | 目标、范围、决策、路线图与视觉画布 |
 | [功能规范](https://github.com/gythialy/fermata/blob/main/docs/functional-spec.md) | 规范性的行为规则与验收用例 |
 | [架构](https://github.com/gythialy/fermata/blob/main/docs/architecture.md) | 包结构、状态机、数据流、测试与构建 |
-| [设计系统](https://github.com/gythialy/fermata/blob/main/docs/design-system.md) | Held Note v2：记号、令牌、组件与界面 |
+| [设计系统](https://github.com/gythialy/fermata/blob/main/docs/design-system.md) | Held Note v2：月牙、令牌、组件与界面 |
 | [开发](https://github.com/gythialy/fermata/blob/main/docs/development.md) | 运行、构建、安装、测试、命令行、i18n、素材 |
 
 环境要求、从源码构建和完整命令行见[开发指南](https://github.com/gythialy/fermata/blob/main/docs/development.md)。
