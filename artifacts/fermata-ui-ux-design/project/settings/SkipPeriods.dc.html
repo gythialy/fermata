@@ -70,7 +70,13 @@
   .skip-row{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:44px;
             padding:3px 0;box-sizing:border-box;border-bottom:1px solid #E8E6DD}
   .skip-row:last-of-type{border-bottom:0}
-  .time{font-size:13px;line-height:19px;letter-spacing:0}
+  .time{display:flex;align-items:center;gap:6px}
+  .clock{display:inline-flex;align-items:center;gap:1px;padding:2px 5px;border:1px solid #D8D6CB;
+         border-radius:6px;background:#FAFAF7;font:inherit;font-size:12px;line-height:17px;color:#171A17}
+  .clock b{font-weight:500;padding:0 2px;border-radius:3px}
+  .clock b.sel{background:#B8432F;color:#fff}
+  .clock i{font-style:normal;color:#9A9E96}
+  .dash{color:#6B7069;font-size:12px}
   .days{display:flex;gap:3px}
   .day{width:20px;height:20px;border:1px solid #7C8178;border-radius:5px;background:transparent;
        color:#6B7069;font:inherit;font-size:10px;line-height:14px;display:flex;align-items:center;justify-content:center}
@@ -163,7 +169,7 @@
       </div>
 
       <div class="skip-row">
-        <div><div class="time mono">22:00 – 08:00</div><div class="desc">按开始日（周一至周五）22:00 起 · 次日 08:00 止</div></div>
+        <div><div class="time"><span class="clock" role="group" aria-label="开始时间"><b class="sel">22</b><i>:</i><b>00</b></span><span class="dash">–</span><span class="clock" role="group" aria-label="结束时间"><b>08</b><i>:</i><b>00</b></span></div><div class="desc">按开始日（周一至周五）22:00 起 · 次日 08:00 止</div></div>
         <div class="days" aria-label="周一至周五">
           <span class="day on">一</span><span class="day on">二</span><span class="day on">三</span><span class="day on">四</span><span class="day on">五</span><span class="day">六</span><span class="day">日</span>
         </div>
@@ -171,7 +177,7 @@
       </div>
 
       <div class="skip-row">
-        <div><div class="time mono">12:00 – 13:00</div><div class="desc">每天</div></div>
+        <div><div class="time"><span class="clock" role="group" aria-label="开始时间"><b>12</b><i>:</i><b>00</b></span><span class="dash">–</span><span class="clock" role="group" aria-label="结束时间"><b>13</b><i>:</i><b>00</b></span></div><div class="desc">每天</div></div>
         <div class="days" aria-label="每天">
           <span class="day on">一</span><span class="day on">二</span><span class="day on">三</span><span class="day on">四</span><span class="day on">五</span><span class="day on">六</span><span class="day on">日</span>
         </div>

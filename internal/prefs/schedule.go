@@ -427,20 +427,16 @@ func (w *Window) skipPeriodRow(c *ui.Context, t *ui.Theme, p *settings.SkipPerio
 	e.Children(func() {
 		ui.Column(c).Gap(3).Children(func() {
 			ui.Row(c).Gap(6).AlignItems(ui.Center).Children(func() {
-				startField := w.skipDraft(fmt.Sprintf("skip-%d-start", i), p.Start)
-				endField := w.skipDraft(fmt.Sprintf("skip-%d-end", i), p.End)
-				start := ui.TextInput(c, startField).Width(58).
-					Placeholder(locales.SettingsSkipClockHint()).Label(locales.SettingsSkipStart()).
-					Disabled(disabled)
+				startField := w.skipTimeDraft(fmt.Sprintf("skip-%d-start", i), p.Start)
+				endField := w.skipTimeDraft(fmt.Sprintf("skip-%d-end", i), p.End)
+				start := ui.TimeInput(c, startField).Width(76).Label(locales.SettingsSkipStart()).Disabled(disabled)
 				if start.Changed() {
-					w.applySkipClock(startField, &p.Start, p.End, disabled)
+					w.applySkipTime(startField, &p.Start, p.End, disabled)
 				}
 				ui.Text(c, "–").FontSize(theme.Px(c, 12)).FixedLineHeight(theme.Px(c, 17)).TextColor(t.TextMuted)
-				end := ui.TextInput(c, endField).Width(58).
-					Placeholder(locales.SettingsSkipClockHint()).Label(locales.SettingsSkipEnd()).
-					Disabled(disabled)
+				end := ui.TimeInput(c, endField).Width(76).Label(locales.SettingsSkipEnd()).Disabled(disabled)
 				if end.Changed() {
-					w.applySkipClock(endField, &p.End, p.Start, disabled)
+					w.applySkipTime(endField, &p.End, p.Start, disabled)
 				}
 			})
 			ui.Text(c, skipPeriodDescription(p)).FontSize(theme.Px(c, 11)).
@@ -470,22 +466,32 @@ func (w *Window) skipPeriodRow(c *ui.Context, t *ui.Theme, p *settings.SkipPerio
 	})
 }
 
-// skipDraft keeps an in-progress clock edit across rebuilds.
-func (w *Window) skipDraft(key, value string) *string {
-	if w.texts == nil {
-		w.texts = map[string]*string{}
+// skipTimeDraft keeps a chosen clock across rebuilds, seeded from HH:MM.
+func (w *Window) skipTimeDraft(key, value string) *time.Time {
+	if w.times == nil {
+		w.times = map[string]*time.Time{}
 	}
-	field, ok := w.texts[key]
+	tm, ok := w.times[key]
 	if !ok {
-		text := value
-		field = &text
-		w.texts[key] = field
+		minute, valid := skipClockMinutes(value)
+		if !valid {
+			minute = 0
+		}
+		tm = new(time.Time)
+		*tm = skipClockDate(minute)
+		w.times[key] = tm
 	}
-	return field
+	return tm
+}
+
+// skipClockDate places a minute of the day on a fixed local date.
+func skipClockDate(minute int) time.Time {
+	return time.Date(2000, 1, 1, minute/60, minute%60, 0, 0, time.Local)
 }
 
 // clearSkipDrafts drops edits that no longer name the same row.
 func (w *Window) clearSkipDrafts() {
+	clear(w.times)
 	for key := range w.texts {
 		if strings.HasPrefix(key, "skip-") {
 			delete(w.texts, key)
@@ -493,24 +499,25 @@ func (w *Window) clearSkipDrafts() {
 	}
 }
 
-// applySkipClock saves a valid HH:MM draft.
-func (w *Window) applySkipClock(field, dst *string, other string, disabled bool) {
+// applySkipTime saves a chosen clock, keeping the two ends different.
+func (w *Window) applySkipTime(tm *time.Time, dst *string, other string, disabled bool) {
 	if disabled {
 		return
 	}
-	clock, err := time.Parse("15:04", strings.TrimSpace(*field))
-	if err != nil {
-		return
-	}
-	text := clock.Format("15:04")
+	text := tm.Format("15:04")
 	if text == other {
+		// A zero-length window is invalid, so put the field back.
+		if minute, ok := skipClockMinutes(*dst); ok {
+			*tm = skipClockDate(minute)
+		}
+		w.Refresh()
 		return
 	}
-	*field = text
-	if text != *dst {
-		*dst = text
-		w.opts.Touched()
+	if text == *dst {
+		return
 	}
+	*dst = text
+	w.opts.Touched()
 }
 
 // skipDayToggle is one weekday dot of a period.
