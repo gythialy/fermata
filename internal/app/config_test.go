@@ -55,8 +55,8 @@ func TestConfigFromSettingsSkipPeriods(t *testing.T) {
 	s := settings.Default()
 	s.Schedule.SkipPeriodsEnabled = true
 	s.Schedule.SkipPeriods = []settings.SkipPeriod{
-		{Start: "09:00", End: "10:30", Days: []int{7, 1}},
-		{Start: "22:30", End: "06:00"},
+		{Enabled: true, Start: "09:00", End: "10:30", Days: []int{7, 1}},
+		{Enabled: true, Start: "22:30", End: "06:00"},
 		{Start: "bad", End: "10:00"},
 		{Start: "11:00", End: "12:00", Days: []int{0, 8}},
 	}
@@ -75,6 +75,25 @@ func TestConfigFromSettingsSkipPeriods(t *testing.T) {
 	s.Schedule.SkipPeriodsEnabled = false
 	if off := configFromSettings(&s); off.SkipPeriodsEnabled {
 		t.Error("master switch stayed on")
+	}
+}
+
+func TestConfigFromSettingsSkipPeriodsHonorEnabled(t *testing.T) {
+	s := settings.Default()
+	s.Schedule.SkipPeriodsEnabled = true
+	s.Schedule.SkipPeriods = []settings.SkipPeriod{
+		{Enabled: false, Start: "09:00", End: "10:00", Days: []int{1}},
+		{Enabled: true, Start: "12:00", End: "13:00", Days: []int{2}},
+		{Enabled: false, Start: "14:00", End: "15:00"},
+		{Enabled: true, Start: "18:00", End: "19:30"},
+	}
+	cfg := configFromSettings(&s)
+	want := []skiptime.Period{
+		{StartMin: 12 * 60, EndMin: 13 * 60, Days: 1 << 1},
+		{StartMin: 18 * 60, EndMin: 19*60 + 30, Days: skiptime.AllDays},
+	}
+	if !slices.Equal(cfg.SkipPeriods, want) {
+		t.Errorf("periods %+v, want %+v", cfg.SkipPeriods, want)
 	}
 }
 
