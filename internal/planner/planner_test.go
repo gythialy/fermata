@@ -4,6 +4,8 @@ import (
 	"math/rand/v2"
 	"testing"
 	"time"
+
+	"github.com/gythialy/fermata/internal/skiptime"
 )
 
 var t0 = time.Date(2026, 11, 25, 9, 0, 0, 0, time.UTC)
@@ -753,5 +755,204 @@ func TestDeferPushesTheNextBreak(t *testing.T) {
 	}
 	if st := p.State(); !st.BreakAt.Equal(want) || st.N != 1 || st.Kind != Mini {
 		t.Errorf("after defer: %+v", st)
+	}
+}
+
+func skipPeriodConfig(startMin, endMin int) Config {
+	cfg := defaultConfig()
+	cfg.SkipPeriodsEnabled = true
+	cfg.SkipPeriods = []skiptime.Period{{StartMin: startMin, EndMin: endMin}}
+	return cfg
+}
+
+func TestSkipPeriodSwallowsTheDueBreak(t *testing.T) {
+	p := New(skipPeriodConfig(9*60+5, 9*60+20))
+	eff := p.Step(Reset{Now: t0})
+	if got := armAt(t, eff); !got.Equal(t0.Add(5 * time.Minute)) {
+		t.Fatalf("armed at %v, want the period boundary", got)
+	}
+	eff = p.Step(Tick{Now: t0.Add(5 * time.Minute)})
+	if len(effects[Notify](eff)) != 0 {
+		t.Fatalf("notice inside the period: %v", eff)
+	}
+	if st := p.State(); st.Phase != Paused || !st.Reasons.Has(SkipPeriod) || !st.BreakAt.IsZero() {
+		t.Fatalf("at entry: %+v", st)
+	}
+	if got := armAt(t, eff); !got.Equal(t0.Add(20 * time.Minute)) {
+		t.Fatalf("armed at %v, want the exit", got)
+	}
+	eff = p.Step(Tick{Now: t0.Add(10 * time.Minute)})
+	if len(effects[StartBreak](eff)) != 0 || len(effects[Notify](eff)) != 0 {
+		t.Fatalf("a due break fired inside the period: %v", eff)
+	}
+	if st := p.State(); st.Phase != Paused {
+		t.Fatalf("phase %v", st.Phase)
+	}
+}
+
+func TestSkipPeriodAtTheBreakDeadlineClosesNotice(t *testing.T) {
+	p := New(skipPeriodConfig(9*60+10, 9*60+20))
+	p.Step(Reset{Now: t0})
+	eff := p.Step(Tick{Now: t0.Add(9*time.Minute + 50*time.Second)})
+	if len(effects[Notify](eff)) != 1 {
+		t.Fatalf("no notice before the period: %v", eff)
+	}
+	eff = p.Step(Tick{Now: p.State().BreakAt})
+	if len(effects[CloseNotice](eff)) != 1 || len(effects[StartBreak](eff)) != 0 {
+		t.Fatalf("at the break deadline: %v", eff)
+	}
+	if st := p.State(); st.Phase != Paused || !st.Reasons.Has(SkipPeriod) {
+		t.Fatalf("after entry: %+v", st)
+	}
+}
+
+func TestSkipPeriodDoesNotInterruptABreak(t *testing.T) {
+	cfg := skipPeriodConfig(9*60+11, 9*60+20)
+	cfg.Mini.Duration = 5 * time.Minute
+	p := New(cfg)
+	p.Step(Reset{Now: t0})
+	p.Step(Tick{Now: t0.Add(10 * time.Minute)})
+	end := p.State().EndAt
+	eff := p.Step(Tick{Now: t0.Add(11 * time.Minute)})
+	if len(effects[CloseBreak](eff)) != 0 {
+		t.Fatalf("the running break was closed: %v", eff)
+	}
+	if st := p.State(); st.Phase != Breaking || !st.Reasons.Has(SkipPeriod) || !st.EndAt.Equal(end) {
+		t.Fatalf("during the period: %+v", st)
+	}
+	eff = p.Step(Tick{Now: end})
+	if got := closeReasons(eff); len(got) != 1 || got[0] != Completed {
+		t.Fatalf("the break did not finish: %v", eff)
+	}
+	if st := p.State(); st.Phase != Paused || st.N != 0 || !st.Reasons.Has(SkipPeriod) {
+		t.Fatalf("after the break: %+v", st)
+	}
+}
+
+func TestSkipPeriodRestartsTheWaitOnExit(t *testing.T) {
+	p := New(skipPeriodConfig(9*60+15, 9*60+20))
+	p.Step(Reset{Now: t0})
+	p.Step(Tick{Now: t0.Add(15 * time.Minute)})
+	exit := t0.Add(20 * time.Minute)
+	eff := p.Step(Tick{Now: exit})
+	st := p.State()
+	if st.Phase != Waiting || st.N != 1 || st.Missed || st.Reasons.Has(SkipPeriod) {
+		t.Fatalf("after exit: %+v", st)
+	}
+	if want := exit.Add(10 * time.Minute); !st.BreakAt.Equal(want) {
+		t.Errorf("break at %v, want %v", st.BreakAt, want)
+	}
+	if got := armAt(t, eff); !got.Equal(exit.Add(10*time.Minute - 10*time.Second)) {
+		t.Errorf("armed at %v, want the new notice", got)
+	}
+}
+
+func TestSkipPeriodWithManualPause(t *testing.T) {
+	p := New(skipPeriodConfig(9*60+5, 9*60+20))
+	p.Step(Pause{Now: t0, Reason: Manual})
+	eff := p.Step(Tick{Now: t0.Add(5 * time.Minute)})
+	if len(effects[Arm](eff)) != 0 {
+		t.Fatalf("an indefinite manual pause woke the scheduler: %v", eff)
+	}
+	if st := p.State(); st.Phase != Paused || st.Reasons != Manual|SkipPeriod || st.Reasons.Primary() != Manual {
+		t.Fatalf("at entry: %+v", st)
+	}
+	eff = p.Step(Tick{Now: t0.Add(20 * time.Minute)})
+	if st := p.State(); st.Phase != Paused || st.Reasons != Manual {
+		t.Fatalf("after exit: %+v", st)
+	}
+	if len(effects[NotifyResume](eff)) != 0 || len(effects[Arm](eff)) != 0 {
+		t.Fatalf("a skip period exit resumed a manual pause: %v", eff)
+	}
+	now := t0.Add(21 * time.Minute)
+	eff = p.Step(Resume{Now: now, Reason: Manual})
+	if len(effects[NotifyResume](eff)) != 1 {
+		t.Fatalf("manual resume did not notify: %v", eff)
+	}
+	if st := p.State(); st.Phase != Waiting || st.N != 1 || !st.BreakAt.Equal(now.Add(10*time.Minute)) {
+		t.Fatalf("after manual resume: %+v", st)
+	}
+}
+
+func TestSkipPeriodConfigChangesWhileRunning(t *testing.T) {
+	cfg := skipPeriodConfig(9*60+5, 9*60+20)
+	cfg.SkipPeriodsEnabled = false
+	p := New(cfg)
+	p.Step(Reset{Now: t0})
+	eff := p.Step(Tick{Now: t0.Add(5 * time.Minute)})
+	if st := p.State(); st.Phase != Waiting || !st.Reasons.Empty() {
+		t.Fatalf("with the switch off: %+v", st)
+	}
+	if got := armAt(t, eff); !got.Equal(t0.Add(9*time.Minute + 50*time.Second)) {
+		t.Fatalf("armed at %v, want the notice", got)
+	}
+	enabled := cfg
+	enabled.SkipPeriodsEnabled = true
+	eff = p.Step(SetConfig{Now: t0.Add(5*time.Minute + time.Second), Config: enabled})
+	if st := p.State(); st.Phase != Paused || !st.Reasons.Has(SkipPeriod) {
+		t.Fatalf("after enabling: %+v", st)
+	}
+	if got := armAt(t, eff); !got.Equal(t0.Add(20 * time.Minute)) {
+		t.Fatalf("armed at %v, want the exit", got)
+	}
+	now := t0.Add(7 * time.Minute)
+	eff = p.Step(SetConfig{Now: now, Config: cfg})
+	if st := p.State(); st.Phase != Waiting || !st.Reasons.Empty() || !st.BreakAt.Equal(now.Add(10*time.Minute)) {
+		t.Fatalf("after disabling: %+v", st)
+	}
+	if got := armAt(t, eff); !got.Equal(now.Add(10*time.Minute - 10*time.Second)) {
+		t.Fatalf("armed at %v, want the notice", got)
+	}
+
+	empty := defaultConfig()
+	empty.SkipPeriodsEnabled = true
+	p2 := New(empty)
+	eff = p2.Step(Reset{Now: t0})
+	if got := armAt(t, eff); !got.Equal(t0.Add(9*time.Minute + 50*time.Second)) {
+		t.Fatalf("empty list armed at %v", got)
+	}
+}
+
+func TestSkipPeriodBoundaryMovesAnEarlierWake(t *testing.T) {
+	p := New(skipPeriodConfig(9*60+5, 9*60+20))
+	p.Step(Reset{Now: t0})
+	now := t0.Add(time.Minute)
+	eff := p.Step(Defer{Now: now, By: 30 * time.Minute})
+	if got := armAt(t, eff); !got.Equal(t0.Add(5 * time.Minute)) {
+		t.Fatalf("after defer armed at %v, want the boundary", got)
+	}
+	if !p.State().BreakAt.Equal(t0.Add(40 * time.Minute)) {
+		t.Fatalf("defer lost the break: %+v", p.State())
+	}
+
+	p2 := New(skipPeriodConfig(9*60+5, 9*60+20))
+	p2.Step(Reset{Now: t0})
+	eff = p2.Step(Pause{Now: now, Reason: Idle})
+	if got := armAt(t, eff); !got.Equal(t0.Add(5 * time.Minute)) {
+		t.Fatalf("after idle armed at %v, want the boundary", got)
+	}
+}
+
+func TestSkipPeriodHoldsStrictBreakAfterItEnds(t *testing.T) {
+	cfg := skipPeriodConfig(9*60+11, 9*60+20)
+	cfg.Mini.Duration = 5 * time.Minute
+	cfg.Mini.Strict = true
+	p := New(cfg)
+	p.Step(Reset{Now: t0})
+	p.Step(Tick{Now: t0.Add(10 * time.Minute)})
+	end := p.State().EndAt
+	if eff := p.Step(Tick{Now: t0.Add(11 * time.Minute)}); len(effects[CloseBreak](eff)) != 0 {
+		t.Fatalf("the strict break was closed: %v", eff)
+	}
+	if !p.State().Reasons.Has(SkipPeriod) {
+		t.Fatal("the skip period was not recorded during a strict break")
+	}
+	p.Step(Tick{Now: end})
+	if st := p.State(); st.Phase != Paused {
+		t.Fatalf("after the strict break: %+v", st)
+	}
+	p.Step(Tick{Now: t0.Add(20 * time.Minute)})
+	if st := p.State(); st.Phase != Waiting || !st.Reasons.Empty() {
+		t.Fatalf("after exit: %+v", st)
 	}
 }

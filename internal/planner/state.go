@@ -62,6 +62,8 @@ const (
 	Lock
 	// Exclusion is an app exclusion rule.
 	Exclusion
+	// SkipPeriod is a configured window in which breaks are skipped.
+	SkipPeriod
 )
 
 // Has reports whether the set includes r.
@@ -77,9 +79,9 @@ func (r Reason) Without(o Reason) Reason { return r &^ o }
 func (r Reason) Empty() bool { return r == 0 }
 
 // Primary returns the reason the status names, in display order:
-// manual, dnd, idle, exclusion, lock.
+// manual, skip period, dnd, idle, exclusion, lock.
 func (r Reason) Primary() Reason {
-	for _, o := range [...]Reason{Manual, DND, Idle, Exclusion, Lock} {
+	for _, o := range [...]Reason{Manual, SkipPeriod, DND, Idle, Exclusion, Lock} {
 		if r.Has(o) {
 			return o
 		}
@@ -93,7 +95,7 @@ func (r Reason) String() string {
 		return "none"
 	}
 	var names []string
-	for _, o := range [...]Reason{Manual, DND, Idle, Lock, Exclusion} {
+	for _, o := range [...]Reason{Manual, SkipPeriod, DND, Idle, Lock, Exclusion} {
 		if r.Has(o) {
 			names = append(names, o.name())
 		}
@@ -105,6 +107,8 @@ func (r Reason) name() string {
 	switch r {
 	case Manual:
 		return "manual"
+	case SkipPeriod:
+		return "skipPeriod"
 	case DND:
 		return "dnd"
 	case Idle:

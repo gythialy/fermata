@@ -29,6 +29,7 @@ func (messages) StrictLong(left string) string   { return locales.MenuStrictLong
 func (messages) BreakOver() string               { return locales.MenuBreakOver() }
 func (messages) PausedTimed(m int) string        { return locales.MenuPausedTimed(m) }
 func (messages) PausedForever() string           { return locales.MenuPausedForever() }
+func (messages) PausedSkipPeriod() string        { return locales.MenuPausedSkipPeriod() }
 func (messages) PausedDnd() string               { return locales.MenuPausedDnd() }
 func (messages) PausedIdle() string              { return locales.MenuPausedIdle() }
 func (messages) PausedLocked() string            { return locales.MenuPausedLocked() }

@@ -27,6 +27,7 @@ func (fakeMessages) StrictLong(left string) string   { return fmt.Sprintf("stric
 func (fakeMessages) BreakOver() string               { return "break-over" }
 func (fakeMessages) PausedTimed(minutes int) string  { return fmt.Sprintf("paused-timed:%d", minutes) }
 func (fakeMessages) PausedForever() string           { return "paused-forever" }
+func (fakeMessages) PausedSkipPeriod() string        { return "paused-skip-period" }
 func (fakeMessages) PausedDnd() string               { return "paused-dnd" }
 func (fakeMessages) PausedIdle() string              { return "paused-idle" }
 func (fakeMessages) PausedLocked() string            { return "paused-locked" }
@@ -108,6 +109,16 @@ func TestFormat(t *testing.T) {
 		{
 			name:   "paused forever",
 			state:  planner.State{Phase: planner.Paused, Reasons: planner.Manual},
+			status: "paused-forever",
+		},
+		{
+			name:   "skip period",
+			state:  planner.State{Phase: planner.Paused, Reasons: planner.SkipPeriod | planner.DND},
+			status: "paused-skip-period",
+		},
+		{
+			name:   "manual pause outranks the skip period",
+			state:  planner.State{Phase: planner.Paused, Reasons: planner.Manual | planner.SkipPeriod},
 			status: "paused-forever",
 		},
 		{

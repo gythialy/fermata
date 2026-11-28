@@ -118,6 +118,10 @@
   "@menuPausedForever": {
     "description": "Tray status while paused without an end."
   },
+  "menuPausedSkipPeriod": "Breaks skipped",
+  "@menuPausedSkipPeriod": {
+    "description": "Tray status while breaks are paused by a configured skip period."
+  },
   "menuPausedDnd": "Paused — Focus is on",
   "@menuPausedDnd": {
     "description": "Tray status while the system's Focus is on."
