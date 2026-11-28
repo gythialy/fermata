@@ -262,8 +262,8 @@ Type rules:
 - Curves: standard `cubic-bezier(.2,0,0,1)`; emphasized `cubic-bezier(.05,.7,.1,1)`; exit `cubic-bezier(.3,0,1,1)`.
 - Break panel in: window opacity 0→1 over 180 ms; content translateY 6→0 over 220 ms. Exit is immediate; a display change rebuilds the windows without replaying the entrance.
 - Progress line: 900 ms linear, advancing every second; the countdown steps once per second.
-- Settings: only control-state transitions at 120 ms; no page transitions, no staged entrance.
-- Reduce Motion: drop translation and fades; the progress line may still step.
+- Settings: switch 140 ms (the MyGo framework default); other control-state transitions 120 ms; no page transitions, no staged entrance.
+- Reduce Motion: the break panel drops translation and its entrance fade, while the progress line may still step; the popover drops movement but keeps the content fade, with values arriving at their target at once.
 - Forbidden: looping pulses, breathing scale, particles, flowing gradients, parallax.
 
 ## 4. Components
@@ -281,13 +281,14 @@ Every control is drawn by the app and consistent across platforms; system menus,
 
 - 32 high; padding 0 14; radius 8; type 13/20 at weight 500.
 - Filled hover `#A63A28`, pressed `#8F3223`; focus ring per §3.6.
-- **The break window's exit is not a filled button:** it is a text button, 15/20 at 82% foreground, underlined on hover; hit area 44×28.
+- **The break window's exit is not a filled button:** it is a text button, 15/20 at 82% foreground, its underline fading in over 120 ms on hover; hit area 44×28.
 
 ### 4.2 Switch
 
 - 36×20 track with a 16 px dot; on = `primary`, off = `outline-variant`.
 - The whole row is clickable; Space toggles; the focus ring sits on the track.
 - Turning it off grays out or hides dependent controls (notification lead time, postpone count).
+- Motion: 140 ms, the framework default; other control states stay at 120 ms. The app uses `ui.Switch` and never draws its own.
 
 ### 4.3 Segmented
 
@@ -383,7 +384,7 @@ MINI BREAK                                             14:32
 3. Center suggestion: one sentence for a mini break, at most 4 lines, 42/51 (38/46 on screens ≤1280; Chinese +2, line height ×1.25), serif 300, centered; a long break sets a 50/57 title (46/53 on ≤1280; Chinese 52/65) plus a 26/36 body (Chinese 28/35, 72% foreground), 24 apart.
 4. Progress line: 280×1 (360×1 for a long break); track at 25% foreground, used at 85%; 40 below the suggestion.
 5. Countdown: 13/16 tabular numerals, 65% foreground, +0.04em; 16 below the progress line.
-6. Exit: bottom center, 64 above the panel's bottom; 15/20 at 82% foreground; underline on hover; the shortcut hint is 12 mono at 55%, 8 apart.
+6. Exit: bottom center, 64 above the panel's bottom; 15/20 at 82% foreground; the underline fades in over 120 ms on hover; the shortcut hint is 12 mono at 55%, 8 apart.
 7. Break health (P1): when `danger > 2`, a vermilion inset edge all round, changing no layout.
 
 #### Four moments
@@ -449,10 +450,10 @@ Follows functional spec §8.1; in short:
 - **The shell belongs to the system on macOS:** with `Popover: true`, NSPopover draws the material, corners, shadow, the arrow pointing at the tray and the open/close animation, and the content paints no fill and no border (`c.Vibrancy()` is true). The window is created with `Shadow: true` and `CornerRadius: 14` on every platform; on Windows and Linux v1 paints its own paper-and-ink fill. The Linux tray reports no clicks, so the menu is its icon's only target; `Skip to` and a click on a notice open the same popover, in the middle of the primary display's work area.
 - **Height is not hard-coded:** waiting / notice / breaking / paused / strict are sized by their content (about 296 / 336 / 207 / 236 / 147); when action rows come and go, FitContent catches the change on the next frame, and no height is written in code. The panel hugs its content; no `Spacer` stretches it.
 - Skeleton (`ui.Column`, padding `t.Space(4)`, blocks `t.Space(3)` apart): the mark at 20 (`theme.PaintMark`, drawn) + the state word (10/600, letter spacing .16em, uppercase) on one row with two 22 px icon buttons at the top right (`ui.ButtonBase` + a 12 px drawn glyph + `Label`/`Tooltip`, `Show menu` then `Close`); the remaining time (`theme.Px(c,34)` mono, weight 600, `ContentTransition{Numeric, Down}`; `21m` while waiting, `8s` during the notice, `12:04` while breaking or paused); the **ruler** (12 high, 60 hairlines, every fifth one long, the passed span in vermilion, a 2×10 cursor at the leading edge; drawn in `Draw`, `Role(RoleProgress)` + `Label("34%")` for screen readers); an 11/15 detail line with `MaxLines(2)`. The ruler and the tray icon's Ring share the same `progressShare`.
-- Actions: `ui.PrimaryButton` + `ui.Button` (secondary: surface + 1 px border), then, after a `ui.Divider`, a `Settings…` text row (20 high, underlined on hover). **The primary button needs `t.InactiveAccent = t.Accent`** (`theme.ApplyFlyout`): `PrimaryButton` only fills with the accent in a focused window, and a flyout usually is not one, so by default it would collapse into a plain button identical to the secondary one. A strict break has no actions and no settings row.
+- Actions: `ui.PrimaryButton` + `ui.Button` (secondary: surface + 1 px border), then, after a `ui.Divider`, a `Settings…` text row (20 high, its underline fading in over 120 ms on hover). **The primary button needs `t.InactiveAccent = t.Accent`** (`theme.ApplyFlyout`): `PrimaryButton` only fills with the accent in a focused window, and a flyout usually is not one, so by default it would collapse into a plain button identical to the secondary one. A strict break has no actions and no settings row.
 - State words: `Next mini break` / `Next long break` / `Mini break · starting` / `Mini break · in progress` / `Paused` / `Strict · Mini break`, composed from `popoverNextMini`, `popoverNextLong`, `popoverMini`, `popoverLong`, `popoverStarting`, `popoverInProgress`, `popoverPaused` and `popoverStrict`. The detail line reuses the menu's second line (`Long break after 4 more mini breaks`) or the break's suggestion (`lastIdea.Text`); a pause does not repeat its reason — the menu and the tooltip carry it.
 - No "end now" button during a break: the exit belongs to the break window, and the popover only reports the remaining time and the suggestion.
-- Motion belongs to MyGo: the digits roll through `ContentTransition` (350 ms spring); the action block resizes through `Transition` (200 ms ease-out, the default); the frame, the opening and the final height belong to NSPopover and FitContent; values change once per second with no tweening; `ReduceMotion` degrades to a fade.
+- Motion belongs to MyGo: the digits roll through `ContentTransition` (350 ms spring); the action block resizes through `Transition` (200 ms ease-out, the default); the frame, the opening and the final height belong to NSPopover and FitContent; values change once per second with no tweening. Under Reduce Motion the popover does not move: content still fades across, and the digits arrive at their value at once.
 - Accessibility: the digits are not a live region; the ruler and both icon buttons each carry a `Label`; on macOS NSPopover takes the keyboard (Tab, Return), on Windows/Linux the mouse only and the keyboard goes through the menu. Accepted in `internal/popover` (`ui.NewTester`: the state text, countdown and actions, the primary action running alone, header button names, strict without actions or footer, the ruler at 34%, `tt.SetDark`) and in `internal/app` (`remainingLabel`, `popoverState`, `popoverActions`).
 - It closes on a second left click, on the top-right close button, on running an action, or when a break starts; `more` calls `tray.ShowMenu()` (the fallback where a right click cannot reach the icon); both buttons draw a 12 px glyph, never `×`/`⋯`.
 
@@ -613,7 +614,7 @@ The page uses a **two-column** layout (Mini breaks / Long breaks) so the two rhy
 - Focus ring 2 px with offset 2, keyboard focus only; never `outline: none`.
 - Fully keyboard reachable: Tab/Shift+Tab, arrow keys for Segmented, Space for Switch, Esc closes overlays.
 - Screen readers get role/name/state; a break starting is announced by the system notification, not by the window itself.
-- Reduce Motion: drop translation and fades; the progress line may step.
+- Reduce Motion: the break panel drops translation and the entrance fade while its progress line may still step; the popover drops movement but keeps content fading, with values arriving directly.
 - Increase Contrast: hairlines darken and the focus ring thickens to 3 px. Reduce Transparency: no blur; the break panel stays opaque.
 - 150% text is not truncated; rows grow with the content (`theme.Px` caps at 1.5; previews are the exception).
 - Controls ≥ 32×32; the break exit is 44×28.

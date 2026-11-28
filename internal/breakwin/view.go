@@ -16,6 +16,9 @@ import (
 // the loop carry the window's shape instead of the renderer's white canvas.
 const fieldRadius float32 = 20
 
+// hoverUnderline is how long the exit's underline fades in and out.
+const hoverUnderline = 120 * time.Millisecond
+
 // view draws one break window. It reads the manager's snapshot and never
 // starts or ends a break itself.
 func (m *Manager) view(c *ui.Context, content bool) {
@@ -196,7 +199,8 @@ func (m *Manager) progress(c *ui.Context, fg ui.Color, now time.Time, long bool)
 		ratio = float32(m.spec.Progress(now))
 	}
 	track := ui.Box(c).Width(width).Height(1).Background(fg.Alpha(0.25)).Margin(40, 0, 0, 0)
-	filled := track.Animate("filled", ratio*width, 900*time.Millisecond)
+	// Linear keeps the hairline even; AnimateWith snaps to the target under Reduce Motion.
+	filled := track.AnimateWith("filled", ratio*width, 900*time.Millisecond, ui.Linear)
 	track.Children(func() {
 		ui.Box(c).Width(filled).Height(1).Background(fg.Alpha(0.85))
 	})
@@ -228,8 +232,15 @@ func (m *Manager) exit(c *ui.Context, now time.Time, fg ui.Color) {
 		button.Children(func() {
 			text := ui.Text(c, label).FontSize(theme.Px(c, 15)).FixedLineHeight(theme.Px(c, 20)).
 				LetterSpacing(0.15).TextColor(fg.Alpha(0.82))
+			target := float32(0)
 			if hovered {
-				text.Underline().UnderlineOffset(4).DecorationThickness(1)
+				target = 1
+			}
+			underline := text.Animate("underline", target, hoverUnderline)
+			if underline > 0 {
+				// Fade the decoration so zero means no line; layout stays put.
+				text.Underline().UnderlineOffset(4).DecorationThickness(1).
+					DecorationColor(fg.Alpha(0.82 * underline))
 			}
 			ui.Text(c, shortcutHint()).Font(theme.Mono).FontSize(theme.Px(c, 12)).FixedLineHeight(theme.Px(c, 16)).
 				TextColor(fg.Alpha(0.55))
