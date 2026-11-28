@@ -2,6 +2,7 @@ package settings
 
 import (
 	"fmt"
+	"slices"
 	"strconv"
 	"strings"
 )
@@ -69,6 +70,7 @@ func (s *Settings) Validate() []string {
 		}
 	}
 	clampInt(&s.Schedule.MorningHour, 0, 23, "schedule.morningHour", note)
+	s.Schedule.SkipPeriods = validateSkipPeriods(s.Schedule.SkipPeriods, note)
 
 	// Presence.
 	clampInt(&s.Presence.Idle.ResetAfterMs, 60_000, 3_600_000, "presence.idle.resetAfterMs", note)
@@ -149,6 +151,46 @@ func validateExclusions(in []AppExclusion, note func(string, ...any)) []AppExclu
 		out = append(out, rule)
 	}
 	return out
+}
+
+func validateSkipPeriods(in []SkipPeriod, note func(string, ...any)) []SkipPeriod {
+	const limit = 4
+	out := make([]SkipPeriod, 0, min(len(in), limit))
+	for i, p := range in {
+		if !validClock(p.Start) || !validClock(p.End) || p.Start == p.End {
+			note("schedule.skipPeriods[%d] %q–%q is not a valid time range; dropping", i, p.Start, p.End)
+			continue
+		}
+		days := make([]int, 0, len(p.Days))
+		for _, day := range p.Days {
+			if day >= 1 && day <= 7 {
+				days = append(days, day)
+			}
+		}
+		slices.Sort(days)
+		p.Days = slices.Compact(days)
+		if len(out) == limit {
+			note("schedule.skipPeriods[%d] exceeds the limit of %d; dropping", i, limit)
+			continue
+		}
+		out = append(out, p)
+	}
+	return out
+}
+
+// validClock accepts only a 24-hour HH:MM string.
+func validClock(v string) bool {
+	if len(v) != 5 || v[2] != ':' {
+		return false
+	}
+	for _, i := range []int{0, 1, 3, 4} {
+		if v[i] < '0' || v[i] > '9' {
+			return false
+		}
+	}
+	hour := int(v[0]-'0')*10 + int(v[1]-'0')
+	minute := int(v[3]-'0')*10 + int(v[4]-'0')
+	return hour <= 23 && minute <= 59
 }
 
 func validateSound(v *string, fallback, name string, note func(string, ...any)) {
