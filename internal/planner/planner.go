@@ -1,6 +1,10 @@
 package planner
 
-import "time"
+import (
+	"time"
+
+	"github.com/gythialy/fermata/internal/skiptime"
+)
 
 // lateGrace is how late a break may start and still count: a timer that fires
 // within this is a timer, later than it is a sleep or a stalled process, and
@@ -64,13 +68,14 @@ func (p *Planner) Step(in Input) []Effect {
 	case SetConfig:
 		p.setConfig(in)
 	}
+	eff = append(eff, p.syncSkipPeriods(now)...)
 	grace := lateGrace
 	if _, ok := in.(Wake); ok {
 		// A wake never shows a break the sleep hid.
 		grace = 0
 	}
 	eff = append(eff, p.advance(now, grace)...)
-	eff = p.withDeadline(eff)
+	eff = p.withDeadline(eff, now)
 	if before != p.st.signature() {
 		eff = append(eff, TrayDirty{})
 	}
@@ -214,9 +219,9 @@ func (p *Planner) pause(in Pause) []Effect {
 	if in.Reason == 0 {
 		return nil
 	}
-	if p.strict() && in.Reason != Lock {
+	if p.strict() && in.Reason != Lock && in.Reason != SkipPeriod {
 		// A strict break cannot be paused by the user; a locked screen or a
-		// sleeping system still ends it.
+		// sleeping system still ends it. A skip period holds the next break.
 		return nil
 	}
 	p.st.Reasons = p.st.Reasons.With(in.Reason)
@@ -233,7 +238,7 @@ func (p *Planner) pause(in Pause) []Effect {
 		p.st.force = nil
 		p.st.restart = nil
 		p.st.postpone = PostponeConfig{}
-	case DND, Idle, Exclusion:
+	case DND, Idle, Exclusion, SkipPeriod:
 		switch p.st.Phase {
 		case Waiting, Notified:
 			eff = append(eff, p.closeForPause()...)
@@ -564,9 +569,52 @@ func (p *Planner) setConfig(in SetConfig) {
 	}
 }
 
-// withDeadline adds the deadline the scheduler must arm, unless the effects
-// already carry one.
-func (p *Planner) withDeadline(eff []Effect) []Effect {
+// syncSkipPeriods pauses on entry and resumes on exit, so the wait starts
+// again from the moment breaks become allowed.
+func (p *Planner) syncSkipPeriods(now time.Time) []Effect {
+	if !p.cfg.SkipPeriodsEnabled || len(p.cfg.SkipPeriods) == 0 {
+		if p.st.Reasons.Has(SkipPeriod) {
+			return p.resume(Resume{Now: now, Reason: SkipPeriod})
+		}
+		return nil
+	}
+	active := skiptime.Active(p.cfg.SkipPeriods, now)
+	switch {
+	case active && !p.st.Reasons.Has(SkipPeriod):
+		return p.pause(Pause{Now: now, Reason: SkipPeriod})
+	case !active && p.st.Reasons.Has(SkipPeriod):
+		return p.resume(Resume{Now: now, Reason: SkipPeriod})
+	}
+	return nil
+}
+
+// withDeadline adds the next wake-up time, moving an existing one earlier
+// when a skip period boundary comes first.
+func (p *Planner) withDeadline(eff []Effect, now time.Time) []Effect {
+	boundary := p.skipBoundary(now)
+	if boundary.IsZero() {
+		return p.plainDeadline(eff)
+	}
+	for i, e := range eff {
+		switch v := e.(type) {
+		case Arm:
+			if boundary.Before(v.At) {
+				eff[i] = Arm{At: boundary}
+			}
+			return eff
+		case Disarm:
+			eff[i] = Arm{At: boundary}
+			return eff
+		}
+	}
+	if at := p.deadline(); !at.IsZero() && at.Before(boundary) {
+		return append(eff, Arm{At: at})
+	}
+	return append(eff, Arm{At: boundary})
+}
+
+// plainDeadline arms the planner's own deadline, unless the effects carry one.
+func (p *Planner) plainDeadline(eff []Effect) []Effect {
 	for _, e := range eff {
 		switch e.(type) {
 		case Arm, Disarm:
@@ -577,6 +625,17 @@ func (p *Planner) withDeadline(eff []Effect) []Effect {
 		return append(eff, Arm{At: at})
 	}
 	return append(eff, Disarm{})
+}
+
+// skipBoundary is when the scheduler must wake to enter or leave a period.
+func (p *Planner) skipBoundary(now time.Time) time.Time {
+	if !p.cfg.SkipPeriodsEnabled || len(p.cfg.SkipPeriods) == 0 {
+		return time.Time{}
+	}
+	if p.st.Phase == Paused && p.st.Reasons.Has(Manual) && p.st.PauseUntil.IsZero() {
+		return time.Time{}
+	}
+	return skiptime.NextChange(p.cfg.SkipPeriods, now)
 }
 
 // deadline is when the planner next needs a Tick, zero for none.

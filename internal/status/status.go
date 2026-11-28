@@ -29,6 +29,7 @@ type Messages interface {
 	BreakOver() string
 	PausedTimed(minutes int) string
 	PausedForever() string
+	PausedSkipPeriod() string
 	PausedDnd() string
 	PausedIdle() string
 	PausedLocked() string
@@ -104,6 +105,8 @@ func pausedText(st planner.State, now time.Time, m Messages) string {
 			return m.PausedForever()
 		}
 		return m.PausedTimed(max(roundMinutes(st.PauseUntil.Sub(now)), 1))
+	case planner.SkipPeriod:
+		return m.PausedSkipPeriod()
 	case planner.DND:
 		return m.PausedDnd()
 	case planner.Idle:

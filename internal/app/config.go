@@ -7,6 +7,7 @@ import (
 	"github.com/gythialy/fermata/internal/cli"
 	"github.com/gythialy/fermata/internal/planner"
 	"github.com/gythialy/fermata/internal/settings"
+	"github.com/gythialy/fermata/internal/skiptime"
 	"github.com/gythialy/fermata/internal/status"
 )
 
@@ -34,13 +35,58 @@ func configFromSettings(s *settings.Settings) planner.Config {
 	for _, ms := range s.Schedule.PauseDurations {
 		pauses = append(pauses, time.Duration(ms)*time.Millisecond)
 	}
-	return planner.Config{
-		Mini:           mini,
-		Long:           long,
-		EveryNBreaks:   s.Schedule.Long.EveryNBreaks,
-		PauseDurations: pauses,
-		MorningHour:    s.Schedule.MorningHour,
+	periods := make([]skiptime.Period, 0, len(s.Schedule.SkipPeriods))
+	for _, p := range s.Schedule.SkipPeriods {
+		start, ok := clockMinutes(p.Start)
+		if !ok {
+			continue
+		}
+		end, ok := clockMinutes(p.End)
+		if !ok || start == end {
+			continue
+		}
+		days := skiptime.AllDays
+		if len(p.Days) > 0 {
+			days = 0
+			for _, d := range p.Days {
+				if d >= 1 && d <= 7 {
+					days |= 1 << (d - 1)
+				}
+			}
+			if days == 0 {
+				// Only invalid weekdays: settings validation drops these.
+				continue
+			}
+		}
+		periods = append(periods, skiptime.Period{StartMin: start, EndMin: end, Days: days})
 	}
+	return planner.Config{
+		Mini:               mini,
+		Long:               long,
+		EveryNBreaks:       s.Schedule.Long.EveryNBreaks,
+		PauseDurations:     pauses,
+		MorningHour:        s.Schedule.MorningHour,
+		SkipPeriodsEnabled: s.Schedule.SkipPeriodsEnabled,
+		SkipPeriods:        periods,
+	}
+}
+
+// clockMinutes reads a validated "HH:MM" clock as minutes from midnight.
+func clockMinutes(v string) (int, bool) {
+	if len(v) != 5 || v[2] != ':' {
+		return 0, false
+	}
+	for _, i := range []int{0, 1, 3, 4} {
+		if v[i] < '0' || v[i] > '9' {
+			return 0, false
+		}
+	}
+	hour := int(v[0]-'0')*10 + int(v[1]-'0')
+	minute := int(v[3]-'0')*10 + int(v[4]-'0')
+	if hour > 23 || minute > 59 {
+		return 0, false
+	}
+	return hour*60 + minute, true
 }
 
 // pauseDurations are the menu's timed pauses.

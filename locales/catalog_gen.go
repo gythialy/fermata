@@ -250,6 +250,20 @@ func (msgs Messages) MenuPausedForever() string {
 	return Catalog.Format(msgs.locale, "menuPausedForever", nil)
 }
 
+// MenuPausedSkipPeriod says "Breaks skipped"
+// in the language the app shows.
+//
+// Tray status while breaks are paused by a configured skip period.
+func MenuPausedSkipPeriod() string { return In(i18n.Locale()).MenuPausedSkipPeriod() }
+
+// MenuPausedSkipPeriod says "Breaks skipped"
+// in the language of msgs.
+//
+// Tray status while breaks are paused by a configured skip period.
+func (msgs Messages) MenuPausedSkipPeriod() string {
+	return Catalog.Format(msgs.locale, "menuPausedSkipPeriod", nil)
+}
+
 // MenuPausedDnd says "Paused — Focus is on"
 // in the language the app shows.
 //

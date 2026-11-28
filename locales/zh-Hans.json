@@ -16,6 +16,7 @@
   "menuBreakOver": "休息结束 · 等你完成",
   "menuPausedTimed": "已暂停 · 约 {n} 分钟后恢复",
   "menuPausedForever": "已暂停 · 无限期",
+  "menuPausedSkipPeriod": "已跳过休息时段",
   "menuPausedDnd": "已暂停 · 专注模式已开启",
   "menuPausedIdle": "已暂停 · 你离开了",
   "menuPausedLocked": "已暂停 · 屏幕已锁定",

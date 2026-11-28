@@ -1,6 +1,10 @@
 package planner
 
-import "time"
+import (
+	"time"
+
+	"github.com/gythialy/fermata/internal/skiptime"
+)
 
 // Kind is the kind of a break.
 type Kind uint8
@@ -72,10 +76,12 @@ func (c BreakConfig) LeadTime() time.Duration {
 // Config is the planner's whole configuration. The planner never reads the
 // settings itself: the app hands it a Config built from the settings store.
 type Config struct {
-	Mini, Long     BreakConfig
-	EveryNBreaks   int
-	PauseDurations []time.Duration
-	MorningHour    int
+	Mini, Long         BreakConfig
+	EveryNBreaks       int
+	PauseDurations     []time.Duration
+	MorningHour        int
+	SkipPeriodsEnabled bool
+	SkipPeriods        []skiptime.Period
 }
 
 // For returns the settings of one kind of break.

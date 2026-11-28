@@ -1,11 +1,13 @@
 package app
 
 import (
+	"slices"
 	"testing"
 	"time"
 
 	"github.com/gythialy/fermata/internal/planner"
 	"github.com/gythialy/fermata/internal/settings"
+	"github.com/gythialy/fermata/internal/skiptime"
 )
 
 func TestConfigFromSettings(t *testing.T) {
@@ -46,6 +48,33 @@ func TestConfigFromSettings(t *testing.T) {
 	}
 	if got := cfg.PauseDurations; len(got) != len(s.Schedule.PauseDurations) {
 		t.Fatalf("pauses %v", got)
+	}
+}
+
+func TestConfigFromSettingsSkipPeriods(t *testing.T) {
+	s := settings.Default()
+	s.Schedule.SkipPeriodsEnabled = true
+	s.Schedule.SkipPeriods = []settings.SkipPeriod{
+		{Start: "09:00", End: "10:30", Days: []int{7, 1}},
+		{Start: "22:30", End: "06:00"},
+		{Start: "bad", End: "10:00"},
+		{Start: "11:00", End: "12:00", Days: []int{0, 8}},
+	}
+	cfg := configFromSettings(&s)
+	if !cfg.SkipPeriodsEnabled {
+		t.Error("master switch lost")
+	}
+	want := []skiptime.Period{
+		{StartMin: 9 * 60, EndMin: 10*60 + 30, Days: 1 | 1<<6},
+		{StartMin: 22*60 + 30, EndMin: 6 * 60, Days: skiptime.AllDays},
+	}
+	if !slices.Equal(cfg.SkipPeriods, want) {
+		t.Errorf("periods %+v, want %+v", cfg.SkipPeriods, want)
+	}
+
+	s.Schedule.SkipPeriodsEnabled = false
+	if off := configFromSettings(&s); off.SkipPeriodsEnabled {
+		t.Error("master switch stayed on")
 	}
 }
 
